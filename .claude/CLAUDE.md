@@ -29,7 +29,7 @@ This project provides constitution templates for other projects:
 ## Key Files for Understanding This Repo
 
 - `setup.sh` — Bootstrap script to install the framework into another project
-- `ORCHESTRATION-INTEGRATION-GUIDE.md` — How agents + /orchestrate + learnings + superpowers work together
+- `docs/orchestration-integration.md` — How agents + /orchestrate + learnings + superpowers work together
 - `quick-start/README.md` — Manual workflow quickstart (for non-Claude Code users)
 - `guides/claude-code-setup.md` — Claude Code specific setup guide
 
@@ -44,3 +44,4 @@ This project provides constitution templates for other projects:
 2. Keep personas focused on their specific role
 3. Constitution templates should be technology-agnostic where possible
 4. Use `/reflect` at end of sessions to capture learnings
+5. Update `CHANGELOG.md` when making notable changes — use Keep a Changelog format, bump the version (semver), and date entries as `YYYY-MM-DD`

@@ -103,20 +103,36 @@ Claude (Phase 4 — Documentation):
 
 ---
 
-## Works Better With Superpowers
+## Full Setup for `/orchestrate`
 
-The `/orchestrate` command integrates with the **[Superpowers plugin](https://claudeplugins.com)** for Claude Code, which adds structured brainstorming, test-driven development, parallel subagents, and verification guardrails at each phase.
+The `/orchestrate` command needs three things installed in Claude Code to run fully automated:
 
-Without it: everything works — orchestrate skips those enhanced steps gracefully.
-With it: fully automated quality gates, parallel task execution, and structured reviews.
+### 1. Superpowers plugin
+Adds structured brainstorming, TDD, parallel subagents, and verification guardrails at each phase gate.
 
-**Install:** Search "superpowers" in the Claude Code plugin marketplace.
+**Install:** Search `superpowers` in the Claude Code plugin marketplace (or visit [claudeplugins.com](https://claudeplugins.com)).
 
-| Layer | Provides |
-|-------|----------|
-| ai-dev-orchestrator | WHAT — 4 phases, personas, constitution, artifact templates |
+### 2. Ralph Loop plugin
+The engine that drives Phase 2. Ralph runs tasks iteratively in a loop with self-correction — without it, `/orchestrate` can't automate implementation.
+
+**Install:** Search `ralph-loop` in the Claude Code plugin marketplace.
+
+### 3. Stop hooks
+Shell scripts that run after each Claude turn to enforce quality gates — checking the constitution is loaded, required artifacts exist, and tasks are marked complete before moving on. These live in `.claude/hooks/stop/` and are configured by `setup.sh`.
+
+**Verify:** After running `setup.sh`, check `.claude/hooks/stop/` in your project.
+
+---
+
+| Layer | Role |
+|-------|------|
+| ai-dev-orchestrator | WHAT — phases, personas, constitution, artifact templates |
 | Superpowers | HOW — discipline at brainstorm, TDD, verify, and review moments |
-| /orchestrate | Integration — calls Superpowers skills at the right phase |
+| Ralph Loop | ENGINE — iterative implementation with self-correction in Phase 2 |
+| Stop hooks | GATES — enforce quality between every Claude turn |
+| `/orchestrate` | GLUE — calls all of the above at the right moment |
+
+> Without Superpowers or Ralph Loop, `/orchestrate` still runs — it skips the automated steps and prompts you to handle them manually instead.
 
 ---
 
@@ -206,6 +222,12 @@ See [`personas/README.md`](./personas/README.md) for full persona definitions.
 
 ---
 
+## How It All Connects
+
+![AI workflow diagram showing how personas, phases, and constitution relate](docs/assets/ai-workflow.png)
+
+---
+
 ## Core Principles
 
 **Constitution = The Rules**
@@ -272,7 +294,7 @@ This framework is based on research combining:
 - **Constitutional AI** principles
 - **OWASP** security standards
 
-See [`RESEARCH-ORIGIN-THE-ORCHESTRATORS-PLAYBOOK.md`](./RESEARCH-ORIGIN-THE-ORCHESTRATORS-PLAYBOOK.md) for full citations.
+See [`docs/research-origin.md`](./docs/research-origin.md) for full citations.
 
 The session learning system was inspired by [Developers Digest](https://www.youtube.com/watch?v=-4nUCaMNBR8).
 

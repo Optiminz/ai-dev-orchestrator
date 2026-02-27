@@ -130,4 +130,4 @@ You can customize these personas for your specific needs by editing the individu
 
 - See `/prompts/` for all available prompt templates
 - See `/workflow/` for detailed process documentation
-- See `RESEARCH-ORIGIN.md` for the research behind this framework
+- See `docs/research-origin.md` for the research behind this framework

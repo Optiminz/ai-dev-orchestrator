@@ -1,4 +1,4 @@
-# AI-Setup-Guide
+# Project Onboarding Guide
 
 **Audience:** AI Assistants (Claude, ChatGPT, Gemini, etc.)
 
@@ -7,8 +7,10 @@
 **When to use this:** When a user says something like:
 - "Set up AI-Dev-Orchestrator for my project"
 - "Help me configure the orchestrator framework"
-- "Read the AI setup guide and get me started"
+- "Read the setup guide and get me started"
 - "I want to add the orchestrator to my existing project"
+
+> **Note for Claude Code users:** Steps 6–7 (file copying and project structure) are handled automatically by `setup.sh`. Run `./setup.sh /path/to/your/project` and skip to Step 8. This guide covers the full manual path for users of any AI tool.
 
 ---
 
@@ -164,7 +166,6 @@ Based on the interview, use this decision logic:
 **Message:**
 ```
 Based on your answers, I recommend the **Quick Start** tier:
-- Time: 2-3 hours per feature
 - Focus: Learning and fast iteration
 - Workflow: Simplified (PRD → Tasks → Code → Basic Review)
 - Best for: Learning, prototypes, internal tools
@@ -184,7 +185,6 @@ This will get you productive immediately while teaching you the core workflow.
 **Message:**
 ```
 Based on your answers, I recommend the **Standard Flow** tier:
-- Time: 1-3 days per feature
 - Focus: Professional quality with quality controls
 - Workflow: Full (PRD → Tech Spec → Tasks → Code → QA → Docs)
 - Best for: Client work, SaaS products, team projects
@@ -204,7 +204,6 @@ This balances quality and speed for professional development.
 **Message:**
 ```
 Based on your answers, I recommend the **Full Framework** tier:
-- Time: 3-5 days per feature
 - Focus: Production-grade with comprehensive reviews
 - Workflow: Complete (All 5 personas, specialized prompts, security audits)
 - Best for: Complex systems, regulated industries, high-risk features
@@ -544,7 +543,9 @@ You can edit this file anytime - just commit the changes.
 
 ## Step 7: Set Up Project Structure
 
-### If New Project:
+> **Claude Code shortcut:** Run `./setup.sh /path/to/project` from the ai-dev-orchestrator repo — it handles all file copying, directory creation, and generates a `CLAUDE.md` with first-run instructions. Skip the manual steps below.
+
+### If New Project (manual):
 
 **Say:**
 ```
@@ -573,7 +574,7 @@ git add .
 git commit -m "chore: initialize project with AI-Dev-Orchestrator"
 ```
 
-### If Existing Project:
+### If Existing Project (manual):
 
 **Say:**
 ```
@@ -584,7 +585,6 @@ Let me check if you have a docs/ folder...
 **Create:**
 - `CONSTITUTION.md` in project root
 - `docs/` folder if it doesn't exist
-- `.ai-orchestrator/` folder for AI-generated artifacts (optional)
 
 **Then:**
 ```bash
@@ -683,7 +683,7 @@ Create `docs/prompts/` folder and copy the relevant prompt files with auto-popul
 
 **IMPORTANT:** When copying prompts to the user's project, you MUST auto-populate template variables to save them manual work.
 
-**Reference:** See [TEMPLATE-VARIABLES.md](./TEMPLATE-VARIABLES.md) for complete variable documentation.
+**Reference:** See [docs/template-variables.md](./docs/template-variables.md) for complete variable documentation.
 
 #### Step 1: Parse CONSTITUTION.md for Values
 
@@ -780,7 +780,7 @@ Variables you'll fill when using prompts:
 - [PASTE_TASK_DESCRIPTION_HERE] - Exact task text
 - [ATTACH_RELEVANT_FILES] - Files to attach
 
-See TEMPLATE-VARIABLES.md for full reference.
+See docs/template-variables.md for full reference.
 ```
 
 #### Example: Full Prompt Auto-Population
@@ -1009,6 +1009,6 @@ You've successfully set up AI-Dev-Orchestrator when:
 
 ---
 
-**End of AI-Setup-Guide**
+**End of Project Onboarding Guide**
 
 *This guide is living documentation. As the framework evolves, update this guide to reflect new best practices and learnings.*

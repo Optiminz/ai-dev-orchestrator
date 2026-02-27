@@ -7,7 +7,7 @@
 ## 1. Core Principles (The "Why")
 
 **Function over Aesthetics**
-- This is an [internal tool / web app / API / etc.]. Speed, reliability, simplicity, and ease of use are prioritized over complex visual design or animations.
+- This is a [PROJECT_TYPE — e.g., internal tool, web app, API, mobile app]. Speed, reliability, simplicity, and ease of use are prioritized over complex visual design or animations.
 - Aesthetic design is subservient to function.
 
 **User is Sovereign**
@@ -67,32 +67,32 @@ This constitution is designed for AI assistants with capabilities of:
 ### Mandated Technologies
 
 **Frontend:**
-- Framework: [e.g., React 18+, Vue 3, Svelte, Next.js]
+- Framework: [FRONTEND_FRAMEWORK — e.g., React 18+, Vue 3, Svelte, Next.js]
 - Language: TypeScript (strict mode enabled)
 - File extensions: .tsx for React components, .ts for utilities
 - Type imports: `import type { ... }` for type-only imports
-- Styling: [e.g., Tailwind CSS, CSS Modules, Styled Components]
-- State Management: [e.g., Zustand, Redux Toolkit, Pinia]
+- Styling: [FRONTEND_STYLING_LIBRARY — e.g., Tailwind CSS, CSS Modules, Styled Components]
+- State Management: [STATE_MANAGEMENT_LIBRARY — e.g., Zustand, Redux Toolkit, Pinia]
 
 **Backend:**
-- Framework: [e.g., FastAPI, Express.js, Django, Flask]
-- Language: [e.g., Python 3.11+, Node.js 20+, Go 1.21+]
-- API Style: [e.g., REST, GraphQL, gRPC]
+- Framework: [BACKEND_FRAMEWORK — e.g., FastAPI, Express.js, Django, Flask]
+- Language: [BACKEND_LANGUAGE_AND_VERSION — e.g., Python 3.11+, Node.js 20+, Go 1.21+]
+- API Style: [API_STYLE — e.g., REST, GraphQL, gRPC]
 
 **Database:**
-- Primary: [e.g., PostgreSQL 15+, MongoDB 7+, SQLite]
-- Caching: [e.g., Redis, Memcached, N/A]
+- Primary: [PRIMARY_DATABASE — e.g., PostgreSQL 15+, MongoDB 7+, SQLite]
+- Caching: [CACHING_LAYER — e.g., Redis, Memcached, N/A]
 
 **Infrastructure:**
-- Platform: [e.g., Docker, AWS Lambda, Vercel, Railway]
-- CI/CD: [e.g., GitHub Actions, GitLab CI, CircleCI]
+- Platform: [DEPLOYMENT_PLATFORM — e.g., Docker, AWS Lambda, Vercel, Railway]
+- CI/CD: [CICD_PIPELINE — e.g., GitHub Actions, GitLab CI, CircleCI]
 
 ### Prohibited Technologies
 
-- ❌ [e.g., jQuery - use modern vanilla JS or framework]
-- ❌ [e.g., Bootstrap - use Tailwind CSS]
-- ❌ [e.g., Class components in React - use functional components with hooks]
-- ❌ [e.g., Mongoose - use raw MongoDB driver or Prisma]
+- ❌ [PROHIBITED_TECHNOLOGY_1 — e.g., jQuery - use modern vanilla JS or framework]
+- ❌ [PROHIBITED_TECHNOLOGY_2 — e.g., Bootstrap - use Tailwind CSS]
+- ❌ [PROHIBITED_TECHNOLOGY_3 — e.g., Class components in React - use functional components with hooks]
+- ❌ [PROHIBITED_TECHNOLOGY_4 — e.g., Mongoose - use raw MongoDB driver or Prisma]
 
 ---
 
@@ -128,24 +128,30 @@ import type { User } from '@shared/schema';
 ### Language & Style
 
 **Language Version:**
-- [e.g., TypeScript 5+ (strict mode enabled)]
-- [e.g., Python 3.11+ with type hints]
+- [PRIMARY_LANGUAGE_VERSION — e.g., TypeScript 5+ (strict mode enabled)]
+- [SECONDARY_LANGUAGE_VERSION — e.g., Python 3.11+ with type hints, or remove if single-language]
 
 **Style Guide:**
-- [e.g., Airbnb JavaScript Style Guide]
-- [e.g., PEP 8 for Python]
-- [e.g., Effective Go for Go]
+- [STYLE_GUIDE — e.g., Airbnb JavaScript Style Guide, PEP 8, Effective Go]
+
+**Naming — Verbose Over Concise:**
+- Prioritise clarity over brevity in all identifiers
+- ✅ `getUserAuthenticationToken()` not `getToken()`
+- ✅ `isEmailValidationSuccessful` not `isValid`
+- ✅ `MAX_RETRY_ATTEMPTS` not `MAX_RETRIES`
+- ✅ `handleUserProfileSubmit` not `handleSubmit`
+- Rule: a new developer should understand the purpose of any variable or function without reading its implementation
 
 **Linting & Formatting:**
-- Linter: [e.g., ESLint, Pylint, golangci-lint]
-- Formatter: [e.g., Prettier, Black, gofmt]
+- Linter: [LINTING_TOOL — e.g., ESLint, Pylint, golangci-lint]
+- Formatter: [FORMATTING_TOOL — e.g., Prettier, Black, gofmt]
 - All code must pass linting before commit.
 
 ### Code Organization
 
 **File Structure:**
 ```
-[Define your project-specific directory structure here]
+[PROJECT_DIRECTORY_STRUCTURE — define your project-specific directory layout here]
 ```
 
 ### Comments & Documentation
@@ -197,13 +203,13 @@ import type { User } from '@shared/schema';
 - Mock external services, not internal modules
 
 **Test Types:**
-- Unit tests: [e.g., Jest, pytest, Go testing]
-- Integration tests: [e.g., Supertest, pytest with fixtures]
-- E2E tests: [e.g., Playwright, Cypress] (optional for internal tools)
+- Unit tests: [UNIT_TEST_FRAMEWORK — e.g., Jest, pytest, Go testing]
+- Integration tests: [INTEGRATION_TEST_FRAMEWORK — e.g., Supertest, pytest with fixtures]
+- E2E tests: [E2E_TEST_FRAMEWORK — e.g., Playwright, Cypress] (optional for internal tools)
 
 ---
 
-## 4. Security & Compliance (The "Musts")
+## 6. Security & Compliance (The "Musts")
 
 ### Data Handling
 
@@ -221,9 +227,9 @@ import type { User } from '@shared/schema';
 ### Authentication & Authorization
 
 **Authentication:**
-- Method: [e.g., OAuth 2.0 with JWT tokens, Auth0, Firebase Auth]
-- Session duration: [e.g., 24 hours with refresh tokens]
-- Password requirements: [e.g., min 12 characters, must include special characters]
+- Method: [AUTH_METHOD — e.g., OAuth 2.0 with JWT tokens, Auth0, Firebase Auth]
+- Session duration: [SESSION_DURATION — e.g., 24 hours with refresh tokens]
+- Password requirements: [PASSWORD_POLICY — e.g., min 12 characters, must include special characters]
 
 **Authorization:**
 - All API endpoints must verify user permissions before execution.
@@ -247,7 +253,7 @@ import type { User } from '@shared/schema';
 
 ---
 
-## 5. Git & Version Control
+## 7. Git & Version Control
 
 **Commit Messages:** Use conventional commits — `feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`
 
@@ -259,13 +265,13 @@ import type { User } from '@shared/schema';
 
 ---
 
-## 6. Performance Standards
+## 8. Performance Standards
 
 ### API Performance
 
 **Response Times:**
-- Target: 95th percentile < [e.g., 200ms]
-- Maximum: [e.g., 2 seconds]
+- Target: 95th percentile < [API_RESPONSE_TIME_TARGET — e.g., 200ms]
+- Maximum: [API_RESPONSE_TIME_MAXIMUM — e.g., 2 seconds]
 
 **Database Queries:**
 - Avoid N+1 queries (use eager loading, joins, or batching).
@@ -275,7 +281,7 @@ import type { User } from '@shared/schema';
 ### Frontend Performance
 
 **Bundle Size:**
-- Target: Initial bundle < [e.g., 200KB gzipped]
+- Target: Initial bundle < [FRONTEND_BUNDLE_SIZE_TARGET — e.g., 200KB gzipped]
 - Code splitting required for routes.
 
 **Images:**
@@ -290,7 +296,7 @@ import type { User } from '@shared/schema';
 
 ---
 
-## 7. Deployment & Operations
+## 9. Deployment & Operations
 
 ### Environment Strategy
 
@@ -317,12 +323,12 @@ import type { User } from '@shared/schema';
 - `ERROR`: Error messages (requires attention)
 
 **Monitoring:**
-- Service: [e.g., Sentry, Datadog, New Relic, CloudWatch]
-- Alerts for: [e.g., error rate > 1%, API latency > 2s, 5xx errors]
+- Service: [MONITORING_SERVICE — e.g., Sentry, Datadog, New Relic, CloudWatch]
+- Alerts for: [MONITORING_ALERT_CONDITIONS — e.g., error rate > 1%, API latency > 2s, 5xx errors]
 
 ---
 
-## 8. AI Coding Assistant Instructions
+## 10. AI Coding Assistant Instructions
 
 **When generating code for this project, you must:**
 
@@ -335,7 +341,7 @@ import type { User } from '@shared/schema';
 7. **Follow the established patterns** in the existing codebase.
 8. **Never skip error handling** or input validation.
 9. **Always consider security implications** of your code.
-10. **Use the technical stack** defined in Section 2 - no substitutions without approval.
+10. **Use the technical stack** defined in Section 3 - no substitutions without approval.
 
 ---
 
@@ -343,7 +349,7 @@ import type { User } from '@shared/schema';
 
 | Date | Version | Changes | Author |
 |------|---------|---------|--------|
-| [YYYY-MM-DD] | 1.0 | Initial constitution | [Your Name] |
+| [CONSTITUTION_DATE — YYYY-MM-DD] | 1.0 | Initial constitution | [AUTHOR_NAME] |
 
 **Rule:** All constitution changes require:
 1. Version number increment
@@ -352,4 +358,4 @@ import type { User } from '@shared/schema';
 
 ---
 
-**Last Updated:** [YYYY-MM-DD]
+**Last Updated:** [LAST_UPDATED_DATE — YYYY-MM-DD]

@@ -8,12 +8,15 @@
       "Bash(git add setup.sh)",
       "Bash(git commit:*)",
       "Read(//private/tmp/qa-setup-test/**)",
-      "Bash(test -x /Users/malcolm/Projects/ai-dev-orchestrator/setup.sh)"
+      "Bash(test -x /Users/malcolm/Projects/ai-dev-orchestrator/setup.sh)",
+      "Skill(commit-commands:commit)",
+      "Skill(commit-commands:commit:*)"
     ],
     "additionalDirectories": [
       "/Users/malcolm/Projects/ai-dev-orchestrator/.claude/learnings",
       "/private/tmp/qa-setup-test",
-      "/Users/malcolm/Projects/oi-app/.claude/learnings"
+      "/Users/malcolm/Projects/oi-app/.claude/learnings",
+      "/Users/malcolm/Projects/ai-dev-orchestrator"
     ]
   }
 }

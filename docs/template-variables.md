@@ -10,7 +10,7 @@ All prompts in this framework use **template variables** with this syntax:
 - `[VARIABLE_NAME]` - Placeholders that should be replaced before use
 
 **Who fills them:**
-- **AI (auto-populated)** - When AI-SETUP-GUIDE copies prompts to your project
+- **AI (auto-populated)** - When Project Onboarding Guide copies prompts to your project
 - **Human (at use-time)** - When you actually use the prompt
 
 ---
@@ -19,7 +19,7 @@ All prompts in this framework use **template variables** with this syntax:
 
 ### Auto-Populated by AI (from CONSTITUTION.md)
 
-These are filled when the AI-SETUP-GUIDE copies prompts to your project:
+These are filled when the Project Onboarding Guide copies prompts to your project:
 
 | Variable | Source | Example Value | Used In |
 |----------|--------|---------------|---------|
@@ -94,9 +94,9 @@ These are filled each time you use the prompt:
 
 ---
 
-## How AI-SETUP-GUIDE Populates Variables
+## How Project Onboarding Guide Populates Variables
 
-When the AI-SETUP-GUIDE copies prompts to your project, it follows this logic:
+When the Project Onboarding Guide copies prompts to your project, it follows this logic:
 
 ### Step 1: Read CONSTITUTION.md
 ```python
@@ -152,8 +152,8 @@ Add to the appropriate table:
 - Auto-populated → Add to "Auto-Populated by AI" table
 - User-filled → Add to "Filled by Human at Use-Time" table
 
-### 3. Add to AI-SETUP-GUIDE Logic
-If auto-populated, update AI-SETUP-GUIDE.md with:
+### 3. Add to Project Onboarding Guide Logic
+If auto-populated, update guides/project-onboarding.md with:
 - Where to source the value (CONSTITUTION.md section)
 - How to parse it
 - Example values
@@ -181,7 +181,7 @@ You are an expert **[LANGUAGE/FRAMEWORK]** developer.
 # "Go/Gin" (API service)
 ```
 
-**Solution:** AI-SETUP-GUIDE asks user or infers from task context.
+**Solution:** Project Onboarding Guide asks user or infers from task context.
 
 ### Optional Variables
 
@@ -321,7 +321,7 @@ def create_reset_token(email):
 
 ### Q: What if my project uses multiple languages?
 
-**A:** The AI-SETUP-GUIDE will ask you to specify:
+**A:** The Project Onboarding Guide will ask you to specify:
 - Primary backend language
 - Primary frontend language
 
@@ -335,7 +335,7 @@ It will populate `[LANGUAGE/FRAMEWORK]` based on context:
 **A:** Yes, but stick to conventions:
 - Use `[ALL_CAPS_WITH_UNDERSCORES]`
 - Document in this file
-- Update AI-SETUP-GUIDE if auto-populated
+- Update Project Onboarding Guide if auto-populated
 
 ### Q: What if I forget to fill a variable?
 
@@ -354,7 +354,7 @@ grep -E '\[.*\]' your-prompt.md
 
 ## Related Resources
 
-- [AI-SETUP-GUIDE.md](./AI-SETUP-GUIDE.md) - How AI populates variables
+- [guides/project-onboarding.md](./guides/project-onboarding.md) - How AI populates variables
 - [CONSTITUTION-TEMPLATE.md](./CONSTITUTION-TEMPLATE.md) - Source of truth for auto-populated variables
 - [All Prompts](./prompts/) - See variables in context
 

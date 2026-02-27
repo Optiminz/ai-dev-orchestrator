@@ -229,7 +229,7 @@ chmod +x .claude/hooks/stop/*.sh
 
 ## Documentation
 
-**Full Guide:** See `ORCHESTRATION-INTEGRATION-GUIDE.md` for:
+**Full Guide:** See `docs/orchestration-integration.md` for:
 - Complete workflow details
 - Stop hook architecture
 - Setup instructions
@@ -257,7 +257,7 @@ cp ~/Projects/ai-dev-orchestrator/personas/*.md personas/
 # 3. Create hooks directory
 mkdir -p .claude/hooks/stop
 
-# 4. Copy stop hooks (create these based on ORCHESTRATION-INTEGRATION-GUIDE.md)
+# 4. Copy stop hooks (create these based on docs/orchestration-integration.md)
 # Copy 01-ralph-loop.sh, 10-constitution-check.sh, 20-test-validation.sh at minimum
 
 # 5. Make hooks executable

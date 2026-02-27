@@ -470,7 +470,7 @@ DONE
 ### Explore:
 - [Personas](./personas/README.md) - Detailed persona descriptions
 - [All Prompts](./prompts/) - Browse all 15 prompts
-- [Research](./RESEARCH-ORIGIN.md) - The research behind this framework
+- [Research](./docs/research-origin.md) - The research behind this framework
 
 ---
 

@@ -950,6 +950,32 @@ gh pr list
 
 ---
 
+## Plugins Required for `/orchestrate`
+
+The `/orchestrate` command runs the full automated 4-phase workflow. It depends on two Claude Code plugins and stop hooks being configured.
+
+### Install: Superpowers
+Provides structured brainstorming, TDD guardrails, parallel subagents, and verification at each phase gate.
+
+Search `superpowers` in the Claude Code plugin marketplace, or visit [claudeplugins.com](https://claudeplugins.com).
+
+### Install: Ralph Loop
+The iterative engine for Phase 2 implementation. Runs tasks in a self-correcting loop until complete.
+
+Search `ralph-loop` in the Claude Code plugin marketplace.
+
+### Verify: Stop hooks
+Stop hooks enforce quality gates between Claude turns (constitution loaded, artifacts present, tasks marked complete). They're installed by `setup.sh` into `.claude/hooks/stop/`.
+
+```bash
+# Check they're in place after running setup.sh
+ls .claude/hooks/stop/
+```
+
+If missing, see [`docs/orchestration-integration.md`](../docs/orchestration-integration.md) for manual setup.
+
+---
+
 ## Additional Resources
 
 - [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code)
@@ -960,10 +986,9 @@ gh pr list
 ## Next Steps
 
 1. **Install Claude Code** using the instructions above
-2. **Set up your project** with Quick Start or Full Framework
-3. **Create CLAUDE.md** to provide project context
-4. **Create custom commands** for common workflows
-5. **Build your first feature!**
+2. **Run `setup.sh`** to bootstrap the framework into your project
+3. **Install Superpowers + Ralph Loop** plugins for full `/orchestrate` automation
+4. **Build your first feature** with `/orchestrate`
 
 ---
 
