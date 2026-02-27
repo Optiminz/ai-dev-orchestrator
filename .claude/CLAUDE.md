@@ -21,9 +21,8 @@ This project provides constitution templates for other projects. The templates t
 
 ## Project Learnings
 
-@.claude/learnings/insights.md
+@.claude/learnings/learnings.md
 @.claude/learnings/decisions.md
-@.claude/learnings/gotchas.md
 
 ## Working Agreements
 

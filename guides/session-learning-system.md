@@ -84,9 +84,8 @@ With the session learning system:
 YOUR-PROJECT/.claude/                   # Project-specific
 ├── CLAUDE.md                           # Project context
 └── learnings/
-    ├── insights.md                     # Project insights
-    ├── decisions.md                    # Why we chose X
-    └── gotchas.md                      # Project pitfalls
+    ├── learnings.md                    # Project discoveries, patterns, gotchas
+    └── decisions.md                    # Why we chose X
 ```
 
 ---
@@ -171,9 +170,8 @@ cd ~/my-project
 
 # This creates:
 # .claude/CLAUDE.md
-# .claude/learnings/insights.md
+# .claude/learnings/learnings.md
 # .claude/learnings/decisions.md
-# .claude/learnings/gotchas.md
 ```
 
 #### Step 5: Verify
@@ -185,7 +183,7 @@ ls -la ~/.claude/learnings/
 
 # Check project structure
 ls -la .claude/learnings/
-# Should show: insights.md, decisions.md, gotchas.md
+# Should show: learnings.md, decisions.md
 
 # Check /reflect command exists
 ls -la ~/.claude/commands/
@@ -288,14 +286,13 @@ Claude: *writes to files*
 - Mistake: Implement refresh token rotation from start
 
 **Project learnings:**
-- Insight: Uses Prisma + PostgreSQL
-- Gotcha: Admin role required for user management
+- Learning: Uses Prisma + PostgreSQL
+- Learning: Admin role required for user management
 
 **Files Updated:**
 - ~/.claude/learnings/patterns.md (2 new)
 - ~/.claude/learnings/mistakes.md (2 new)
-- .claude/learnings/insights.md (1 new)
-- .claude/learnings/gotchas.md (1 new)
+- .claude/learnings/learnings.md (2 new)
 
 **Next session:** Continue with user profile page implementation
 ```
@@ -318,9 +315,8 @@ Loading context:
 ✓ ~/.claude/learnings/mistakes.md (8 mistakes)
 ✓ ~/.claude/learnings/preferences.md (5 preferences)
 ✓ .claude/CLAUDE.md
-✓ .claude/learnings/insights.md (3 insights)
+✓ .claude/learnings/learnings.md (4 learnings)
 ✓ .claude/learnings/decisions.md (2 decisions)
-✓ .claude/learnings/gotchas.md (1 gotcha)
 
 Ready! I'm aware of your coding patterns and project context.
 ```
@@ -347,9 +343,8 @@ Now Claude:
 
 | Category | File | Purpose | Example |
 |----------|------|---------|---------|
-| **Insights** | `insights.md` | Project knowledge | "API uses OAuth 2.0 with PKCE" |
+| **Learnings** | `learnings.md` | Project knowledge, patterns, and pitfalls | "API uses OAuth 2.0 with PKCE" / "Rate limit: 100 req/min" |
 | **Decisions** | `decisions.md` | Why we chose X | "Chose Zustand over Redux (simpler)" |
-| **Gotchas** | `gotchas.md` | Project pitfalls | "Rate limit: 100 req/min" |
 
 ### When to Use Each
 
@@ -753,7 +748,7 @@ git commit -m "docs: add learnings from implementation phase"
 ```bash
 # Copy relevant sections to learnings
 # README.md section: "Common Gotchas"
-# → .claude/learnings/gotchas.md
+# → .claude/learnings/learnings.md
 
 # Wiki page: "Architecture Decisions"
 # → .claude/learnings/decisions.md
@@ -767,7 +762,7 @@ grep -r "TODO\|FIXME\|NOTE" src/
 
 # Convert insights to learnings
 # Code comment: "NOTE: API rate limit is 100/min"
-# → .claude/learnings/gotchas.md entry
+# → .claude/learnings/learnings.md entry
 ```
 
 ---

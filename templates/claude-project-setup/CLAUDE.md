@@ -21,9 +21,8 @@ This project follows the rules defined in:
 
 Reference accumulated project knowledge:
 
-@.claude/learnings/insights.md
+@.claude/learnings/learnings.md
 @.claude/learnings/decisions.md
-@.claude/learnings/gotchas.md
 
 ## Working Agreements
 

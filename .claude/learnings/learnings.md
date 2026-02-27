@@ -1,6 +1,6 @@
-# Project Insights
+# Project Learnings
 
-Key insights discovered while working on this project.
+What we've discovered while working on this project — patterns, gotchas, and notable observations.
 
 ---
 
@@ -12,4 +12,4 @@ Key insights discovered while working on this project.
 
 ---
 
-<!-- New insights will be appended below -->
+<!-- New learnings will be appended below -->

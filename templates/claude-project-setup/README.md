@@ -10,9 +10,8 @@ claude-project-setup/
 ├── setup-learnings.sh           # Quick setup script
 ├── CLAUDE.md                    # Project CLAUDE.md template
 └── learnings/
-    ├── insights.md              # Project insights template
-    ├── decisions.md             # Architecture decisions template
-    └── gotchas.md               # Project gotchas template
+    ├── learnings.md             # Project learnings template
+    └── decisions.md             # Architecture decisions template
 ```
 
 ## Quick Start
@@ -27,9 +26,8 @@ cd ~/my-new-project
 
 # This creates:
 # .claude/CLAUDE.md
-# .claude/learnings/insights.md
+# .claude/learnings/learnings.md
 # .claude/learnings/decisions.md
-# .claude/learnings/gotchas.md
 ```
 
 ### Customize After Setup
@@ -58,13 +56,12 @@ Project-level Claude Code instructions that:
 
 ### `.claude/learnings/`
 
-Three learning files:
+Two learning files:
 
 | File | Purpose | Example Entry |
 |------|---------|---------------|
-| `insights.md` | Project insights | "Auth system uses OAuth 2.0 with PKCE" |
-| `decisions.md` | Architecture decisions | "Chose GraphQL over REST for flexible queries" |
-| `gotchas.md` | Project-specific pitfalls | "Database must be seeded before running tests" |
+| `learnings.md` | Project discoveries — patterns, gotchas, and observations | "Auth system uses OAuth 2.0 with PKCE" |
+| `decisions.md` | Architecture decisions and rationale | "Chose GraphQL over REST for flexible queries" |
 
 ## How It Works with Global Learnings
 
@@ -80,9 +77,8 @@ Load Global (~/.claude/)
 Load Project (.claude/)
 ├── CLAUDE.md (context)
 └── learnings/
-    ├── insights.md
-    ├── decisions.md
-    └── gotchas.md
+    ├── learnings.md
+    └── decisions.md
     ↓
 Claude has full context
 ```
@@ -113,9 +109,8 @@ my-project/
 ├── .claude/
 │   ├── CLAUDE.md              # ← Created by setup
 │   └── learnings/             # ← Created by setup
-│       ├── insights.md
-│       ├── decisions.md
-│       └── gotchas.md
+│       ├── learnings.md
+│       └── decisions.md
 ├── CONSTITUTION.md            # Your project constitution
 ├── src/
 └── README.md
@@ -147,11 +142,11 @@ Claude: *reviews session*
 
         Captured learnings:
         - Decision: Chose JWT with httpOnly cookies
-        - Gotcha: Token expiry must be validated server-side
+        - Learning: Token expiry must be validated server-side
 
         Files updated:
         - .claude/learnings/decisions.md
-        - .claude/learnings/gotchas.md
+        - .claude/learnings/learnings.md
 ```
 
 **Next session:**
