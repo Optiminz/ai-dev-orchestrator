@@ -141,64 +141,19 @@ import type { User } from '@shared/schema';
 - Formatter: [e.g., Prettier, Black, gofmt]
 - All code must pass linting before commit.
 
-### Naming Conventions
-
-**Variables & Functions:**
-- JavaScript/TypeScript: `camelCase` (e.g., `getUserData`, `isValid`)
-- Python: `snake_case` (e.g., `get_user_data`, `is_valid`)
-- Go: `camelCase` (exported: `PascalCase`)
-
-**Classes & Types:**
-- All languages: `PascalCase` (e.g., `UserService`, `ApiResponse`)
-
-**Constants:**
-- JavaScript/TypeScript: `UPPER_SNAKE_CASE` (e.g., `API_BASE_URL`)
-- Python: `UPPER_SNAKE_CASE` (e.g., `MAX_RETRIES`)
-
-**Files:**
-- Components: `PascalCase.tsx` (e.g., `UserProfile.tsx`)
-- Utilities: `kebab-case.ts` (e.g., `api-client.ts`)
-- Python modules: `snake_case.py` (e.g., `user_service.py`)
-
 ### Code Organization
 
 **File Structure:**
 ```
-[Define your project structure here, e.g.,
-src/
-  components/     # React components
-  services/       # Business logic
-  utils/          # Utility functions
-  types/          # TypeScript types
-  api/            # API route handlers
-tests/
-  unit/
-  integration/
-]
+[Define your project-specific directory structure here]
 ```
-
-**Import Order:**
-1. External dependencies (e.g., `react`, `express`)
-2. Internal absolute imports (e.g., `@/components`)
-3. Relative imports (e.g., `./utils`)
-4. Type imports (TypeScript)
 
 ### Comments & Documentation
 
-**Required Comments:**
-- All public functions, classes, and methods must have documentation headers.
-  - JavaScript/TypeScript: JSDoc format
-  - Python: Google-style or NumPy-style docstrings
-  - Go: GoDoc format
-
-**Comment Quality:**
-- Comments must explain the **why** (intent), not the **what** (syntax).
+- Explain the **why** (intent), not the **what** (syntax)
 - ❌ Bad: `// Loop through users`
-- ✅ Good: `// Filter out inactive users to reduce API payload size`
-
-**Inline Comments:**
-- Use sparingly, only for complex logic or business rules.
-- Place comments above the code they describe.
+- ✅ Good: `// Filter inactive users to reduce API payload size`
+- Public functions need documentation headers; inline comments only for complex logic
 
 ### Error Handling
 
@@ -294,63 +249,13 @@ tests/
 
 ## 5. Git & Version Control
 
-### Commit Messages
+**Commit Messages:** Use conventional commits — `feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`
 
-**Format:**
-```
-<type>(<scope>): <subject>
+**Branch Strategy:**
+- `main`: production-ready code
+- Feature branches: short-lived, branch from main, merged via PR
 
-<body>
-
-<footer>
-```
-
-**Types:**
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation changes
-- `style`: Code style changes (formatting, no logic change)
-- `refactor`: Code refactoring
-- `test`: Adding or updating tests
-- `chore`: Build process, dependencies, tooling
-
-**Examples:**
-```
-feat(auth): add OAuth2 login flow
-
-Implemented Google and GitHub OAuth2 providers using Passport.js.
-Users can now sign in with their existing accounts.
-
-Closes #123
-```
-
-### Branch Strategy
-
-**Main Branches:**
-- `main` (or `master`): Production-ready code
-- `develop`: Integration branch for features
-
-**Feature Branches:**
-- Format: `feature/<ticket-id>-<short-description>` (e.g., `feature/USER-123-oauth-login`)
-- Always branch from `develop`
-- Merge back to `develop` via Pull Request
-
-**Hotfix Branches:**
-- Format: `hotfix/<issue-description>` (e.g., `hotfix/fix-login-crash`)
-- Branch from `main`
-- Merge to both `main` and `develop`
-
-### Pull Request Requirements
-
-**Before submitting:**
-- ✅ All tests pass
-- ✅ Code passes linting
-- ✅ No merge conflicts
-- ✅ PR description includes context and screenshots (if UI change)
-
-**Review Process:**
-- Minimum reviewers: [e.g., 1 for small changes, 2 for large changes]
-- All comments must be resolved before merge
+**PR Requirements:** All tests pass, linting clean, no merge conflicts
 
 ---
 
