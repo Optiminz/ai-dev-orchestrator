@@ -1,658 +1,295 @@
 # AI-Dev-Orchestrator
-This repo has been assembled by a non-coder who's trying to get more out of ai coding. I'm probably pushing the boundaries a little far in terms of what I can achieve without a human developer at the wheel but this is where I've got to so far. 
-Would love to collaborate with anyone interested in this space.
 
-Current experiments circa Dec 2025: 
-- Turning this in to a writing workflow and...
-- a generic template
-- Adapting biomimcry to the process
+A framework for building software with AI that actually works — structured personas, copy-paste prompts, and (if you use Claude Code) a fully automated workflow.
 
-My journey:
-- **Replit**: Built basic things, pushed bugs everywhere (but hosting works well)
-- **Claude Code**: Fixed Replit apps, still pushing bugs but more effective
-- **AI Dev Tasks by Snarktank**: Opened my eyes to how a few well placed docs can transform the process, but...
-- **Still unclear**: What prompts? What roles? What ties it all together?
-- **Gemini 2.5 Pro**: Deep research finds insights, assembled with Claude Opus 4.1 (3 weeks later both models already out of date!)
-- **Now testing**: Applying to projects, will update as I learn. Definitely not following all the manual steps listed here, trying to figure out minimum human steps required to build, run and maintain this.
-
-This whole framework is platform agnostic.
-
-The rest of this doc was assembled with AI.
-
-P.S. If it seems overwhelming... key things you need:
-1. A constitution doc
-2. 3-6 personas (essentially copy and paste prompts)
-
-If you want to get a little more advanced... I connect this repo to some of my Claude projects, and have turned the persona's in to Claude Code agents that can be invoked in any project. The rest of the docs and for humans and AI to understand how to make their own version.
-
-MCS
+> Built by a non-coder pushing the limits of what's possible without a human developer at the wheel. Collaboration welcome. — MCS
 
 ---
 
-## What's in this repo?
+## Get Started in 2 Minutes
 
-**30-second version:** This repo contains:
-- 📝 **15 copy-paste prompts** to guide AI through planning, coding, reviewing, and documenting
-- 👥 **5 AI personas** (Product Owner, Architect, Developer, QA, Writer) to get specialized help
-- 📋 **Constitution template** - your project's rules that keep AI on track
-- 🔄 **4-phase workflow** so you build things in the right order
-- 📖 **Guides for Cursor, Claude Code, Replit** to get started fast
-
-**The idea:** Stop randomly asking AI to build stuff and hoping it works out. Use prompts, personas, and a workflow instead.
-
----
-
-**A way to build software with AI that actually works.**
-
----
-
-## 👉 First Time Here? START HERE
-
-**Reading this for the first time?** Here's your 5-minute quickstart:
-
-1. **Understand the journey** - Read "My journey" above (you just did!)
-2. **Pick your path** - Choose based on experience:
-   - 🚀 **[Quick Start](#-quick-start-new-to-ai-coding)** - New to AI coding? Start here (2-3 hours per feature)
-   - 🏗️ **[Standard Flow](#%EF%B8%8F-standard-flow-building-for-others)** - Building for clients? Go here (1-3 days per feature)
-   - 🏭 **[Full Framework](#-full-framework-production-systems)** - Production systems? This is you (3-5 days per feature)
-3. **Choose your tool** - Set up your AI coding assistant:
-   - [Cursor IDE](#%EF%B8%8F-tool-specific-setup-guides) (recommended for beginners)
-   - [Claude Code](#%EF%B8%8F-tool-specific-setup-guides) (for CLI fans)
-   - [Replit AI](#%EF%B8%8F-tool-specific-setup-guides) (for instant deployment)
-
-**Not sure which path?** Use the [Complexity Estimator](#-not-sure-which-path) to analyze your project.
-
-**Want the details?** Keep reading below.
-
----
-
-## What is AI-Dev-Orchestrator?
-
-AI-Dev-Orchestrator is a framework for building software with AI that's based on actual research. Instead of asking a single AI to "write my app," you work with different **AI personas** (like a product manager, architect, developer) through a **four-phase workflow**, using **copy-paste prompts** and **some rules to keep things on track**.
-
-**The result:** Code that works, stays consistent, and doesn't go overboard.
-
-> **Note:** This is the **software development** implementation of the [AI Workflow Orchestrator](https://github.com/Optiminz/ai-workflow-orchestrator) universal framework. The same pattern works for grant writing, content creation, product design, and other domains. See the [Software Pattern Visual](./SOFTWARE-PATTERN-VISUAL.md) for the software-specific guide, or the [Universal Pattern Visual](https://github.com/Optiminz/ai-workflow-orchestrator/blob/main/core/universal-pattern-visual.md) to see cross-domain applications.
-
----
-
-## 🆕 Recent Updates
-
-**December 2025 - TypeScript Unification & Constitution Enhancements**
-
-The constitution templates have been updated based on 6+ months of real-world usage in the OKM (Optimi Knowledge Manager) project:
-
-- **TypeScript Across Entire Stack** - Constitution templates now mandate TypeScript (strict mode) for both frontend and backend. The original JavaScript-only frontend prohibition was based on 2023-era AI limitations. Current models (Claude Sonnet 4+, GPT-4+) excel at TypeScript.
-- **Type Sharing Patterns** - Added explicit guidance on sharing types between frontend and backend via `shared/schema.ts` to prevent API integration bugs.
-- **Clarified "Simplicity" Principle** - Expanded to explain what simplicity means AND doesn't mean (avoiding common misinterpretations).
-- **AI Model Assumptions** - New section documenting which AI models the framework is designed for (minimum: Claude Sonnet 4 / GPT-4).
-- **Specific Testing Thresholds** - Replaced vague "adequate testing" with concrete coverage targets by area (business logic: 70-85%, utilities: 80-95%, etc.).
-- **Mandatory Version History** - Constitutions now require revision tracking with documented rationale for changes.
-
-**Key insight:** TypeScript type safety reduces bugs more than it increases complexity - simplicity means using proven tools correctly, not avoiding powerful features.
-
-**January 2026 - Self-Improving Claude Code Sessions**
-
-Added a **session learning system** that helps Claude Code learn from itself across sessions (inspired by [Developers Digest](https://www.youtube.com/watch?v=-4nUCaMNBR8)):
-
-- **`/reflect` Command** - End-of-session reflection to capture patterns, mistakes, and insights
-- **Session-Learnings Skill** - Auto-invokable skill for in-the-moment learning capture
-- **Global Learnings** - Cross-project patterns stored in `~/.claude/learnings/` (patterns, mistakes, preferences)
-- **Project Learnings** - Repo-specific insights in `.claude/learnings/` (insights, decisions, gotchas)
-- **Stop Hook** - Automatic reflection prompt when ending sessions
-- **Template Structure** - Quick setup for new projects with `setup-learnings.sh`
-
-**The problem it solves:** Without this system, you repeat the same mistakes and give the same instructions across sessions. With it, Claude Code builds institutional memory.
-
-**How it works:**
-1. During work: Claude can invoke the session-learnings skill to capture notable patterns or mistakes
-2. At session end: Stop hook prompts you to run `/reflect`
-3. Next session: Global and project learnings are loaded as context automatically
-
-See [`/guides/claude-code-setup.md`](./guides/claude-code-setup.md) for setup instructions and [`/templates/claude-project-setup/`](./templates/claude-project-setup/) for the template structure.
-
----
-
-## The Problem This Solves
-
-Common AI coding approach (❌ naive):
-```
-Prompt: "You are a senior developer. Build me a password reset feature."
-Result: Inconsistent, over-engineered, or incomplete code
-```
-
-AI-Dev-Orchestrator approach (✅ structured):
-```
-Phase 1: Product Owner    → Create PRD (requirements)
-Phase 1: Architect        → Create Tech Spec (design)
-Phase 2: Developer        → Implement task-by-task
-Phase 3: QA Engineer      → Review for quality & security
-Phase 4: Technical Writer → Document the solution
-```
-
-**Result:** Code that's planned, built right, and actually reviewed.
-
-### How it flows:
-
-```
-Your Idea
-    ↓
-📋 Prompt #1 (Product Owner) → AI writes PRD
-    ↓
-📋 Prompt #2 (Architect) → AI writes Tech Spec
-    ↓
-📋 Prompt #3 (Task Generator) → AI creates task list
-    ↓
-📋 Prompt #4 (Developer) → AI writes code (one task at a time)
-    ↓
-📋 Prompt #5 (QA) → AI reviews for bugs/security
-    ↓
-📋 Prompt #6 (Writer) → AI documents everything
-    ↓
-✅ Shippable Feature
-```
-
-**You control every step.** AI does the work, you make the decisions.
-
-![AI Coding](AI%20coding%20process%20workflow.png)
-
----
-
-## Frequently Asked Questions
-
-### Do I need to use all 15 prompts?
-
-No. Use what you need. Common minimal flow:
-- 1.1 Product Owner (PRD)
-- 2.2 Iterative Implementation (code)
-- 3.1 QA Review
-- 4.1 README
-
-### Which AI should I use?
-
-This works with any AI:
-- Claude (Sonnet/Opus) - Excellent for all prompts
-- ChatGPT (GPT-4) - Great for implementation and review
-- Gemini - Good for research and planning
-
-### Can I modify the prompts?
-
-Yes! These are templates. Customize for your needs.
-
-### What if I'm a solo developer?
-
-This framework is IDEAL for solo developers. You get the benefit of a full team's expertise (PM, Architect, QA, etc.) without hiring anyone.
-
-### Isn't this overkill for small projects?
-
-For trivial changes (e.g., "change button text"), yes.
-
-For any feature that requires planning, this saves time by catching issues early.
-
----
-
-## Quick Start
-
-### 1. Copy This Template to Your Project
+### Using Claude Code? (Recommended)
 
 ```bash
-# Create your new project
-mkdir my-new-project
-cd my-new-project
+# 1. Clone this repo somewhere on your machine
+git clone https://github.com/Optiminz/ai-dev-orchestrator.git ~/ai-dev-orchestrator
 
-# Copy the CONSTITUTION template
-cp /path/to/ai-dev-orchestrator/CONSTITUTION-TEMPLATE.md ./CONSTITUTION.md
+# 2. Run the setup script in your project
+~/ai-dev-orchestrator/setup.sh /path/to/your-project
 
-# Customize CONSTITUTION.md for your project
-# (Edit tech stack, coding standards, etc.)
+# 3. Open your project in Claude Code
+# Claude auto-detects the setup, scans your codebase, and configures itself
 ```
 
-### 2. Start Your First Feature
+That's it. Claude configures `CONSTITUTION.md` for your tech stack, loads 6 development agents, and you can start building immediately with `/orchestrate`.
 
-```bash
-# Use the Product Owner to create a PRD
-# Copy prompt from: prompts/phase-1-planning/1.1-product-owner-prd.md
-# Paste into Claude/ChatGPT with your feature idea
-```
+### Using Cursor, ChatGPT, Replit, or another AI?
 
-### 3. Follow the Workflow
-
-```
-Phase 1 → Phase 2 → Phase 3 → Phase 4
-(Plan)   (Implement) (Review)  (Document)
-```
-
-See [SETUP-GUIDE.md](./SETUP-GUIDE.md) for detailed instructions.
+1. Copy `CONSTITUTION-TEMPLATE.md` to your project as `CONSTITUTION.md`
+2. Customize the tech stack section for your project
+3. Use prompts from `prompts/` — start with `prompts/phase-1-planning/1.1-product-owner-prd.md`
 
 ---
 
-## 🎯 Choose Your Path
+## What a Finished Run Looks Like
 
-**New to AI coding?** Start simple. **Building something serious?** Use the full framework.
-
-### 🚀 Quick Start (New to AI Coding)
-**Time:** 2-3 hours per feature | **Files:** 3 essential prompts | **Perfect for:** Learning, prototypes, internal tools
-
-**What you'll use:**
-- Simple workflow combining PRD + task generation
-- Interactive task management
-- Basic testing (manual)
-
-**Start here:** [`/quick-start/README.md`](./quick-start/README.md)
-
-**Example projects:**
-- Team task tracker
-- Expense reporting tool
-- Internal admin dashboard
-
----
-
-### 🏗️ Standard Flow (Building for Others)
-**Time:** 1-3 days per feature | **Files:** 8 core prompts + personas | **Perfect for:** Client work, team projects, SaaS apps
-
-**What you'll use:**
-- Full PRD and Tech Spec
-- Task-by-task implementation
-- QA reviews before shipping
-- Basic documentation
-
-**Start here:** [`/workflow/workflow-overview.md`](./workflow/workflow-overview.md)
-
-**Example projects:**
-- Client-facing applications
-- SaaS products
-- Professional web apps
-
----
-
-### 🏭 Full Framework (Serious Projects)
-**Time:** 3-5 days per feature | **Files:** 15+ specialized prompts | **Perfect for:** Complex systems, heavily regulated stuff, high-risk features
-
-**What you'll use:**
-- All 5 specialized personas
-- Database and API design workflows
-- Thorough reviews (QA + Security + Performance)
-- Full documentation
-
-**Start here:** Read this complete README, then [`/workflow/prompt-selection-guide.md`](./workflow/prompt-selection-guide.md)
-
-**Example projects:**
-- Payment integrations
-- Healthcare applications
-- Big company systems
-- Features handling sensitive data (PII, payments)
-
----
-
-### 🧭 Not Sure Which Path?
-
-Use the **Complexity Estimator**:
+Here's what running `/orchestrate "Build user authentication"` produces:
 
 ```
-I want to build [describe your feature].
+Claude (Phase 1 — Planning):
+  ✓ Invoking Product Owner persona
+  ✓ Creating PRD at docs/user-auth-prd.md
+  → Review PRD. Approve to continue? [y/n]
 
-Follow /prompts/phase-0-setup/complexity-estimator.md to analyze
-this feature and recommend Quick Start, Standard, or Full Framework.
+You: y
+
+Claude (Phase 1 — Design):
+  ✓ Invoking Solutions Architect persona
+  ✓ Creating Tech Spec at docs/user-auth-tech-spec.md
+  ✓ Tech stack validated against CONSTITUTION.md
+  → Review Tech Spec. Approve to generate tasks? [y/n]
+
+You: y
+
+Claude (Phase 2 — Implementation):
+  ✓ Generating task list (18 tasks)
+  ✓ Implementing task by task...
+  ✓ Tests passing after each task
+  ✓ All 18 tasks committed
+
+Claude (Phase 3 — Review):
+  ✓ QA Engineer review complete
+  Issues: MEDIUM: Missing rate limiting on login endpoint
+  → Fix issues now? [y/n]
+
+You: y
+
+Claude (Phase 4 — Documentation):
+  ✓ README.md updated with auth documentation
+  ✓ Session learnings captured
+
+  Feature: user-authentication
+  Tasks: 18/18 ✓  Coverage: 87%  Constitution: ✓
+
+  Ready to merge.
 ```
 
-The AI will analyze your feature and recommend the best workflow based on:
-- Technical complexity
-- Risk level
-- User count
-- Your experience
-
-**[Read the Complexity Estimator →](./prompts/phase-0-setup/complexity-estimator.md)**
+**You control every checkpoint. AI does the work between them.**
 
 ---
 
-### 📈 Your Growth Path
+## Two Ways to Use This
 
-```mermaid
-graph LR
-    A[Quick Start] -->|Built 3 features| B[Standard Flow]
-    B -->|Client work| C[Full Framework]
-    A -->|Complex feature| B
-    B -->|High-risk feature| C
+### Path A: Claude Code (Automated)
 
-    style A fill:#90EE90
-    style B fill:#FFD700
-    style C fill:#FF6347
-```
+**Best for:** Anyone who can use Claude Code
 
-**Progression:**
-1. **Week 1:** Quick Start - Build 2-3 simple features, learn the core workflow
-2. **Month 1:** Standard Flow - Add quality controls, build for others
-3. **Month 2+:** Full Framework - Master all personas, build production systems
+- 6 specialized agents auto-loaded into every session
+- `/orchestrate` runs the full 4-phase workflow with human approval at checkpoints
+- Session learning system remembers decisions and patterns across sessions
+- `setup.sh` bootstraps everything into your project in one command
 
-**You can always upgrade:** Start with Quick Start, graduate to Standard or Full as your needs grow.
+**Get started:** Run `setup.sh` above, then open your project in Claude Code.
 
----
+### Path B: Any AI Tool (Manual)
 
-### 🛠️ Tool-Specific Setup Guides
+**Best for:** Cursor, ChatGPT, Replit, or any AI coding tool
 
-Choose your AI coding tool and follow the setup guide:
+- Copy `CONSTITUTION.md` to your project to keep AI on track
+- Use 15 copy-paste prompts from `prompts/` in sequence
+- Each persona prompt tells the AI exactly what role to play and what to produce
 
-- **[Cursor IDE](./guides/cursor-setup.md)** - Recommended for beginners (visual, intuitive)
-- **[Claude Code](./guides/claude-code-setup.md)** - For CLI enthusiasts (powerful, terminal-based)
-- **[Replit AI](./guides/replit-setup.md)** - For instant deployment (browser-based, zero setup)
-
-Each guide includes:
-- Installation and setup
-- Project integration
-- Workflow examples
-- Best practices
-- Troubleshooting
+**Get started:** See [`quick-start/README.md`](./quick-start/README.md) for the minimal 3-prompt workflow.
 
 ---
 
-### 📚 Constitution Templates
+## Works Better With Superpowers
 
-Not sure how to configure your project? Start with a template:
+The `/orchestrate` command integrates with the **[Superpowers plugin](https://claudeplugins.com)** for Claude Code, which adds structured brainstorming, test-driven development, parallel subagents, and verification guardrails at each phase.
 
-- **[Internal Tool](./templates/internal-tool-constitution.md)** - For team tools (5-50 users, fast iteration)
-- **[Client Application](./templates/client-app-constitution.md)** - For customer-facing apps (security, polish)
-- **[AI Agent/Bot](./templates/ai-agent-constitution.md)** - For bots and API services (reliability, integrations)
+Without it: everything works — orchestrate skips those enhanced steps gracefully.
+With it: fully automated quality gates, parallel task execution, and structured reviews.
 
-**[See all templates →](./templates/README.md)**
+**Install:** Search "superpowers" in the Claude Code plugin marketplace.
 
-**Want to see real examples?** Check out complete CONSTITUTION files and sample outputs:
-- [Internal tool example](./examples/internal-tool/CONSTITUTION.md) (expense tracker)
-- [Client app example](./examples/client-app/CONSTITUTION.md) (SaaS dashboard)
-- [AI agent example](./examples/ai-agent/CONSTITUTION.md) (Slack bot)
-- [Sample PRD](./examples/sample-outputs/sample-prd.md) - See what AI generates
-- [Sample Tech Spec](./examples/sample-outputs/sample-tech-spec.md) - See implementation details
+| Layer | Provides |
+|-------|----------|
+| ai-dev-orchestrator | WHAT — 4 phases, personas, constitution, artifact templates |
+| Superpowers | HOW — discipline at brainstorm, TDD, verify, and review moments |
+| /orchestrate | Integration — calls Superpowers skills at the right phase |
 
 ---
 
-## What's Included
-
-### 📋 Templates & Documents
-
-- **CONSTITUTION-TEMPLATE.md** - Your project's rules and standards
-- **RESEARCH-ORIGIN.md** - The Gemini Deep Research that informed this framework
-
-### 👥 5 AI Personas
-
-Each persona is a specialist with specific prompts:
-
-1. **Product Owner** - Defines what and why (creates PRDs)
-2. **Solutions Architect** - Defines how (creates tech specs, schemas, APIs)
-3. **Specialist Developer** - Implements code task-by-task
-4. **QA Engineer** - Reviews for quality, security, bugs
-5. **Technical Writer** - Creates documentation
-
-See [personas/](./personas/README.md)
-
-### 📝 15 Ready-to-Use Prompts
-
-Copy-paste prompts organized by phase:
-
-**Phase 1 - Planning (4 prompts):**
-- 1.1 Product Owner - PRD Generation
-- 1.2 Solutions Architect - Tech Spec
-- 1.3 Database Schema Design
-- 1.4 API Endpoint Design
-
-**Phase 2 - Implementation (3 prompts):**
-- 2.1 Generate Task List
-- 2.2 Iterative Implementation (one task at a time)
-- 2.3 Code Commenter
-
-**Phase 3 - Review (6 prompts):**
-- 3.1 Full Code Review
-- 3.2 Bugs & Edge Cases
-- 3.3 Security Check
-- 3.4 Style & Standards Check
-- 3.5 Testing Check
-- 3.6 Refactoring Advice (what to change vs. what to leave)
-
-**Phase 4 - Documentation (2 prompts):**
-- 4.1 README.md Generator
-- 4.2 User Guide Generator (for non-technical users)
-
-See [prompts/](./prompts/)
-
-### 🔄 Workflow Documentation
-
-- [Workflow Overview](./workflow/workflow-overview.md) - Visual workflow diagram
-- [Prompt Selection Guide](./workflow/prompt-selection-guide.md) - Which prompt to use when
-- [Phase Checklist](./workflow/phase-checklist.md) - Make sure you finish each phase
-
----
-
-## The Four-Phase Workflow
+## What's In This Repo
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                     Phase 1: PLANNING                        │
-│  Product Owner → PRD → Architect → Tech Spec → DB/API       │
-└─────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────┐
-│                  Phase 2: IMPLEMENTATION                     │
-│   Generate Task List → Implement Task #1 → Task #2 → ...    │
-└─────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────┐
-│               Phase 3: REVIEW & REFACTORING                  │
-│   QA Review → Fix Issues → (Optional) Refactor Consult      │
-└─────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────┐
-│                  Phase 4: DOCUMENTATION                      │
-│              README → User Guides → SHIP IT 🚀               │
-└─────────────────────────────────────────────────────────────┘
+ai-dev-orchestrator/
+├── setup.sh                           ← Start here: bootstraps into your project
+├── CONSTITUTION-TEMPLATE.md           ← Copy to your project as CONSTITUTION.md
+│
+├── .claude/                           ← Claude Code integration (copied by setup.sh)
+│   ├── agents/                        ← 6 auto-discovered development agents
+│   │   ├── product-owner-prd.md
+│   │   ├── solutions-architect.md
+│   │   ├── specialist-developer.md
+│   │   ├── qa-engineer.md
+│   │   ├── technical-writer.md
+│   │   └── frontend-design-orchestrator.md
+│   ├── commands/                      ← /orchestrate and /reflect slash commands
+│   └── learnings/                     ← Session learning system
+│
+├── personas/                          ← 5 AI persona definitions (source of agents)
+├── prompts/                           ← 15 copy-paste prompts (manual workflow)
+│   ├── phase-1-planning/              ← 4 prompts: PRD, Tech Spec, DB, API
+│   ├── phase-2-implementation/        ← 3 prompts: Tasks, Implementation, Comments
+│   ├── phase-3-review/                ← 6 prompts: QA, Bugs, Security, Style, Tests, Refactor
+│   └── phase-4-documentation/         ← 2 prompts: README, User Guide
+│
+├── templates/                         ← Constitution templates by project type
+│   ├── internal-tool-constitution.md
+│   ├── client-app-constitution.md
+│   ├── ai-agent-constitution.md
+│   └── claude-project-setup/          ← Template for .claude/ directory structure
+│
+├── examples/                          ← Example constitutions + sample outputs
+├── guides/                            ← Tool-specific setup (Claude Code, Cursor, Replit)
+├── quick-start/                       ← Minimal manual workflow (3 prompts)
+└── workflow/                          ← Phase checklists and prompt selection guide
 ```
+
+---
+
+## The 5 AI Personas
+
+Each persona is a specialist. When you invoke them (via agent in Claude Code, or by copy-pasting the prompt from `personas/`), they stay in character and produce their specific artifact.
+
+| Persona | What they do | Output |
+|---------|-------------|--------|
+| **Product Owner** | Defines what and why | PRD with user stories and acceptance criteria |
+| **Solutions Architect** | Defines how | Tech spec, DB schema, API design |
+| **Specialist Developer** | Implements | Code, task by task |
+| **QA Engineer** | Reviews | Bugs, security issues, edge cases |
+| **Technical Writer** | Documents | README, user guides |
+
+See [`personas/README.md`](./personas/README.md) for full persona definitions.
+
+---
+
+## The 4-Phase Workflow
+
+```
+┌────────────────────────────────────────────────────────────┐
+│  Phase 1: PLANNING                                          │
+│  Product Owner → PRD  →  Architect → Tech Spec             │
+└────────────────────────────────────────────────────────────┘
+                            ↓
+┌────────────────────────────────────────────────────────────┐
+│  Phase 2: IMPLEMENTATION                                    │
+│  Generate Task List → Implement task by task               │
+└────────────────────────────────────────────────────────────┘
+                            ↓
+┌────────────────────────────────────────────────────────────┐
+│  Phase 3: REVIEW                                           │
+│  QA Review → Fix Issues → (Optional) Refactor              │
+└────────────────────────────────────────────────────────────┘
+                            ↓
+┌────────────────────────────────────────────────────────────┐
+│  Phase 4: DOCUMENTATION                                    │
+│  README → User Guides → Session Reflection                 │
+└────────────────────────────────────────────────────────────┘
+```
+
+**Minimum viable flow** (Quick Start):
+1. `1.1-product-owner-prd.md` — define the feature
+2. `2.2-iterative-implementation.md` — build it
+3. `3.1-qa-comprehensive-review.md` — check it
 
 ---
 
 ## Core Principles
 
-### 1. Plan. Prompt. Validate. Refactor.
+**Constitution = The Rules**
+Every AI persona follows `CONSTITUTION.md`. This keeps the tech stack, coding style, and quality bar consistent across every session and every persona.
 
-- **Plan** manually (PRD + Tech Spec) before writing code
-- **Prompt** intentionally (one task, one persona at a time)
-- **Validate** critically (always review AI output)
-- **Refactor** with context (understand trade-offs)
+**One Task at a Time**
+✅ "Implement task #3: Create POST /api/auth/password-reset endpoint"
+❌ "Build the entire password reset system"
 
-### 2. Constitution = The Rules
+**Human as Orchestrator**
+You assign tasks to personas, review outputs, and make the final calls. AI provides expertise, you provide judgment.
 
-Every AI persona must follow `CONSTITUTION.md`:
-- Technical stack (what you use & what you don't)
-- Coding standards (naming, formatting, comments)
-- Security requirements
-- Core principles (simplicity, user-first, etc.)
+**Plan Before Building**
+PRD + Tech Spec before code. Catches misunderstandings before they become bugs.
 
-This keeps everything consistent and on track.
+---
 
-### 3. One Task at a Time
+## Constitution Templates
 
-Don't ask AI to "build the whole feature."
+Not sure how to configure your project? Start with a template:
 
-✅ Do: Implement task #3: "Create POST /api/auth/password-reset endpoint"
-❌ Don't: "Build the entire password reset system"
+- [`templates/internal-tool-constitution.md`](./templates/internal-tool-constitution.md) — team tools (5–50 users, fast iteration)
+- [`templates/client-app-constitution.md`](./templates/client-app-constitution.md) — customer-facing apps (security, polish)
+- [`templates/ai-agent-constitution.md`](./templates/ai-agent-constitution.md) — bots and API services (reliability, integrations)
 
-### 4. Human as Orchestrator
+**Examples with sample outputs:**
+- [Internal tool example](./examples/internal-tool/CONSTITUTION.md) — expense tracker
+- [Client app example](./examples/client-app/CONSTITUTION.md) — SaaS dashboard
+- [AI agent example](./examples/ai-agent/CONSTITUTION.md) — Slack bot
+- [Sample PRD](./examples/sample-outputs/sample-prd.md)
+- [Sample Tech Spec](./examples/sample-outputs/sample-tech-spec.md)
 
-You are not a passive user. You are the conductor:
-- You assign tasks to personas
-- You review each output
-- You make the final decisions
-- AI provides expertise, you provide judgment
+---
+
+## Tool-Specific Setup
+
+- **[Claude Code](./guides/claude-code-setup.md)** — CLI-based, full automation available
+- **[Cursor IDE](./guides/cursor-setup.md)** — Visual, recommended for beginners
+- **[Replit AI](./guides/replit-setup.md)** — Browser-based, instant deployment
+
+---
+
+## Frequently Asked Questions
+
+**Do I need all 15 prompts?**
+No. Minimum viable: PRD → Implementation → QA Review.
+
+**Which AI should I use?**
+Any capable model works: Claude (Sonnet/Opus), GPT-4, Gemini. Claude Code unlocks the automated path.
+
+**Does this work for existing projects?**
+Yes. Run `setup.sh` in your existing project. Claude will scan the codebase and configure `CONSTITUTION.md` based on what it finds.
+
+**Isn't this overkill for small features?**
+For trivial changes (change button text), yes. For anything that requires design decisions, it saves time by catching issues before they become bugs.
 
 ---
 
 ## Why This Works
 
-### Based on Research
-
-This framework combines ideas from:
+This framework is based on research combining:
 - **AI Dev Tasks** methodology (task-based prompting)
 - **Persona-based AI programming** (specialized roles)
-- **Government Digital Service (GDS)** patterns
-- **OWASP** security standards
 - **Constitutional AI** principles
+- **OWASP** security standards
 
-See [RESEARCH-ORIGIN.md](./RESEARCH-ORIGIN.md)
+See [`RESEARCH-ORIGIN-THE-ORCHESTRATORS-PLAYBOOK.md`](./RESEARCH-ORIGIN-THE-ORCHESTRATORS-PLAYBOOK.md) for full citations.
 
-### What Makes It Work
-
-- ✅ Avoids over-engineering by keeping things simple (CONSTITUTION.md)
-- ✅ Prevents scope creep with clear acceptance criteria
-- ✅ Catches bugs early with focused reviews
-- ✅ Keeps everything consistent
-- ✅ Helps you make better decisions by showing tradeoffs
-
----
-
-## Example: Building a Password Reset Feature
-
-### Phase 1: Planning (15 min)
-
-```markdown
-1. Product Owner → Generates PRD with user stories
-2. Solutions Architect → Generates tech spec
-3. Review & approve both documents
-```
-
-**Output:** `docs/password-reset-prd.md`, `docs/password-reset-tech-spec.md`
-
-### Phase 2: Implementation (2-3 hours)
-
-```markdown
-1. Generate task list (17 tasks)
-2. For each task:
-   - Use "Iterative Implementation" prompt
-   - Review code
-   - Test
-   - Commit
-```
-
-**Output:** Working code
-
-### Phase 3: Review (30 min)
-
-```markdown
-1. QA Comprehensive Review → Finds 3 CRITICAL, 2 HIGH, 5 MEDIUM issues
-2. Fix all CRITICAL & HIGH issues
-3. (Optional) Security Audit → Verify fixes
-```
-
-**Output:** Solid, working code
-
-### Phase 4: Documentation (20 min)
-
-```markdown
-1. README Generator → Creates README.md
-2. (Optional) User Guide → For internal users
-```
-
-**Output:** Documented feature
-
-**Total time:** ~3-4 hours for a complete, working feature
-
----
-
-## Project Structure
-
-```
-ai-dev-orchestrator/
-├── README.md                          # This file
-├── SETUP-GUIDE.md                     # Detailed setup instructions
-├── CONSTITUTION-TEMPLATE.md           # Copy this to your projects
-├── RESEARCH-ORIGIN.md                 # The research behind this
-│
-├── personas/                          # AI persona definitions
-│   ├── README.md                      # Persona overview
-│   ├── 01-product-owner.md
-│   ├── 02-solutions-architect.md
-│   ├── 03-specialist-developer.md
-│   ├── 04-qa-engineer.md
-│   └── 05-technical-writer.md
-│
-├── prompts/                           # Copy-paste ready prompts
-│   ├── phase-1-planning/
-│   │   ├── 1.1-product-owner-prd.md
-│   │   ├── 1.2-architect-tech-spec.md
-│   │   ├── 1.3-architect-database-schema.md
-│   │   └── 1.4-architect-api-design.md
-│   ├── phase-2-implementation/
-│   │   ├── 2.1-generate-task-list.md
-│   │   ├── 2.2-iterative-implementation.md
-│   │   └── 2.3-code-commenter.md
-│   ├── phase-3-review/
-│   │   ├── 3.1-qa-comprehensive-review.md
-│   │   ├── 3.2-qa-bugs-edge-cases.md
-│   │   ├── 3.3-qa-security-audit.md
-│   │   ├── 3.4-qa-style-standards.md
-│   │   ├── 3.5-qa-testability.md
-│   │   └── 3.6-architect-refactor-consultation.md
-│   └── phase-4-documentation/
-│       ├── 4.1-readme-generator.md
-│       └── 4.2-user-guide-generator.md
-│
-└── workflow/                          # Process documentation
-    ├── workflow-overview.md
-    ├── prompt-selection-guide.md
-    └── phase-checklist.md
-```
-
----
-
-## Integration with AI Dev Tasks
-
-This framework is compatible with and enhances [AI Dev Tasks](https://github.com/snarktank/ai-dev-tasks):
-
-- **AI Dev Tasks:** Provides task management and workflow structure
-- **AI-Dev-Orchestrator:** Provides the personas, prompts, and quality guardrails
-
-They work well together.
-
----
-
-## Get Started
-
-1. **Read:** [SETUP-GUIDE.md](./SETUP-GUIDE.md)
-2. **Copy:** `CONSTITUTION-TEMPLATE.md` to your project
-3. **Use:** Your first prompt (`1.1-product-owner-prd.md`)
+The session learning system was inspired by [Developers Digest](https://www.youtube.com/watch?v=-4nUCaMNBR8).
 
 ---
 
 ## Contributing
 
-This framework is open for improvement:
-
-- Found a better prompt? Share it
-- Built an example project? Contribute it
-- Have workflow improvements? Open an issue
+Found a better prompt? Improved a persona? Built an interesting example? Open an issue or PR.
 
 ---
 
 ## Credits
 
-**Created by:** Malcolm (with Gemini Deep Research 2.5 Pro + Claude Sonnet 4.5)
-
-**Research Sources:**
-- AI Dev Tasks (snarktank)
-- Persona-Based AI Programming (humanwhocodes.com)
-- GDS Design Principles
-- OWASP Security Standards
-- Constitutional AI (Anthropic)
-
-**Session Learning System:**
-- Inspired by [Developers Digest YouTube channel](https://www.youtube.com/watch?v=-4nUCaMNBR8)
-- Implementation adapted for ai-dev-orchestrator workflow
-
-See [RESEARCH-ORIGIN.md](./RESEARCH-ORIGIN.md) for full citations
+**Created by:** Malcolm (with Gemini Deep Research 2.5 Pro + Claude Sonnet/Opus)
 
 ---
 
 ## License
 
-MIT License - Use freely, attribution appreciated
-
----
-
-**Ready to build better software with AI?**
-
-Start here: [SETUP-GUIDE.md](./SETUP-GUIDE.md)
+MIT — use freely, attribution appreciated.
