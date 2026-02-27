@@ -2,22 +2,36 @@
 
 ## Constitution
 
-This project provides constitution templates for other projects. The templates themselves are in:
+This project provides constitution templates for other projects:
+- `CONSTITUTION-TEMPLATE.md` (main template)
 - `templates/ai-agent-constitution.md`
 - `templates/client-app-constitution.md`
 - `templates/internal-tool-constitution.md`
-- `CONSTITUTION-TEMPLATE.md`
 
 ## Project Context
 
 **Type:** Meta-project (tooling for AI-assisted development)
-**Purpose:** Provide orchestration patterns, personas, and templates for AI-driven development workflows
+**Purpose:** Provide orchestration patterns, personas, agents, and templates for AI-driven development workflows
 
 ## Key Concepts
 
-- **Personas**: Role-based prompts (Product Owner, Architect, Developer, QA, Tech Writer)
-- **Constitutions**: Non-negotiable rules for projects
+- **Personas**: 5 role-based prompt files in `personas/` (Product Owner, Architect, Developer, QA, Tech Writer)
+- **Agents**: Claude Code agent versions of each persona in `.claude/agents/` — auto-discovered by Claude Code
+- **Constitutions**: Non-negotiable project rules — templates in `templates/`, main template at `CONSTITUTION-TEMPLATE.md`
 - **Phases**: Planning → Implementation → Review → Documentation
+- **Prompts**: 15 copy-paste prompts in `prompts/` for manual workflow with any AI tool
+
+## Slash Commands Available
+
+- `/orchestrate` — Full automated 4-phase development workflow (see `.claude/commands/orchestrate.md`)
+- `/reflect` — Session reflection and learnings capture
+
+## Key Files for Understanding This Repo
+
+- `setup.sh` — Bootstrap script to install the framework into another project
+- `ORCHESTRATION-INTEGRATION-GUIDE.md` — How agents + /orchestrate + learnings + superpowers work together
+- `quick-start/README.md` — Manual workflow quickstart (for non-Claude Code users)
+- `guides/claude-code-setup.md` — Claude Code specific setup guide
 
 ## Project Learnings
 
