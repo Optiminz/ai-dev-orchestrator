@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git push)",
+      "Bash(git add /Users/malcolm/Projects/ai-dev-orchestrator/.claude/CLAUDE.md)",
+      "Bash(git -C /Users/malcolm/Projects/ai-dev-orchestrator diff CONSTITUTION-TEMPLATE.md)",
+      "Bash(git -C /Users/malcolm/Projects/ai-dev-orchestrator show HEAD:CONSTITUTION-TEMPLATE.md)",
+      "Bash(git add setup.sh)",
+      "Bash(git commit:*)",
+      "Read(//private/tmp/qa-setup-test/**)",
+      "Bash(test -x /Users/malcolm/Projects/ai-dev-orchestrator/setup.sh)"
+    ],
+    "additionalDirectories": [
+      "/Users/malcolm/Projects/ai-dev-orchestrator/.claude/learnings",
+      "/private/tmp/qa-setup-test",
+      "/Users/malcolm/Projects/oi-app/.claude/learnings"
+    ]
+  }
+}
