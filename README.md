@@ -286,7 +286,7 @@ Found a better prompt? Improved a persona? Built an interesting example? Open an
 
 ## Credits
 
-**Created by:** Malcolm (with Gemini Deep Research 2.5 Pro + Claude Sonnet/Opus)
+**Created by:** Malcolm (with Gemini Deep Research + Claude)
 
 ---
 
