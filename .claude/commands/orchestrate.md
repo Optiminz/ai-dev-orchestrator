@@ -1,929 +1,222 @@
 # Orchestrate: Full AI-Dev Workflow Automation
 
-Orchestrate the complete ai-dev-orchestrator workflow with Ralph Loop + Superpowers skills integration for automated, multi-phase software development.
+Automate a 5-phase development workflow with human approval checkpoints at every stage.
 
 ---
 
 ## What This Does
 
-The `/orchestrate` skill automates the 4-phase ai-dev-orchestrator workflow by:
-1. **Invoking personas** in sequence (Product Owner → Solutions Architect → Developer → QA → Writer)
-2. **Using Ralph Loop** for iterative implementation with self-correction
-3. **Enforcing gates** via stop hooks (constitution, artifacts, quality checks)
-4. **Capturing learnings** at session boundaries
+The `/orchestrate` command takes a feature request and runs it through structured phases — brainstorming, planning, building, reviewing, and documenting — pausing for your approval between each. It uses the superpowers and pr-review-toolkit plugins to handle each phase.
 
-This turns a manual, human-orchestrated workflow into an automated pipeline with human approval checkpoints.
+---
+
+## Prerequisites
+
+Before using `/orchestrate`, ensure you have:
+- CONSTITUTION.md in your project root
+- These plugins installed:
+  - superpowers (brainstorming, TDD, plans, verification)
+  - pr-review-toolkit (code review)
+  - commit-commands (git workflow)
 
 ---
 
 ## Your Task
 
-Execute the full ai-dev-orchestrator workflow for the given feature request, following the 4-phase structure with automated persona handoffs and quality gates.
+Execute the full workflow for the given feature request, following the phases below with human approval between each.
 
 ---
 
-## Phase Overview
+## Phase 0: Explore
 
-```
-Phase 1: Planning & Design
-  ├─ Product Owner → PRD
-  ├─ Solutions Architect → Tech Spec
-  └─ (Optional) DB Schema, API Design
+Invoke the `superpowers:brainstorming` skill to explore the idea with the user.
 
-Phase 2: Implementation
-  ├─ Generate Task List
-  ├─ Ralph Loop → Iterative development
-  └─ Constitution enforcement
+- Clarify requirements and constraints
+- Propose 2-3 approaches with trade-offs
+- Get user approval on the approach before proceeding
 
-Phase 3: Review & Refactoring
-  ├─ QA Engineer → Comprehensive review
-  └─ Fix issues identified
-
-Phase 4: Documentation
-  ├─ Technical Writer → README, guides
-  └─ Session reflection
-```
+Ask user: "Does this capture what you want to build? Approve to continue to planning?"
 
 ---
 
-## Step-by-Step Execution
+## Phase 1: Plan
 
-### Pre-Flight Checks
+Invoke the `superpowers:writing-plans` skill to create an implementation plan.
 
-Before starting, verify:
+- Read CONSTITUTION.md for tech stack and coding standards
+- Create a detailed plan at `docs/plans/YYYY-MM-DD-[feature]-plan.md`
+- Break into bite-sized tasks with exact file paths, code, and test commands
 
-1. **Constitution exists:** Check for `CONSTITUTION.md` in repo root
-2. **Stop hooks configured:** Verify `.claude/hooks/stop/` has required hooks
-3. **Project context loaded:** Read `CLAUDE.md` and `README.md` for context
-4. **Templates available:** Check for artifact templates in `templates/`
-
-If any are missing, inform user and offer to create them.
+Ask user: "Review the plan. Approve to start building?"
 
 ---
 
-### Phase 1: Planning & Design
+## Phase 2: Build
 
-#### Step 1.1: Brainstorm with User (Superpowers)
+Invoke `superpowers:subagent-driven-development` (if tasks are independent) or `superpowers:test-driven-development` (if tasks are sequential).
 
-If the feature is vague or complex, start with brainstorming:
+- Implement task-by-task following the plan
+- Write tests before implementation (TDD)
+- Commit after each completed task
+- Follow CONSTITUTION.md coding standards throughout
 
-```
-Use /brainstorming skill if:
-- Feature request is <50 words
-- Multiple design approaches possible
-- User needs or requirements unclear
-```
-
-**Output:** Clarified requirements and approach
-
-#### Step 1.2: Create PRD (Product Owner Persona)
-
-Invoke the Product Owner persona to create a PRD:
-
-1. Read `personas/01-product-owner.md` for behavior guidelines
-2. Create a PRD artifact at `docs/[feature-name]-prd.md`
-3. Include:
-   - Feature description
-   - User stories (As a X, I want Y, so that Z)
-   - Acceptance criteria (testable checkpoints)
-   - Success metrics
-   - Out-of-scope items
-
-**Quality Gate (Stop Hook):**
-- ✓ PRD file exists at `docs/[feature-name]-prd.md`
-- ✓ Contains at least 3 user stories
-- ✓ Each story has acceptance criteria
-- ✓ Aligns with CONSTITUTION.md principles
-
-Ask user: "Review PRD. Approve to continue to technical design?"
-
-#### Step 1.3: Create Tech Spec (Solutions Architect Persona)
-
-Invoke the Solutions Architect persona to create technical design:
-
-1. Read `personas/02-solutions-architect.md` for behavior guidelines
-2. Read the PRD created in Step 1.2
-3. Create a Tech Spec at `docs/[feature-name]-tech-spec.md`
-4. Include:
-   - Architecture overview
-   - File changes (new files, modifications)
-   - Data models and schemas
-   - API endpoints (if applicable)
-   - Dependencies and integrations
-   - Risk analysis
-
-**Quality Gate (Stop Hook):**
-- ✓ Tech Spec file exists at `docs/[feature-name]-tech-spec.md`
-- ✓ References PRD user stories
-- ✓ Tech stack matches CONSTITUTION.md
-- ✓ No prohibited technologies used
-- ✓ Type sharing patterns followed (if TypeScript)
-
-Ask user: "Review Tech Spec. Approve to generate task list?"
-
-#### Step 1.4: Optional - Database/API Design
-
-If the tech spec indicates database changes or new APIs:
-
-- **Database Schema:** Create `docs/[feature-name]-schema.sql`
-- **API Design:** Create `docs/[feature-name]-api-spec.yaml` (OpenAPI 3.0)
-
-**Quality Gate (Stop Hook):**
-- ✓ Schema includes indexes and constraints
-- ✓ API spec includes request/response schemas
+Ask user: "Implementation complete. Ready for review?"
 
 ---
 
-### Phase 2: Implementation
+## Phase 3: Review
 
-#### Step 2.1: Generate Task List
+Invoke `pr-review-toolkit:review-pr` to run a comprehensive code review.
 
-Break the tech spec into 10-30 discrete tasks:
+This fires six specialized reviewers:
+- Silent failure hunter
+- Type design analyzer
+- PR test analyzer
+- Code reviewer
+- Code simplifier
+- Comment analyzer
 
-1. Read tech spec
-2. Create `docs/[feature-name]-tasks.md`
-3. Each task should be:
-   - Completable in 30-60 minutes
-   - Testable independently
-   - Clearly defined with acceptance criteria
+If issues are found:
+- CRITICAL/HIGH: Fix before proceeding
+- MEDIUM/LOW: Ask user whether to fix now or defer
 
-**Task Format:**
-```markdown
-## Task List
+After fixes, run `superpowers:verification-before-completion` to verify all tests pass and all claims are accurate.
 
-- [ ] Task 1: Setup database table for X
-  - Create migration file
-  - Add indexes on Y and Z columns
-  - Acceptance: Migration runs without errors
-
-- [ ] Task 2: Create API endpoint POST /api/users
-  - Implement route handler
-  - Add input validation with Zod
-  - Write unit tests (>80% coverage)
-  - Acceptance: Tests pass, endpoint returns 201
-```
-
-**Quality Gate (Stop Hook):**
-- ✓ Task list exists
-- ✓ Each task has acceptance criteria
-- ✓ Tasks ordered by dependencies
-
-#### Step 2.2: Test-Driven Development Setup (Superpowers)
-
-Before implementation, set up tests:
-
-```
-Use /test-driven-development skill to:
-- Create test files for each component
-- Write failing tests based on acceptance criteria
-- Define expected behavior
-```
-
-**Output:** Test suite ready for TDD workflow
-
-#### Step 2.3: Ralph Loop Implementation
-
-Start Ralph Loop to implement tasks iteratively:
-
-**Ralph Loop Configuration:**
-```bash
-/ralph-loop "Implement tasks from docs/[feature-name]-tasks.md one at a time.
-For each task:
-1. Read CONSTITUTION.md for coding standards
-2. Implement following type sharing patterns
-3. Write code with meaningful comments (explain WHY)
-4. Run tests after implementation
-5. Mark task complete in task list
-6. Commit with message: 'feat: [task description]'
-
-Continue until all tasks complete.
-Output <promise>ALL TASKS COMPLETE</promise> when done."
---completion-promise "ALL TASKS COMPLETE"
---max-iterations 50
-```
-
-**During Ralph Loop:**
-
-The following stop hooks run after each iteration:
-
-1. **Constitution Check Hook** (priority 10)
-   - Validates naming conventions
-   - Checks for prohibited patterns
-   - Verifies error handling exists
-   - Blocks if violations found
-
-2. **Test Validation Hook** (priority 20)
-   - Runs test suite
-   - Blocks if tests fail
-   - Requires >70% coverage for business logic
-
-3. **Security Audit Hook** (priority 30)
-   - Checks for common vulnerabilities
-   - Validates input sanitization
-   - Warns on security issues
-
-4. **Ralph Loop Hook** (priority 5)
-   - Checks for completion promise
-   - Feeds same prompt back if not found
-   - Tracks iteration count
-
-**Persona Behavior During Ralph:**
-- Invoke `personas/03-specialist-developer.md` behavior
-- Follow CONSTITUTION.md coding standards
-- Write meaningful comments (explain "why" not "what")
-- One task at a time
-- Test after each task
-- Commit frequently
-
-**Quality Gate (Stop Hook):**
-- ✓ All tasks marked complete in task list
-- ✓ All tests passing
-- ✓ No constitution violations
-- ✓ Code committed to git
+Ask user: "Review complete. Approve to write documentation?"
 
 ---
 
-### Phase 3: Review & Refactoring
+## Phase 4: Document
 
-#### Step 3.1: QA Engineer Review
+Use the Technical Writer agent (`.claude/agents/technical-writer.md`) to create or update documentation:
 
-Invoke QA Engineer persona for comprehensive review:
+- Update README.md with feature documentation
+- Add usage examples and code samples
+- Document API endpoints if applicable
+- Add troubleshooting for common issues
 
-1. Read `personas/04-qa-engineer.md` for behavior guidelines
-2. Review all code changes since phase 2 started
-3. Create `docs/[feature-name]-qa-review.md`
-4. Include:
-   - **Issues Found** (categorized: CRITICAL, HIGH, MEDIUM, LOW)
-   - **Security Vulnerabilities** (with OWASP category)
-   - **Edge Cases** (scenarios not covered)
-   - **Code Quality** (readability, maintainability)
-   - **Test Coverage** (gaps in test suite)
-   - **Performance Concerns**
-   - **Recommendation** (Ship / Fix First / Major Refactor Needed)
+Then run `/wrap` to capture session learnings and produce a summary.
 
-**Quality Gate (Stop Hook):**
-- ✓ QA Review exists
-- ✓ No CRITICAL issues unresolved
-- ✓ HIGH issues have remediation plan
-
-#### Step 3.2: Fix Issues
-
-If QA review found issues:
-
-**For CRITICAL/HIGH issues:**
-- Use Ralph Loop to fix iteratively
-- Re-run QA review after fixes
-
-**For MEDIUM/LOW issues:**
-- Ask user: "These non-critical issues found. Fix now or defer?"
-
-#### Step 3.3: Verification (Superpowers)
-
-Before moving to documentation:
-
-```
-Use /verification-before-completion skill to:
-- Verify all claims made are accurate
-- Run full test suite
-- Confirm no regressions introduced
-- Validate acceptance criteria met
-```
-
-**Quality Gate (Stop Hook):**
-- ✓ All tests passing
-- ✓ CRITICAL/HIGH issues resolved
-- ✓ Acceptance criteria from PRD met
+Ask user: "Documentation complete. Ready to ship?"
 
 ---
 
-### Phase 4: Documentation
+## Ship
 
-#### Step 4.1: Technical Writer Documentation
-
-Invoke Technical Writer persona:
-
-1. Read `personas/05-technical-writer.md` for behavior guidelines
-2. Create or update `README.md`
-3. Include:
-   - **What:** Feature description (user-facing)
-   - **Why:** Problem it solves
-   - **How to use:** Code examples
-   - **API reference:** If endpoints added
-   - **Setup/Installation:** If dependencies added
-   - **Troubleshooting:** Common issues
-
-**Optional Documentation:**
-- User guide for non-technical users
-- API documentation (if public API)
-- Architecture decision records (ADRs)
-
-**Quality Gate (Stop Hook):**
-- ✓ README.md updated
-- ✓ Code examples tested and working
-- ✓ All public APIs documented
-
-#### Step 4.2: Session Reflection (Superpowers)
-
-Capture learnings from this session:
-
-```
-Use /reflect skill to:
-- Document what worked well
-- Record mistakes to avoid
-- Capture architectural decisions
-- Update project learnings
-```
-
-**Output:**
-- `.claude/learnings/insights.md` updated
-- `.claude/learnings/decisions.md` updated
-- `.claude/learnings/gotchas.md` updated
-
-#### Step 4.3: Request Code Review (Superpowers)
-
-Before merging:
-
-```
-Use /requesting-code-review skill to:
-- Summarize changes
-- Highlight key decisions
-- Request human review
-```
-
----
-
-## Workflow State Tracking
-
-Throughout orchestration, maintain state in `.claude/workflow-state.yaml`:
-
-```yaml
-feature_name: user-authentication
-current_phase: implementation
-current_persona: specialist-developer
-current_task: 8
-total_tasks: 15
-artifacts_completed:
-  - PRD.md
-  - TECH-SPEC.md
-  - TASK-LIST.md
-artifacts_pending:
-  - QA-REVIEW.md
-  - README.md
-constitution_violations: 0
-test_coverage: 82%
-last_updated: 2026-01-28T14:30:00Z
-```
-
-This allows pausing and resuming orchestration.
+Invoke `superpowers:finishing-a-development-branch` to decide how to integrate the work:
+- Merge directly (if on a feature branch)
+- Create a PR (for team review)
+- Cleanup (if experimental)
 
 ---
 
 ## User Interaction Points
 
-The user is prompted for approval at these checkpoints:
+You pause for approval at these checkpoints:
 
-1. **After PRD created:** "Review PRD. Approve to continue?"
-2. **After Tech Spec created:** "Review Tech Spec. Approve to generate tasks?"
-3. **After Task List generated:** "Review task list. Approve to start implementation?"
-4. **After QA Review:** "Issues found. Review and approve fixes?"
-5. **After Documentation:** "Review docs. Ready to merge?"
+1. After brainstorming: "Does this capture what you want?"
+2. After planning: "Review the plan. Ready to build?"
+3. After building: "Implementation complete. Ready for review?"
+4. After review: "Review complete. Approve documentation?"
+5. After documentation: "Ready to ship?"
 
-Between checkpoints, orchestration runs autonomously via Ralph Loop.
-
----
-
-## Stop Hook Integration
-
-The orchestration relies on these stop hooks (priority order):
-
-```
-~/.claude/hooks/stop/
-├── 01-ralph-loop.sh           # Ralph loop control
-├── 10-constitution-check.sh   # Validate against CONSTITUTION.md
-├── 20-test-validation.sh      # Run tests, block on failure
-├── 30-artifact-gates.sh       # Verify required artifacts exist
-├── 40-persona-handoff.sh      # Auto-transition to next persona
-├── 50-security-audit.sh       # Security vulnerability scanning
-├── 60-quality-gates.sh        # Code quality thresholds
-├── 90-auto-commit.sh          # Auto-commit if checks pass
-└── 99-session-learning.sh     # Prompt for /reflect
-```
-
-**How Hooks Enforce Workflow:**
-
-- **Ralph Hook** (01): Checks for completion promise, feeds prompt back if not found
-- **Constitution Hook** (10): Parses CONSTITUTION.md, validates naming, patterns, tech stack
-- **Test Hook** (20): Runs `npm test` or equivalent, blocks exit if fail
-- **Artifact Hook** (30): Checks phase requirements (e.g., PRD required before tech spec)
-- **Handoff Hook** (40): Transitions to next persona when artifacts complete
-- **Security Hook** (50): Runs `npm audit` or equivalent, warns on HIGH+ issues
-- **Quality Hook** (60): Checks test coverage, linting, formatting
-- **Commit Hook** (90): Auto-commits if all checks pass
-- **Learning Hook** (99): Prompts `/reflect` if significant work done
+Between checkpoints, work autonomously. Only pause for approval, not micro-decisions.
 
 ---
 
-## Error Handling
+## Usage
 
-### If Ralph Loop Fails
+### Full workflow
+```
+/orchestrate "Build user authentication with email and OAuth"
+```
 
-If Ralph exceeds max iterations without completion:
-
-1. **Analyze state:** Read task list, check what's incomplete
-2. **Diagnose blocker:** Is a test failing? Constitution violation?
-3. **Ask user:** "Ralph Loop incomplete after N iterations. Issue: [X]. How to proceed?"
-4. **Options:**
-   - Continue with increased max-iterations
-   - Switch to manual task-by-task
-   - Pause and review
-
-### If Constitution Violations Found
-
-If stop hooks detect violations:
-
-1. **Show violations:** List specific issues with file:line
-2. **Auto-fix if possible:** Simple fixes (naming, formatting)
-3. **Block if critical:** Security issues, prohibited tech
-4. **Ask user:** "Constitution violations found. [Details]. Fix now?"
-
-### If Tests Fail
-
-If tests fail during implementation:
-
-1. **Show failures:** Test output with stack traces
-2. **Ralph continues:** Ralph Loop attempts to fix
-3. **If repeated failures:** After 3 attempts, pause and ask user
+### Skip to a specific phase
+```
+/orchestrate --phase build    # Skip straight to Phase 2
+/orchestrate --phase review   # Skip to Phase 3
+/orchestrate --phase docs     # Skip to Phase 4
+```
 
 ---
 
-## Resume Capability
-
-If orchestration is interrupted, resume with:
+## Example Run
 
 ```
-/orchestrate --resume [feature-name]
-```
+You: /orchestrate "Add a comments system to blog posts"
 
-This reads `.claude/workflow-state.yaml` and continues from last checkpoint.
+Claude (Phase 0 — Explore):
+  Using superpowers:brainstorming...
+  ✓ Explored requirements
+  ✓ Proposed 3 approaches (nested comments, flat, threaded)
+  → Does this capture what you want? [y/n]
 
----
+You: y — go with threaded comments
 
-## Customization Options
+Claude (Phase 1 — Plan):
+  Using superpowers:writing-plans...
+  ✓ Created plan at docs/plans/2026-03-09-comments-plan.md
+  ✓ 12 tasks identified
+  → Review the plan. Ready to build? [y/n]
 
-### Quick Mode (Skip Planning)
+You: y
 
-If PRD and Tech Spec already exist:
+Claude (Phase 2 — Build):
+  Using superpowers:subagent-driven-development...
+  ✓ Task 1/12: Comment model + migration (tests passing)
+  ✓ Task 2/12: Comment API endpoints (tests passing)
+  ... [continues task by task] ...
+  ✓ Task 12/12: Comment notification preferences
+  → Implementation complete. Ready for review? [y/n]
 
-```
-/orchestrate --skip-planning --tasks-from docs/existing-tasks.md
-```
+You: y
 
-Jumps directly to Phase 2 implementation.
+Claude (Phase 3 — Review):
+  Using pr-review-toolkit:review-pr...
+  ✓ 6 specialized reviewers completed
+  Found: 1 MEDIUM issue (missing rate limiting on comment creation)
+  → Fix now? [y/n]
 
-### Selective Phases
+You: y
 
-Run only specific phases:
+Claude:
+  ✓ Added rate limiting
+  ✓ Verification: all tests passing, no regressions
 
-```
-/orchestrate --phase implementation   # Phase 2 only
-/orchestrate --phase review          # Phase 3 only
-/orchestrate --phase docs            # Phase 4 only
-```
+Claude (Phase 4 — Document):
+  ✓ Updated README with comments feature docs
+  ✓ Added API examples
+  ✓ Session learnings captured via /wrap
+  → Ready to ship? [y/n]
 
-### Constitution Override
+You: y
 
-For experimental features:
-
-```
-/orchestrate --no-constitution-checks
-```
-
-**⚠️ Warning:** Only use for prototyping. Not recommended for production.
-
----
-
-## Success Criteria
-
-Orchestration is complete when:
-
-- ✓ All 4 phases executed
-- ✓ All artifacts created (PRD, Tech Spec, Task List, QA Review, README)
-- ✓ All tests passing
-- ✓ No CRITICAL/HIGH issues unresolved
-- ✓ Code committed to git
-- ✓ Session learnings captured
-- ✓ User approved final state
-
-**Final Output:**
-```
-✓ Orchestration Complete
-
-Feature: [name]
-Artifacts: PRD, Tech Spec, Tasks, QA Review, README
-Tasks Completed: 15/15
-Test Coverage: 85%
-Constitution Violations: 0
-Time: 2h 30m (Ralph iterations: 23)
-
-Ready to merge. Run /finishing-a-development-branch for PR workflow.
+Claude (Ship):
+  Using superpowers:finishing-a-development-branch...
+  → Created PR #47: "feat: add threaded comments system"
 ```
 
 ---
 
 ## Key Principles
 
-1. **Autonomous execution** - Human approval only at checkpoints, not micro-decisions
-2. **Constitution as law** - CONSTITUTION.md is non-negotiable source of truth
-3. **Persona specialization** - Each persona has one job, does it well
-4. **Iterative refinement** - Ralph Loop enables self-correction
-5. **Quality gates** - Stop hooks enforce standards automatically
-6. **Learning capture** - Every session improves future orchestration
-
----
-
-## Example Usage
-
-### Full Workflow
-
-```
-You: /orchestrate "Build user authentication with email/password and OAuth"
-
-Claude (Phase 1 - Planning):
-  ✓ Reading CONSTITUTION.md for project context
-  ✓ Invoking Product Owner persona
-  ✓ Creating PRD at docs/user-auth-prd.md
-  → Review PRD. Approve to continue? [y/n]
-
-You: y
-
-Claude (Phase 1 - Design):
-  ✓ Invoking Solutions Architect persona
-  ✓ Creating Tech Spec at docs/user-auth-tech-spec.md
-  → Tech stack validated against CONSTITUTION.md
-  → Review Tech Spec. Approve to generate tasks? [y/n]
-
-You: y
-
-Claude (Phase 2 - Implementation):
-  ✓ Generating task list (18 tasks)
-  ✓ Created docs/user-auth-tasks.md
-  → Review task list. Approve to start implementation? [y/n]
-
-You: y
-
-Claude (Phase 2 - Implementation):
-  ✓ Starting Ralph Loop (max 50 iterations)
-  ✓ Invoking Specialist Developer persona
-
-  [Ralph Iteration 1]
-    → Implementing Task 1: Create user model
-    → Tests passing ✓
-    → Committed: feat(auth): create user model
-
-  [Ralph Iteration 2]
-    → Implementing Task 2: Add password hashing
-    → Tests passing ✓
-    → Committed: feat(auth): add bcrypt password hashing
-
-  ... [Ralph continues iteratively] ...
-
-  [Ralph Iteration 18]
-    → Implementing Task 18: Add OAuth callback handling
-    → Tests passing ✓
-    → Committed: feat(auth): add OAuth callback handling
-    → <promise>ALL TASKS COMPLETE</promise>
-
-  ✓ Ralph Loop complete (18/18 tasks done)
-
-Claude (Phase 3 - Review):
-  ✓ Invoking QA Engineer persona
-  ✓ Running comprehensive review
-  ✓ Created docs/user-auth-qa-review.md
-
-  Issues Found:
-    - MEDIUM: Missing rate limiting on login endpoint
-    - LOW: Inconsistent error messages
-
-  → Fix issues now? [y/n]
-
-You: y
-
-Claude:
-  ✓ Fixed MEDIUM issue: Added rate limiting (5 attempts/15 min)
-  ✓ Fixed LOW issue: Standardized error messages
-  ✓ Tests passing (coverage: 87%)
-
-Claude (Phase 4 - Documentation):
-  ✓ Invoking Technical Writer persona
-  ✓ Updated README.md with auth documentation
-  ✓ Added API examples
-  ✓ Created troubleshooting guide
-
-  ✓ Running /reflect for session learnings
-  ✓ Updated .claude/learnings/insights.md
-
-  ✓ Orchestration Complete!
-
-  Feature: user-authentication
-  Tasks: 18/18 ✓
-  Coverage: 87%
-  Constitution: ✓
-
-  Ready to merge. Run /finishing-a-development-branch for PR workflow.
-```
-
-### Quick Mode (Existing Design)
-
-```
-You: /orchestrate --skip-planning --tasks-from docs/existing-tasks.md
-
-Claude:
-  ✓ Skipping Phase 1 (planning)
-  ✓ Reading task list from docs/existing-tasks.md
-  ✓ Starting Ralph Loop for implementation...
-
-  [Continues from Phase 2]
-```
-
-### Resume After Interruption
-
-```
-You: /orchestrate --resume user-authentication
-
-Claude:
-  ✓ Reading workflow state from .claude/workflow-state.yaml
-  ✓ Resuming from Phase 2, Task 12/18
-  ✓ Re-invoking Specialist Developer persona
-  ✓ Continuing Ralph Loop...
-```
-
----
-
-## Implementation Notes for Claude
-
-When executing this skill:
-
-### 1. Read Context First
-
-Before starting any phase:
-- Read `CONSTITUTION.md` for tech stack and rules
-- Read `CLAUDE.md` for project-specific context
-- Read persona files from `personas/` directory
-- Check for existing artifacts in `docs/`
-
-### 2. Maintain State File
-
-Create and update `.claude/workflow-state.yaml` after each checkpoint:
-
-```yaml
-feature_name: [extracted from user request]
-start_time: [ISO timestamp]
-current_phase: [planning|implementation|review|documentation]
-current_persona: [product-owner|solutions-architect|specialist-developer|qa-engineer|technical-writer]
-artifacts:
-  prd: [filepath or null]
-  tech_spec: [filepath or null]
-  task_list: [filepath or null]
-  qa_review: [filepath or null]
-  readme: [filepath or null]
-checkpoints:
-  - timestamp: [ISO]
-    phase: [name]
-    action: [description]
-    approved: [true|false]
-```
-
-### 3. Persona Invocation Pattern
-
-When invoking a persona:
-
-```markdown
-I'm now operating as the **[Persona Name]** persona.
-
-[Read persona file for specific behavior guidelines]
-
-My responsibilities for this phase:
-- [Responsibility 1]
-- [Responsibility 2]
-- [Responsibility 3]
-
-[Execute persona-specific work]
-
-[Create artifact]
-
-[Validate artifact against quality checklist]
-```
-
-### 4. Ralph Loop Management
-
-When starting Ralph Loop:
-
-1. **Create Ralph state file:** `.claude/.ralph-loop.local.md`
-2. **Track iterations:** Increment counter after each
-3. **Check for promise:** After each iteration, scan output for `<promise>` tag
-4. **Respect max-iterations:** Stop if exceeded, ask user how to proceed
-5. **Commit frequently:** After each successful task completion
-
-### 5. Stop Hook Awareness
-
-Understand that stop hooks run AFTER you try to exit:
-
-- If constitution violation, hook will block and show errors
-- If tests fail, hook will block and show failures
-- If artifacts missing, hook will block and show what's required
-- If Ralph active, hook will feed prompt back to continue loop
-
-Design your work to satisfy stop hooks before attempting to exit each phase.
-
-### 6. User Approval Pattern
-
-At each checkpoint:
-
-```markdown
-✓ [Phase] complete.
-
-[Summary of what was done]
-
-[Show key artifacts or outputs]
-
-→ Review [artifact]. Approve to continue to [next phase]? [y/n]
-```
-
-Wait for user response before proceeding. If user says "no", ask what needs to change.
-
-### 7. Error Recovery
-
-If anything fails:
-
-1. **Explain what failed** (don't just say "error occurred")
-2. **Show relevant output** (test failures, errors, etc.)
-3. **Propose solution** (what you'll try next)
-4. **Ask user** if they approve the solution or have alternative
-
-Never fail silently. Never retry indefinitely without asking user.
-
-### 8. Learning Capture
-
-At the end of orchestration:
-
-```markdown
-Session complete. Capturing learnings...
-
-What worked well:
-- [Pattern or approach that was effective]
-
-Mistakes to avoid:
-- [Issue encountered and how to prevent]
-
-Architectural decisions:
-- [Key choices made and rationale]
-
-→ Updating .claude/learnings/ files
-✓ Learnings captured for future sessions
-```
+1. **Autonomous between checkpoints** — Human approval at phase transitions, not micro-decisions
+2. **Constitution as law** — CONSTITUTION.md is the non-negotiable source of truth for standards
+3. **Plugin-powered** — Each phase delegates to the best available plugin/skill
+4. **Quality gates** — Review phase runs 6 specialized checks, verification proves claims
+5. **Learning capture** — Every session improves future orchestration via /wrap
 
 ---
 
 ## Dependencies
 
-This skill requires:
-
 ### Required
-
-- ✓ CONSTITUTION.md in repo root
-- ✓ Persona files in `personas/` directory
-- ✓ Stop hooks in `.claude/hooks/stop/` (or `~/.claude/hooks/stop/`)
-- ✓ Git repository initialized
-- ✓ Test framework configured
+- CONSTITUTION.md in repo root
+- superpowers plugin installed
+- pr-review-toolkit plugin installed
+- commit-commands plugin installed
+- Git repository initialized
 
 ### Optional
-
-- Artifact templates in `templates/` directory
-- Example outputs in `examples/` directory
-- Project-specific `CLAUDE.md`
-
-### Stop Hooks
-
-Create these hooks for full orchestration functionality:
-
-```bash
-# Required hooks (must exist)
-01-ralph-loop.sh          # Ralph Loop control
-10-constitution-check.sh  # Constitution enforcement
-20-test-validation.sh     # Test runner
-
-# Recommended hooks
-30-artifact-gates.sh      # Artifact validation
-40-persona-handoff.sh     # Auto persona transitions
-90-auto-commit.sh         # Auto commits
-
-# Optional hooks
-50-security-audit.sh      # Security scanning
-60-quality-gates.sh       # Code quality checks
-99-session-learning.sh    # Learning prompts
-```
-
-If hooks don't exist, warn user and offer to create them.
-
----
-
-## Troubleshooting
-
-### "Constitution file not found"
-
-Create CONSTITUTION.md from template:
-```bash
-cp /path/to/ai-dev-orchestrator/CONSTITUTION-TEMPLATE.md CONSTITUTION.md
-```
-
-Then customize for your project.
-
-### "Persona files not found"
-
-Ensure `personas/` directory exists with these files:
-- `01-product-owner.md`
-- `02-solutions-architect.md`
-- `03-specialist-developer.md`
-- `04-qa-engineer.md`
-- `05-technical-writer.md`
-
-### "Stop hooks not configured"
-
-Create hook directory and required scripts:
-```bash
-mkdir -p .claude/hooks/stop
-# Copy hooks from ai-dev-orchestrator/hooks/ directory
-```
-
-### "Ralph Loop not stopping"
-
-Check for completion promise in output. If missing:
-- Verify promise format: `<promise>TEXT</promise>`
-- Check max-iterations not exceeded
-- Inspect Ralph state file: `.claude/.ralph-loop.local.md`
-
----
-
-## Advanced: Custom Orchestration
-
-For specialized workflows, extend orchestration:
-
-### Add Custom Persona
-
-1. Create persona file: `personas/06-my-custom-persona.md`
-2. Add to orchestration sequence in this skill
-3. Define handoff points from/to other personas
-
-### Add Custom Phase
-
-Insert new phase between existing ones:
-
-```markdown
-Phase 2.5: Security Hardening
-  ├─ Security Specialist Persona → Threat model
-  ├─ Penetration testing
-  └─ Vulnerability remediation
-```
-
-### Add Custom Gate
-
-Create stop hook for custom validation:
-
-```bash
-# .claude/hooks/stop/45-custom-gate.sh
-#!/bin/bash
-
-# Your custom validation logic
-if [[ condition ]]; then
-  echo "✓ Custom gate passed"
-  exit 0
-else
-  echo "❌ Custom gate failed: reason"
-  exit 1  # Block exit
-fi
-```
-
----
-
-## Related Skills
-
-- `/brainstorming` - Pre-planning exploration (Phase 0)
-- `/writing-plans` - Alternative to Product Owner + Architect
-- `/test-driven-development` - TDD setup before implementation
-- `/verification-before-completion` - Additional validation in Phase 3
-- `/requesting-code-review` - Human review before merge
-- `/finishing-a-development-branch` - Post-orchestration merge workflow
-- `/reflect` - Session learning capture (auto-invoked)
-
----
-
-## Version
-
-**Skill Version:** 1.0.0
-**Created:** 2026-01-28
-**Author:** Malcolm (with Claude Opus 4.5)
-**Framework:** ai-dev-orchestrator + Ralph Loop + Superpowers
-
----
-
-*This skill automates the ai-dev-orchestrator workflow by combining persona-based development with Ralph Loop iteration and stop hook enforcement. It transforms a manual, human-orchestrated process into an autonomous pipeline with quality gates and human approval checkpoints.*
+- .claude/agents/technical-writer.md (for Phase 4 — falls back to default behavior)
+- CONSTITUTION.md Section 3 filled in with actual tech stack (not placeholders)
