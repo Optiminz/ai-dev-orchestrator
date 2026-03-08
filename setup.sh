@@ -10,8 +10,7 @@
 #
 # What it installs:
 #   CONSTITUTION.md               Project rules template (customize this)
-#   .claude/agents/               6 AI development agents for Claude Code
-#   .claude/commands/             /orchestrate and /reflect slash commands
+#   .claude/commands/             /orchestrate, /reflect, and /wrap slash commands
 #   .claude/learnings/            Session learning files
 #   .claude/CLAUDE.md             Claude Code project config (with first-run setup)
 # =============================================================================
@@ -44,19 +43,14 @@ echo ""
 if [ -f "$TARGET/CONSTITUTION.md" ]; then
   echo "⚠  CONSTITUTION.md already exists — skipping (keeping yours)"
 else
-  cp "$SCRIPT_DIR/CONSTITUTION-TEMPLATE.md" "$TARGET/CONSTITUTION.md"
+  cp "$SCRIPT_DIR/05-constitutions/CONSTITUTION-TEMPLATE.md" "$TARGET/CONSTITUTION.md"
   echo "✓  CONSTITUTION.md created"
 fi
 
 # ── .claude directory structure ───────────────────────────────────────────────
 
-mkdir -p "$TARGET/.claude/agents"
 mkdir -p "$TARGET/.claude/commands"
 mkdir -p "$TARGET/.claude/learnings"
-
-# Agents
-cp "$SCRIPT_DIR/.claude/agents/"*.md "$TARGET/.claude/agents/"
-echo "✓  .claude/agents/ — 6 development agents installed"
 
 # Commands
 cp "$SCRIPT_DIR/.claude/commands/orchestrate.md" "$TARGET/.claude/commands/"
@@ -112,18 +106,10 @@ else
 
 This project uses ai-dev-orchestrator for structured AI-assisted development.
 
-### Available Agents (Claude Code)
-6 specialized agents in `.claude/agents/` — auto-discovered by Claude Code:
-- **Product Owner** — Creates PRDs and defines requirements
-- **Solutions Architect** — Designs technical specs, schemas, APIs
-- **Specialist Developer** — Implements code task-by-task
-- **QA Engineer** — Reviews for quality, bugs, and security
-- **Technical Writer** — Creates documentation
-- **Frontend Design Orchestrator** — UI components and design systems
-
 ### Slash Commands
 - `/orchestrate` — Full 4-phase development workflow (plan → build → review → document)
 - `/reflect` — Capture session learnings
+- `/wrap` — End-of-session cleanup and handoff
 
 ## Project Learnings
 

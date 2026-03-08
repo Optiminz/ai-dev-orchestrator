@@ -7,6 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.0.0] - 2026-03-09
+
+### Added
+- `01-learn-claude-code/` — Claude Code fundamentals for beginners (what it is, install, core concepts, essential plugins, permissions guidance)
+- `02-starter-kit/` — Copyable `.claude/` config with recommended plugins list
+- `06-orchestrate/README.md` — Modernized orchestration docs with plugin mapping
+- Wrap skill recommended for end-of-session cleanup
+
+### Changed
+- **README.md** rewritten as beginner-first landing page with learning path
+- **`/orchestrate`** modernized — uses superpowers + pr-review-toolkit instead of custom agents (927 → 222 lines)
+- **`setup.sh`** updated — no longer copies agents (plugins supersede)
+- `quick-start/` → `03-your-first-feature/`
+- `prompts/` → `04-prompts/`
+- `templates/` + `examples/` → `05-constitutions/` (consolidated)
+- `workflow/` → absorbed into `06-orchestrate/`
+
+### Removed
+- Custom agents: product-owner, solutions-architect, specialist-developer, qa-engineer, frontend-design-orchestrator (superseded by superpowers + pr-review-toolkit plugins)
+- `guides/claude-code-setup.md` (content moved to `01-learn-claude-code/`)
+- `guides/getting-started.md` (content absorbed into `03-your-first-feature/`)
+- `guides/replit-setup.md` (out of scope — focus is Claude Code + Cursor)
+- Stop hook references in /orchestrate (never existed as actual scripts)
+- Ralph Loop hard dependency in /orchestrate (superpowers handles iteration)
+
+---
+
 ## [2.1.0] - 2026-02-27
 
 ### Added
