@@ -59,6 +59,20 @@ Example: create `.claude/agents/technical-writer.md` describing how Claude shoul
 
 ---
 
+### Permissions (.claude/settings.json)
+
+Without configuration, Claude Code asks you to approve almost every action — file edits, terminal commands, git operations. This gets tedious fast. You can configure permissions per-project in `.claude/settings.json` to reduce the noise.
+
+Ask Claude to set up permissions for you: "Configure permissions for this project — it's a [low/medium/high] risk project." Claude will create a sensible `.claude/settings.json` based on your risk level:
+
+- **Low risk** (personal projects, learning): Allow most file edits and common commands automatically. You approve only destructive operations.
+- **Medium risk** (team projects, production code): Allow reads and safe commands automatically. Approve writes to critical files and any destructive operations.
+- **High risk** (client projects, sensitive data): Approve most actions explicitly. Only allow reads and non-destructive commands automatically.
+
+The key settings are `allowedTools` (which tools run without asking) and bash command patterns. Set these early — it dramatically improves your workflow.
+
+---
+
 ### Hooks
 
 Shell commands that run automatically when specific events occur in Claude Code. Think of them as triggers attached to Claude's actions.
@@ -71,4 +85,4 @@ Configure hooks in `.claude/settings.json` under the `"hooks"` key. Common uses:
 
 Markdown files where Claude captures patterns, mistakes, and decisions from your sessions. Because they persist across sessions, Claude does not repeat the same mistakes twice on your project.
 
-Run `/reflect` at the end of a work session to prompt Claude to write down what it learned. Over time, these files accumulate project-specific knowledge — what broke, what worked, why certain decisions were made — and Claude consults them at the start of future sessions.
+Run `/reflect` or `/wrap` at the end of a work session to prompt Claude to capture what it learned. `/wrap` is the more comprehensive option — it handles learnings capture, cleanup, and session summary in one step. Over time, these files accumulate project-specific knowledge — what broke, what worked, why certain decisions were made — and Claude consults them at the start of future sessions.

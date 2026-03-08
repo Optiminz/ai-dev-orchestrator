@@ -127,6 +127,12 @@ You do not invoke most of these manually. Superpowers detects context and fires 
 | using-git-worktrees | Starting isolated feature work | Creates isolated worktrees so parallel branches do not conflict |
 | finishing-a-development-branch | When implementation is done and tests pass | Guides the merge vs PR vs cleanup decision |
 
+### Session — how you finish
+
+| Skill | When it fires | What it does |
+|-------|--------------|--------------|
+| wrap | At the end of a work session | Captures learnings, cleans up, and produces a session summary — the clean way to finish |
+
 ---
 
 ## The Key Insight
