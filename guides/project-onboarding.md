@@ -33,14 +33,14 @@ Before starting the interview, you MUST read these files from the ai-dev-orchest
 
 **Required reading:**
 - `README.md` - Understand the framework, tiers, and personas
-- `prompts/phase-0-setup/complexity-estimator.md` - Decision logic for tier selection
-- `CONSTITUTION-TEMPLATE.md` - The template you'll customize
-- `templates/README.md` - Available pre-configured templates
+- `04-prompts/phase-0-setup/complexity-estimator.md` - Decision logic for tier selection
+- `05-constitutions/CONSTITUTION-TEMPLATE.md` - The template you'll customize
+- `05-constitutions/README.md` - Available pre-configured templates
 
 **Reference as needed:**
-- `quick-start/README.md` - Quick Start tier details
-- `workflow/workflow-overview.md` - Standard/Full tier workflow
-- `examples/` - Real-world constitution examples
+- `03-your-first-feature/README.md` - Quick Start tier details
+- `06-orchestrate/workflow-overview.md` - Standard/Full tier workflow
+- `05-constitutions/examples/` - Real-world constitution examples
 
 **Important:** If you cannot access these files, ask the user to provide them or point you to the repository location.
 
@@ -604,20 +604,20 @@ Based on the recommended tier, guide them on which prompts to use.
 ```
 For Quick Start, you'll mainly use these 3 prompts:
 
-1. **quick-start/simplified-prd.md**
+1. **03-your-first-feature/simplified-prd.md**
    - When: You have a feature idea
    - Output: Simple requirements doc
 
-2. **prompts/phase-2-implementation/2.1-generate-task-list.md**
+2. **04-prompts/phase-2-implementation/2.1-generate-task-list.md**
    - When: After you approve the PRD
    - Output: Numbered list of tasks
 
-3. **prompts/phase-2-implementation/2.2-iterative-implementation.md**
+3. **04-prompts/phase-2-implementation/2.2-iterative-implementation.md**
    - When: Implementing each task (one at a time!)
    - Output: Code for that specific task
 
 Optional:
-- **prompts/phase-3-review/3.1-qa-comprehensive-review.md** - Before shipping
+- **04-prompts/phase-3-review/3.1-qa-comprehensive-review.md** - Before shipping
 
 I recommend bookmarking these files or copying them to your project's docs/ folder.
 
@@ -631,23 +631,23 @@ Want me to copy them to docs/prompts/ for easy access?
 For Standard Flow, here's your core workflow:
 
 **Phase 1 - Planning:**
-1. prompts/phase-1-planning/1.1-product-owner-prd.md
-2. prompts/phase-1-planning/1.2-architect-tech-spec.md
+1. 04-prompts/phase-1-planning/1.1-product-owner-prd.md
+2. 04-prompts/phase-1-planning/1.2-architect-tech-spec.md
 
 **Phase 2 - Implementation:**
-3. prompts/phase-2-implementation/2.1-generate-task-list.md
-4. prompts/phase-2-implementation/2.2-iterative-implementation.md (repeat per task)
+3. 04-prompts/phase-2-implementation/2.1-generate-task-list.md
+4. 04-prompts/phase-2-implementation/2.2-iterative-implementation.md (repeat per task)
 
 **Phase 3 - Review:**
-5. prompts/phase-3-review/3.1-qa-comprehensive-review.md
+5. 04-prompts/phase-3-review/3.1-qa-comprehensive-review.md
 
 **Phase 4 - Documentation:**
-6. prompts/phase-4-documentation/4.1-readme-generator.md
+6. 04-prompts/phase-4-documentation/4.1-readme-generator.md
 
 I recommend:
-1. Copy these to docs/prompts/ in your project
-2. Bookmark workflow/workflow-overview.md for reference
-3. Use workflow/phase-checklist.md to ensure completeness
+1. Copy these to docs/04-prompts/ in your project
+2. Bookmark 06-orchestrate/workflow-overview.md for reference
+3. Use 06-orchestrate/phase-checklist.md to ensure completeness
 
 Want me to set this up for you?
 ```
@@ -659,10 +659,10 @@ Want me to set this up for you?
 For Full Framework, you have access to all 15 specialized prompts.
 
 I recommend:
-1. Copy the entire prompts/ directory to your project
-2. Review prompts/README.md for prompt descriptions
-3. Use workflow/prompt-selection-guide.md to choose the right prompt
-4. Follow workflow/phase-checklist.md for each feature
+1. Copy the entire 04-prompts/ directory to your project
+2. Review 04-prompts/README.md for prompt descriptions
+3. Use 06-orchestrate/prompt-selection-guide.md to choose the right prompt
+4. Follow 06-orchestrate/phase-checklist.md for each feature
 
 Key specialized prompts you'll use:
 - 1.3-architect-database-schema.md (for complex data models)
@@ -931,7 +931,7 @@ Can you share:
 Great idea! For existing projects, I recommend:
 
 1. First: Complete this setup (CONSTITUTION.md)
-2. Then: Use prompts/phase-3-review/3.1-qa-comprehensive-review.md to audit current code
+2. Then: Use 04-prompts/phase-3-review/3.1-qa-comprehensive-review.md to audit current code
 3. Create a backlog of issues (technical debt)
 4. Prioritize and fix critical issues
 5. Then start new features with the workflow

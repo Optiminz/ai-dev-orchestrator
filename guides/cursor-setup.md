@@ -36,11 +36,11 @@ If you're just starting with ai-dev-orchestrator, set up the minimal framework:
 
 2. **Add the Quick Start framework**:
    ```bash
-   mkdir -p ai-framework/quick-start
+   mkdir -p ai-framework/03-your-first-feature
 
    # Copy from ai-dev-orchestrator
-   cp /path/to/ai-dev-orchestrator/quick-start/* ./ai-framework/quick-start/
-   cp /path/to/ai-dev-orchestrator/CONSTITUTION-TEMPLATE.md ./ai-framework/
+   cp /path/to/ai-dev-orchestrator/03-your-first-feature/* ./ai-framework/03-your-first-feature/
+   cp /path/to/ai-dev-orchestrator/05-constitutions/CONSTITUTION-TEMPLATE.md ./ai-framework/
    ```
 
 3. **Customize your Constitution**:
@@ -60,10 +60,10 @@ If you're ready for the 8-file core workflow:
 
 1. **Copy core prompts**:
    ```bash
-   mkdir -p ai-framework/prompts
-   cp -r /path/to/ai-dev-orchestrator/prompts/phase-1-planning ./ai-framework/prompts/
-   cp -r /path/to/ai-dev-orchestrator/prompts/phase-2-implementation ./ai-framework/prompts/
-   cp -r /path/to/ai-dev-orchestrator/prompts/phase-3-review ./ai-framework/prompts/
+   mkdir -p ai-framework/04-prompts
+   cp -r /path/to/ai-dev-orchestrator/04-prompts/phase-1-planning ./ai-framework/04-prompts/
+   cp -r /path/to/ai-dev-orchestrator/04-prompts/phase-2-implementation ./ai-framework/04-prompts/
+   cp -r /path/to/ai-dev-orchestrator/04-prompts/phase-3-review ./ai-framework/04-prompts/
    ```
 
 2. **Copy personas**:
@@ -105,16 +105,16 @@ Cursor uses `@` to reference files in the AI chat. This is critical for ai-dev-o
 
 ```
 @CONSTITUTION.md I want to build a user authentication feature.
-Help me create a PRD following @ai-framework/quick-start/simple-workflow.md
+Help me create a PRD following @ai-framework/03-your-first-feature/simple-workflow.md
 ```
 
 ```
-Using @CONSTITUTION.md and @ai-framework/prompts/phase-1-planning/1.2-architect-tech-spec.md,
+Using @CONSTITUTION.md and @ai-framework/04-prompts/phase-1-planning/1.2-architect-tech-spec.md,
 create a technical specification for the task management feature described in @docs/prds/tasks-prd.md
 ```
 
 ```
-Follow @ai-framework/quick-start/process-task-list.md to generate a task list for
+Follow @ai-framework/03-your-first-feature/process-task-list.md to generate a task list for
 the feature in @docs/prds/user-profile-prd.md
 ```
 
@@ -127,12 +127,12 @@ the feature in @docs/prds/user-profile-prd.md
    Cmd+L to open chat
 
    I want to build [describe feature]. Reference @CONSTITUTION.md and
-   @ai-framework/quick-start/simple-workflow.md to help me create a PRD.
+   @ai-framework/03-your-first-feature/simple-workflow.md to help me create a PRD.
    ```
 
 2. **Generate Task List**:
    ```
-   Using the PRD we just created and @ai-framework/quick-start/process-task-list.md,
+   Using the PRD we just created and @ai-framework/03-your-first-feature/process-task-list.md,
    generate a task list. Use interactive mode.
    ```
 
@@ -146,7 +146,7 @@ the feature in @docs/prds/user-profile-prd.md
 
 1. **Create PRD**:
    ```
-   @ai-framework/prompts/phase-1-planning/1.1-product-owner-prd.md
+   @ai-framework/04-prompts/phase-1-planning/1.1-product-owner-prd.md
    @CONSTITUTION.md
 
    Help me create a PRD for [feature description]
@@ -154,7 +154,7 @@ the feature in @docs/prds/user-profile-prd.md
 
 2. **Create Tech Spec**:
    ```
-   @ai-framework/prompts/phase-1-planning/1.2-architect-tech-spec.md
+   @ai-framework/04-prompts/phase-1-planning/1.2-architect-tech-spec.md
    @CONSTITUTION.md
    @docs/prds/[feature-name]-prd.md
 
@@ -163,7 +163,7 @@ the feature in @docs/prds/user-profile-prd.md
 
 3. **Generate Tasks**:
    ```
-   @ai-framework/prompts/phase-2-implementation/2.1-generate-task-list.md
+   @ai-framework/04-prompts/phase-2-implementation/2.1-generate-task-list.md
    @docs/[feature-name]-tech-spec.md
    @CONSTITUTION.md
 
@@ -172,7 +172,7 @@ the feature in @docs/prds/user-profile-prd.md
 
 4. **Implement**:
    ```
-   @ai-framework/prompts/phase-2-implementation/2.2-iterative-implementation.md
+   @ai-framework/04-prompts/phase-2-implementation/2.2-iterative-implementation.md
    @docs/[feature-name]-tasks.md
    @CONSTITUTION.md
 
@@ -181,7 +181,7 @@ the feature in @docs/prds/user-profile-prd.md
 
 5. **Review**:
    ```
-   @ai-framework/prompts/phase-3-review/3.1-qa-comprehensive-review.md
+   @ai-framework/04-prompts/phase-3-review/3.1-qa-comprehensive-review.md
    @CONSTITUTION.md
 
    Review the [feature name] feature we just implemented
@@ -201,7 +201,7 @@ For implementing complex tasks:
 ```
 Cmd+I
 
-@ai-framework/quick-start/process-task-list.md
+@ai-framework/03-your-first-feature/process-task-list.md
 @docs/tasks.md
 @CONSTITUTION.md
 
@@ -313,7 +313,7 @@ Here's a full example of building a feature from start to finish:
 ### 1. Start New Feature (Cmd+L)
 ```
 @CONSTITUTION.md
-@ai-framework/quick-start/simple-workflow.md
+@ai-framework/03-your-first-feature/simple-workflow.md
 
 I want to build a user profile page where users can:
 - View their profile information
@@ -325,7 +325,7 @@ Help me create a PRD.
 
 ### 2. Generate Task List (Same Chat)
 ```
-Great! Now using @ai-framework/quick-start/process-task-list.md,
+Great! Now using @ai-framework/03-your-first-feature/process-task-list.md,
 generate a task list for this feature. Use interactive mode.
 ```
 
@@ -357,7 +357,7 @@ You: Yes
 
 ### 6. Review Feature (New Chat - Cmd+L)
 ```
-@ai-framework/prompts/phase-3-review/3.1-qa-comprehensive-review.md
+@ai-framework/04-prompts/phase-3-review/3.1-qa-comprehensive-review.md
 @CONSTITUTION.md
 @src/components/UserProfile.tsx
 @src/api/routes/profile.ts
@@ -387,7 +387,7 @@ Review the user profile feature for bugs and security issues.
 - [Cursor Documentation](https://cursor.sh/docs)
 - [Cursor Discord Community](https://discord.gg/cursor)
 - [AI-Dev-Orchestrator Main README](../README.md)
-- [Quick Start Guide](../quick-start/README.md)
+- [Quick Start Guide](../03-your-first-feature/README.md)
 
 ## Next Steps
 
@@ -399,4 +399,4 @@ Review the user profile feature for bugs and security issues.
 
 ---
 
-**Ready to build?** Open Cursor and start with the [Quick Start Guide](../quick-start/README.md)! 🚀
+**Ready to build?** Open Cursor and start with the [Quick Start Guide](../03-your-first-feature/README.md)! 🚀

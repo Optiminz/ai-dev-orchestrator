@@ -115,7 +115,7 @@ mkdir -p ~/.claude/commands
 mkdir -p ~/.claude/skills/session-learnings
 
 # Copy global CLAUDE.md
-cp ~/ai-dev-orchestrator/templates/claude-project-setup/CLAUDE.md ~/.claude/CLAUDE.md
+cp ~/ai-dev-orchestrator/05-constitutions/claude-project-setup/CLAUDE.md ~/.claude/CLAUDE.md
 # Edit to remove project-specific placeholders
 
 # Copy /reflect command
@@ -166,7 +166,7 @@ Edit `~/.claude/settings.json`:
 cd ~/my-project
 
 # Run setup script
-~/ai-dev-orchestrator/templates/claude-project-setup/setup-learnings.sh
+~/ai-dev-orchestrator/05-constitutions/claude-project-setup/setup-learnings.sh
 
 # This creates:
 # .claude/CLAUDE.md
