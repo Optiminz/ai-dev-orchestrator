@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.0.1] - 2026-03-10
+
+### Added
+- `/wrap` slash command (`.claude/commands/wrap.md`) — end-of-session cleanup with prerequisites
+- `.claude/commands/README.md` — explains infrastructure dependencies for all slash commands
+
+### Changed
+- `/wrap` and `session-learnings` now include Prerequisites sections that tell Claude Code to check for and offer to set up missing infrastructure
+
+---
+
 ## [3.0.0] - 2026-03-09
 
 ### Added
