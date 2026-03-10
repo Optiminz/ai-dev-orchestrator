@@ -13,13 +13,18 @@
    - Cursor will prompt you to import your VSCode settings
    - Recommended: Import extensions, keybindings, and settings
 
-3. **Configure AI Model**
-   - Open Settings (Cmd/Ctrl + ,)
-   - Search for "Cursor"
-   - Choose your preferred AI model:
-     - **Claude Sonnet** (Recommended for most tasks - balanced speed/quality)
-     - **Claude Opus** (Best quality, slower, use for complex features)
-     - **GPT-4** (Alternative option)
+3. **Install the Claude Code Extension (Recommended)**
+   - Open the Extensions panel (Cmd/Ctrl + Shift + X)
+   - Search for "Claude Code" by Anthropic
+   - Click Install
+   - After installing, drag the Claude Code icon to the **right sidebar** so it sits alongside Cursor's built-in chat — this gives you both tools side by side
+   - Sign in with your Anthropic account when prompted
+   - Claude Code is the recommended way to use AI in Cursor with ai-dev-orchestrator — it reads your `CLAUDE.md` files, understands your project context automatically, and supports the full orchestration workflow
+
+4. **Cursor's Built-in AI (Optional)**
+   - Cursor also has its own AI chat (Cmd/Ctrl + L) which you can use alongside Claude Code
+   - Configure it in Settings (Cmd/Ctrl + ,) → search for "Cursor" → Model Selection
+   - Useful for quick inline edits (Cmd/Ctrl + K) and Composer mode (Cmd/Ctrl + I)
 
 ## Project Setup
 

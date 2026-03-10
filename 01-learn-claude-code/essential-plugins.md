@@ -140,3 +140,13 @@ You do not invoke most of these manually. Superpowers detects context and fires 
 You do not manually invoke most of these skills. Superpowers detects what you are doing — starting a feature, hitting a bug, wrapping up a task — and fires the right skill automatically.
 
 Install the plugin and your AI coding workflow gets disciplined guardrails without you thinking about it. That is the whole point: the discipline is built in, not bolted on.
+
+---
+
+## Saving Tokens with MCP Launchpad
+
+Every plugin loaded in Claude Code adds its tool definitions to the system prompt — even when you don't use them. If you're running GitHub, Pinecone, or Google Workspace as plugins, that's 20,000+ tokens of overhead per message.
+
+[MCP Launchpad (mcpl)](mcp-launchpad.md) lets you call those tools on-demand from the terminal instead. Zero token cost at rest, full functionality when you need it.
+
+**Rule of thumb:** If you use it every session, keep it as a plugin. If you use it sometimes, switch to mcpl.
