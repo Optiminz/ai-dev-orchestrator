@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.1.0] - 2026-03-10
+
+### Added
+- `01-learn-claude-code/mcp-launchpad.md` — Guide to MCP Launchpad (mcpl) for on-demand MCP tools, saving 20k+ tokens per session
+- MCP Launchpad cross-reference in `essential-plugins.md` and `README.md`
+
+### Changed
+- `guides/cursor-setup.md` — Recommend Claude Code extension as primary AI tool in Cursor, with built-in AI as optional secondary
+
+---
+
 ## [3.0.1] - 2026-03-10
 
 ### Added
