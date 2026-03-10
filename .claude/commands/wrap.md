@@ -23,7 +23,7 @@ Before running, check that the required infrastructure exists. If anything is mi
 - **`session-learnings` skill** — Used in Step 1 for learning templates. Without it, use the format templates inline in this command, but recommend the user installs the skill for consistency.
 - **`gh` CLI** — Required for Step 6 (PR creation). If not installed, skip PR steps and suggest: `brew install gh && gh auth login`
 - **`best-practice-git` skill** — Used in Step 4 for Conventional Commits formatting. Without it, follow standard commit conventions (type: description).
-- **`/sync-learnings` command** — Referenced in Step 7. Without it, skip the sync suggestion.
+- **`/sync-learnings` command** — Referenced in Step 8. Without it, skip the sync suggestion.
 - **Wrap Config in CLAUDE.md** — Optional. If the project's CLAUDE.md has a `## Wrap Config` section, Step 2 uses it. Otherwise, auto-detects from `package.json`.
 
 **Quick check:** If this is the first time running `/wrap` in a project, expect to spend a moment setting up the learnings directories. After that, subsequent runs are seamless.
@@ -97,7 +97,26 @@ If on a feature branch AND push succeeded:
 2. If no PR exists, ask the user if they want one opened
 3. If yes, create PR with summary of the branch's work (not just this session)
 
-## Step 7: Sync Learnings (Conditional)
+## Step 7: Rename Session
+
+Generate a short, discoverable name for this session based on the work done. Use these sources (in priority order):
+
+1. **Branch name** — if on a feature branch, use it as-is or lightly clean it (e.g., `feat/add-auth` → `add-auth`)
+2. **Commit subjects** — distill the session's commits into a 2-4 word slug
+3. **Primary topic** — fall back to the main thing worked on
+
+**Rules:**
+- Lowercase, hyphen-separated (e.g., `mlc-legal-timer`, `repo-restructure`, `fix-auth-redirect`)
+- Max 40 characters
+- Be specific enough to distinguish from other sessions — `update-docs` is bad, `okm-api-docs-v2` is good
+- If the session was trivial (a quick question, no real work), skip this step
+
+Apply the name:
+```
+/rename <generated-name>
+```
+
+## Step 8: Sync Learnings (Conditional)
 
 Only if global learnings were captured in Step 1:
 
@@ -118,6 +137,7 @@ After all steps, present a concise summary:
 **Commit:** [commit hash + message / no changes]
 **Push:** [pushed to origin/branch / skipped]
 **PR:** [created #N / updated / skipped]
+**Session:** [renamed to `<name>` / skipped]
 **Sync:** [global learnings added — consider /sync-learnings]
 ```
 
