@@ -784,4 +784,4 @@ grep -r "TODO\|FIXME\|NOTE" src/
 
 **Need help?** See [Troubleshooting](#troubleshooting).
 
-**Want more?** Read the [claude-code-setup.md](./claude-code-setup.md) guide.
+**Related:** [Post-Compaction Context Preservation](./post-compaction-context.md) — prevent Claude from losing context during long sessions (complements session learnings).

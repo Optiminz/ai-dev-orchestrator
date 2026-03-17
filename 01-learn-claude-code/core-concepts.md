@@ -79,6 +79,8 @@ Shell commands that run automatically when specific events occur in Claude Code.
 
 Configure hooks in `.claude/settings.json` under the `"hooks"` key. Common uses: run a linter before every commit, validate output after a file is written, or format code on save. Hooks let you enforce project standards without relying on Claude remembering to do it.
 
+One hook worth setting up early is **PostCompact** — it fires after Claude compresses its context window during long sessions. Without it, Claude can lose track of your project rules, persona, and what you were working on. With a PostCompact hook, critical context is automatically re-injected after every compaction. See the [Post-Compaction Context Preservation](../guides/post-compaction-context.md) guide for setup.
+
 ---
 
 ### Learnings (.claude/learnings/)

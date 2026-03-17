@@ -91,6 +91,7 @@ The [starter kit](02-starter-kit/), [plugins guide](01-learn-claude-code/essenti
 
 - [How orchestration works](docs/orchestration-integration.md) — Full integration guide
 - [Session learning system](guides/session-learning-system.md) — How Claude remembers across sessions
+- [Post-compaction context](guides/post-compaction-context.md) — Prevent Claude from losing context in long sessions
 - [Project onboarding](guides/project-onboarding.md) — Scaling from 1 to 20 developers
 - [Cursor setup](guides/cursor-setup.md) — Using the framework in Cursor IDE
 - [Research foundations](docs/research-origin.md) — Academic origins of this approach

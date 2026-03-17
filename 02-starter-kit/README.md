@@ -6,6 +6,7 @@ A ready-to-use Claude Code configuration you can copy into any project.
 
 - `.claude/CLAUDE.md` — Project config template with sensible defaults
 - `.claude/commands/reflect.md` — `/reflect` command for capturing session learnings
+- `.claude/compaction-context.md` — Template for preserving context during long sessions (used by PostCompact hook)
 
 ## How to Use
 
