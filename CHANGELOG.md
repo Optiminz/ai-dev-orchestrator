@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.2.0] - 2026-03-27
+
+### Added
+- **Lint Enforcement Standard** in `05-constitutions/CONSTITUTION-TEMPLATE.md` — new "Lint Enforcement (Agentic Standard)" section mandating mechanical enforcement of constitution rules via linters, pre-commit hooks, and AGENTS.md
+- Minimum enforcement rules table (architectural boundaries, security, TypeScript strictness, type safety, code quality, import order)
+- Reference to reusable [Lint Enforcement Audit SOP](https://github.com/Optiminz/oai/blob/main/areas/guides/lint-enforcement-audit.md) in oai
+
+### Context
+Prompted by Nate B Jones signal: "AGENTS.md as industry-standard machine constitution" (Factory AI Agent-Native Development, 2026-03-27). First applied to oi-app — went from zero ESLint to full enforcement with architectural boundaries, security rules, and tsconfig strictness. The principle: documented rules agents must "read and choose to comply with" are insufficient; linter rules that block non-compliant code at commit are the actual enforcement layer.
+
+---
+
 ## [3.1.0] - 2026-03-10
 
 ### Added

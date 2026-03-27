@@ -147,6 +147,26 @@ import type { User } from '@shared/schema';
 - Formatter: [FORMATTING_TOOL — e.g., Prettier, Black, gofmt]
 - All code must pass linting before commit.
 
+**Lint Enforcement (Agentic Standard):**
+
+> In agentic codebases, documented rules that agents must "read and choose to comply with" are insufficient. Every rule in this constitution that *can* be expressed as a linter rule or compiler flag *must* be. Lint green is the proxy for constitutional compliance.
+
+- **Run a Lint Enforcement Audit** before any AI agent writes production code. See the [Lint Enforcement Audit guide](https://github.com/Optiminz/oai/blob/main/areas/guides/lint-enforcement-audit.md) for the reusable prompt and procedure.
+- **Severity model:** `error` for architectural boundaries and security (blocks commits). `warn` for quality/style (surfaces in editors, graduates to `error` once existing violations are cleared).
+- **Pre-commit hooks are mandatory:** lint-staged (linter + formatter on staged files) + full type check (`tsc --noEmit` or equivalent) must run before every commit.
+- **AGENTS.md is mandatory:** Every project must have an AGENTS.md that lists enforced rules, severity levels, architecture boundaries, and commands. This is the machine-readable companion to CONSTITUTION.md.
+
+**Minimum enforcement rules (adapt to your stack):**
+
+| Category | What to enforce | Severity |
+|---|---|---|
+| Architectural boundaries | No cross-layer imports (frontend ↔ backend) | `error` |
+| Security | No hardcoded secrets, no dynamic code execution, no XSS props | `error` |
+| TypeScript strictness | `strict`, `noUncheckedIndexedAccess`, `noImplicitReturns` | `error` (compiler) |
+| Type safety | No `any`, no unsafe member access | `warn` → `error` |
+| Code quality | No unused vars, no floating promises, no console.log | `warn` |
+| Import order | Auto-sorted imports matching project convention | `warn` (autofixable) |
+
 ### Code Organization
 
 **File Structure:**
