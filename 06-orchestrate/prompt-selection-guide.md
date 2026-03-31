@@ -119,15 +119,17 @@ Do you have an idea for a feature?
 
 ---
 
-## By Persona
+## By Persona (Manual Prompts) / By Plugin (Orchestrate)
 
-| Persona | When to Invoke |
-|---------|---------------|
-| Product Owner | Start of new feature, unclear requirements |
-| Solutions Architect | After PRD, before code; or for refactoring consultation |
-| Specialist Developer | During implementation, one task at a time |
-| QA Engineer | After implementation, before merge |
-| Technical Writer | After feature complete, need docs |
+When using `/orchestrate`, plugins handle each phase automatically. When using manual prompts from `04-prompts/`, use the persona-based workflow:
+
+| Phase | `/orchestrate` Plugin | Manual Prompt Persona |
+|-------|----------------------|----------------------|
+| Explore/Define | `superpowers:brainstorming` | Product Owner (1.1) |
+| Plan/Design | `superpowers:writing-plans` | Solutions Architect (1.2) |
+| Build | `superpowers:test-driven-development` | Specialist Developer (2.2) |
+| Review | `pr-review-toolkit:review-pr` | QA Engineer (3.1) |
+| Document | Technical Writer agent | Technical Writer (4.1) |
 
 ---
 

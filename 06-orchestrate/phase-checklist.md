@@ -4,227 +4,132 @@ Use these checklists to ensure you complete each phase before moving to the next
 
 ---
 
-## Phase 1: Planning & Design
+## Phase 0: Explore
 
-### Product Owner: PRD Creation
+- [ ] Feature idea described to Claude
+- [ ] `superpowers:brainstorming` skill invoked
+- [ ] Requirements and constraints clarified
+- [ ] 2-3 approaches proposed with trade-offs
+- [ ] You approved an approach
 
-- [ ] Feature idea is clearly described
-- [ ] CONSTITUTION.md is attached
-- [ ] Product Owner generated PRD with:
-  - [ ] High-level description
-  - [ ] User stories (As a [user], I want [action], so that [benefit])
-  - [ ] Acceptance criteria for each story
-  - [ ] Out of scope items (optional but recommended)
-- [ ] You reviewed the PRD
-- [ ] User stories solve the actual user problem
-- [ ] Acceptance criteria are testable
-- [ ] No technical implementation details in PRD (that's for tech spec)
-- [ ] PRD saved to `docs/[feature-name]-prd.md`
-
-**Ready to move on?** → Proceed to Solutions Architect
+**Ready to move on?** → Proceed to Plan
 
 ---
 
-### Solutions Architect: Tech Spec Creation
+## Phase 1: Plan
 
-- [ ] Approved PRD is attached
-- [ ] CONSTITUTION.md is attached
-- [ ] Relevant existing code is attached
-- [ ] Solutions Architect generated Tech Spec with:
-  - [ ] Proposed architecture (files to create/modify)
-  - [ ] Data model / schema changes
-  - [ ] API endpoints (if applicable)
-  - [ ] Key components/functions
-  - [ ] Integration points
-  - [ ] Security considerations
-  - [ ] Error handling
-  - [ ] Testing strategy
-  - [ ] Assumptions & constraints
-- [ ] You reviewed the Tech Spec
-- [ ] Architecture makes sense
-- [ ] Follows CONSTITUTION.md principles (simplicity, standards)
-- [ ] Not over-engineered or under-engineered
-- [ ] Integration points are clear
-- [ ] Tech Spec saved to `docs/[feature-name]-tech-spec.md`
+- [ ] `superpowers:writing-plans` skill invoked
+- [ ] Project standards file found (CONSTITUTION.md / CLAUDE.md / AGENTS.md)
+- [ ] Implementation plan created at `docs/plans/YYYY-MM-DD-[feature]-plan.md`
+- [ ] Plan includes:
+  - [ ] Bite-sized tasks with exact file paths
+  - [ ] Code snippets or pseudocode for each task
+  - [ ] Test commands where applicable
+  - [ ] Dependencies between tasks noted
+- [ ] You reviewed the plan
+- [ ] Tasks are small enough (each independently completable)
+- [ ] Plan follows project standards
 
-**Optional:** If database/API is complex, use 1.3 or 1.4
-
-**Ready to move on?** → Proceed to Implementation (Phase 2)
+**Ready to move on?** → Proceed to Branch Setup (codebases) or Build (text repos)
 
 ---
 
-## Phase 2: Implementation
+## Phase 1.5: Branch Setup (Codebases Only)
 
-### Generate Task List
+**Skip this phase for text repos.**
 
-- [ ] Approved Tech Spec is attached
-- [ ] CONSTITUTION.md is attached
-- [ ] Task list generated with:
-  - [ ] Tasks are granular (< 1 hour each)
-  - [ ] Tasks are in logical order
-  - [ ] Each task specifies files to create/modify
-  - [ ] Dependencies are noted
-  - [ ] Complexity is estimated
-- [ ] You reviewed the task list
-- [ ] Order makes sense
-- [ ] Tasks are small enough
-- [ ] You understand what each task means
-- [ ] Task list saved to `docs/[feature-name]-tasks.md`
+- [ ] Repo detected as codebase (build tooling present)
+- [ ] `superpowers:using-git-worktrees` invoked
+- [ ] Feature branch created: `feat/[feature-slug]`
+- [ ] Worktree confirmed ready
+- [ ] All subsequent work happens on the feature branch
 
-**Ready to move on?** → Start implementing tasks
+**Ready to move on?** → Proceed to Build
 
 ---
 
-### Iterative Implementation (Repeat for EACH Task)
+## Phase 2: Build
 
-For Task #[NUMBER]:
+### For Each Task in the Plan:
 
-- [ ] Task description copied from task list
-- [ ] CONSTITUTION.md attached
-- [ ] All relevant existing code attached
-- [ ] Specialist Developer generated code with:
-  - [ ] Implements ONLY this task (not other tasks)
-  - [ ] Follows CONSTITUTION.md standards
-  - [ ] Includes meaningful comments
-  - [ ] Includes error handling
-  - [ ] Explained reasoning step-by-step
-- [ ] You reviewed the code
-- [ ] Code implements exactly this task
-- [ ] Follows existing code patterns
-- [ ] Comments explain "why", not "what"
-- [ ] You understand every line
-- [ ] Code passes linting
-- [ ] You manually tested it
-- [ ] Code committed (optional): `git commit -m "feat: [task description] (#[task number])"`
+- [ ] Task description from plan is clear
+- [ ] **Codebases:** Test written first (TDD)
+- [ ] Implementation follows project standards
+- [ ] Task completed and working
+- [ ] Changes committed with descriptive message
 
-**Repeat for next task until all tasks complete**
+### Overall Build Phase:
 
-**All tasks done?** → Proceed to Review (Phase 3)
+- [ ] All tasks from the plan implemented
+- [ ] **Codebases:** All tests passing
+- [ ] No `console.log` or debug code left behind
+- [ ] You reviewed the implementation
+
+**All tasks done?** → Proceed to Review
 
 ---
 
-## Phase 3: Review & Refactoring
+## Phase 3: Review
 
-### Comprehensive Code Review
+### Codebases:
 
-- [ ] All code is complete (all tasks done)
-- [ ] Code attached
-- [ ] CONSTITUTION.md attached
-- [ ] QA Engineer generated review covering:
-  - [ ] Code quality & best practices
-  - [ ] Potential bugs or edge cases
-  - [ ] Performance optimizations
-  - [ ] Readability & maintainability
-  - [ ] Security concerns
-- [ ] You reviewed the feedback
+- [ ] Feature branch pushed to remote
+- [ ] `pr-review-toolkit:review-pr` invoked
+- [ ] Six specialized reviewers completed:
+  - [ ] Silent failure hunter
+  - [ ] Type design analyzer
+  - [ ] PR test analyzer
+  - [ ] Code reviewer
+  - [ ] Code simplifier
+  - [ ] Comment analyzer
 - [ ] All CRITICAL issues fixed
 - [ ] All HIGH issues fixed
-- [ ] MEDIUM issues fixed or scheduled
-- [ ] Code re-tested after fixes
+- [ ] MEDIUM/LOW issues fixed or deferred (with your approval)
+- [ ] `superpowers:verification-before-completion` run
+- [ ] All tests still passing after fixes
 
-**Need deeper analysis?** → Use specialized reviews (3.2-3.5)
+### Text Repos:
 
-**Ready to move on?** → Proceed to Documentation (Phase 4)
+- [ ] `superpowers:requesting-code-review` invoked on diff
+- [ ] Issues found are fixed
+- [ ] `superpowers:verification-before-completion` run
 
----
-
-### Specialized Reviews (Optional)
-
-Use these for deep dives on specific concerns:
-
-#### Bugs & Edge Cases (3.2)
-- [ ] Code attached
-- [ ] QA found all edge cases
-- [ ] Test cases provided for each
-- [ ] All bugs fixed
-
-#### Security Audit (3.3)
-- [ ] Code attached
-- [ ] CONSTITUTION.md attached
-- [ ] All CRITICAL security issues fixed
-- [ ] All HIGH security issues fixed
-
-#### Style & Standards (3.4)
-- [ ] Code attached
-- [ ] CONSTITUTION.md attached
-- [ ] All violations fixed
-
-#### Testability (3.5)
-- [ ] Code attached
-- [ ] Testability issues identified
-- [ ] Refactorings applied (if needed)
+**Review complete?** → Proceed to Document
 
 ---
 
-### Refactor Consultation (Optional)
+## Phase 4: Document
 
-If code needs improvement:
+- [ ] Technical Writer agent invoked
+- [ ] Documentation updated:
+  - [ ] README.md updated with feature docs
+  - [ ] Usage examples added
+  - [ ] API endpoints documented (if applicable)
+  - [ ] Troubleshooting for common issues added
+- [ ] Documentation changes committed
+- [ ] `/wrap` run to capture session learnings
+- [ ] You reviewed the documentation
 
-- [ ] Code to refactor attached
-- [ ] CONSTITUTION.md attached
-- [ ] Primary goal stated (performance / readability / etc.)
-- [ ] Architect generated 3+ strategies with trade-off analysis
-- [ ] You reviewed all options
-- [ ] You chose a strategy based on trade-offs
-- [ ] Refactoring applied
-- [ ] Code re-tested
-
----
-
-## Phase 4: Documentation
-
-### README.md (For Developers)
-
-- [ ] All project files attached
-- [ ] CONSTITUTION.md attached
-- [ ] Technical Writer generated README with:
-  - [ ] Project title & description
-  - [ ] Key features
-  - [ ] Installation & setup (step-by-step)
-  - [ ] Usage examples
-  - [ ] Configuration instructions
-  - [ ] Links to detailed docs (not full specs)
-  - [ ] License
-  - [ ] Support/contact
-- [ ] You reviewed the README
-- [ ] A new developer can set up the project by following it
-- [ ] No overly technical jargon (unless for dev audience)
-- [ ] README saved to project root
+**Documentation complete?** → Proceed to Ship
 
 ---
 
-### User Guide (For Non-Technical Users)
+## Ship
 
-- [ ] Audience defined (who will use this)
-- [ ] Tool description provided
-- [ ] Technical Writer generated user guide with:
-  - [ ] What is this tool (simple language)
-  - [ ] How to access
-  - [ ] How to do main task (step-by-step)
-  - [ ] Common questions (FAQ)
-  - [ ] Who to contact for help
-- [ ] You reviewed the user guide
-- [ ] Language is simple (no jargon)
-- [ ] Steps are clear and numbered
-- [ ] User guide saved to `docs/USER-GUIDE.md`
+### Codebases:
 
----
+- [ ] `superpowers:finishing-a-development-branch` invoked
+- [ ] Option chosen:
+  - [ ] Create PR (default for team repos)
+  - [ ] Merge locally
+  - [ ] Keep branch as-is
+  - [ ] Discard
+- [ ] Worktree cleaned up (if merged or discarded)
 
-## Final Pre-Merge Checklist
+### Text Repos:
 
-Before merging to main:
-
-- [ ] All phases complete (1, 2, 3, 4)
-- [ ] All CRITICAL and HIGH issues fixed
-- [ ] All tests pass
-- [ ] Code passes linting
-- [ ] Documentation is up to date
-- [ ] Pull request created (if applicable)
-- [ ] Code reviewed by human (if team project)
-- [ ] No hardcoded secrets or API keys
-- [ ] CONSTITUTION.md standards followed
-
-**All checked?** → SHIP IT! 🚀
+- [ ] All changes committed
+- [ ] Pushed to main
 
 ---
 
@@ -232,14 +137,17 @@ Before merging to main:
 
 | Phase | "I'm done when..." |
 |-------|-------------------|
-| Phase 1 | PRD + Tech Spec are written and approved |
-| Phase 2 | All tasks implemented, code works |
-| Phase 3 | All CRITICAL/HIGH issues fixed, code reviewed |
-| Phase 4 | README and/or User Guide written |
+| Phase 0 | Requirements explored and approach approved |
+| Phase 1 | Plan written and approved |
+| Phase 1.5 | Feature branch created in worktree (codebases only) |
+| Phase 2 | All tasks implemented, tests passing |
+| Phase 3 | All CRITICAL/HIGH issues fixed, verification passed |
+| Phase 4 | Documentation written, session learnings captured |
+| Ship | PR created / merged / pushed |
 
 ---
 
 ## See Also
 
-- [Workflow Overview](./workflow-overview.md)
+- [Workflow Overview](./how-it-works.md)
 - [Prompt Selection Guide](./prompt-selection-guide.md)

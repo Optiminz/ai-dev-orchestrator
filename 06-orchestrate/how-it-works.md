@@ -4,153 +4,153 @@ This document provides a high-level overview of the AI-driven development workfl
 
 ---
 
-## The Four-Phase Workflow
+## The Plugin-Powered Workflow
 
 ```
-Phase 1: PLANNING        Phase 2: IMPLEMENTATION     Phase 3: REVIEW           Phase 4: DOCUMENTATION
-   & DESIGN                                        & REFACTORING
+Phase 0: EXPLORE          Phase 1: PLAN            Phase 1.5: BRANCH         Phase 2: BUILD
+                                                    (codebases only)
 
 [User Need/Idea]
        ↓
 ┌──────────────────┐
-│ Product Owner    │
-│ Create PRD       │     ┌──────────────────┐
-│ → feature-prd.md │     │ Generate         │      ┌──────────────────┐
-└──────────────────┘     │ Task List        │      │ QA Engineer      │      ┌──────────────────┐
-       ↓                 │ → tasks.md       │      │ Code Review      │      │ Technical Writer │
-   Review/Approve        └──────────────────┘      │                  │      │ README.md        │
-       ↓                        ↓                  └──────────────────┘      │ User Guide       │
-┌──────────────────┐            ↓                          ↓                 └──────────────────┘
-│ Solutions        │     ┌──────────────────┐              ↓
-│ Architect        │     │ Specialist       │      ┌──────────────────┐
-│ Create Tech Spec │     │ Developer        │      │ Solutions        │
-│ → tech-spec.md   │     │ Task #1          │      │ Architect        │
-└──────────────────┘     │ Task #2          │      │ Refactor         │
-       ↓                 │ Task #3...       │      │ Consultation     │
-   Review/Approve        └──────────────────┘      └──────────────────┘
-       ↓                        ↓
-┌──────────────────┐            ↓
-│ (Optional)       │     Iterate: Implement
-│ Database Schema  │     one task at a time
-│ API Design       │
-└──────────────────┘
+│ Brainstorming    │
+│ (superpowers)    │     ┌──────────────────┐
+│ Clarify needs    │     │ Writing Plans    │     ┌──────────────────┐
+│ Propose approaches│    │ (superpowers)    │     │ Git Worktrees    │     ┌──────────────────┐
+└──────────────────┘     │ Task breakdown   │     │ (superpowers)    │     │ TDD / Subagent   │
+       ↓                 │ File paths       │     │ feat/ branch     │     │ (superpowers)    │
+   Review/Approve        └──────────────────┘     └──────────────────┘     │ Task-by-task     │
+                                ↓                        ↓                 │ Tests first      │
+                            Review/Approve           Auto (codebases)      └──────────────────┘
+                                                                                  ↓
+                                                                              Review/Approve
 
-   [Feature Complete]
+
+Phase 3: REVIEW                    Phase 4: DOCUMENT              SHIP
+
+┌──────────────────┐
+│ Codebases:       │
+│ Push branch      │               ┌──────────────────┐
+│ PR Review Toolkit│               │ Technical Writer  │     ┌──────────────────┐
+│ (6 reviewers)    │               │ README, guides    │     │ Codebases:       │
+├──────────────────┤               │ API docs          │     │ Finishing Branch  │
+│ Text repos:      │               │                   │     │ (PR/merge/keep)  │
+│ Code Review      │               │ + /wrap for       │     ├──────────────────┤
+│ on diff          │               │ session learnings │     │ Text repos:      │
+└──────────────────┘               └──────────────────┘     │ Push to main     │
+       ↓                                  ↓                  └──────────────────┘
+   Fix issues                        Review/Approve
+   Review/Approve
 ```
 
 ---
 
-## The Philosophy: Plan → Prompt → Validate → Refactor
+## The Philosophy: Explore → Plan → Build → Review → Ship
 
-### 1. PLAN (Phase 1)
-- **Don't jump to code.** Start with requirements (PRD) and design (Tech Spec)
-- **Validate the architecture** before writing a single line
-- **Avoid over-engineering** by referencing CONSTITUTION.md
+### 1. EXPLORE (Phase 0)
+- **Don't jump to planning.** Clarify requirements and constraints first
+- **Propose trade-offs** — 2-3 approaches with pros/cons
+- **Get buy-in** before investing in a detailed plan
 
-### 2. PROMPT (Phase 2)
+### 2. PLAN (Phase 1)
+- **Create a detailed plan** with exact file paths, code snippets, and test commands
+- **Reference project standards** (CONSTITUTION.md, CLAUDE.md, or AGENTS.md)
+- **Break into bite-sized tasks** — each should be independently completable
+
+### 3. BUILD (Phase 2)
 - **One task at a time.** Implement iteratively, not all at once
-- **Be specific.** Each prompt should have a clear, single focus
-- **Provide context.** Always attach CONSTITUTION.md and relevant files
+- **Tests first** (codebases) — TDD catches issues early
+- **Commit after each task** — clean, reviewable history
 
-### 3. VALIDATE (Phase 3)
-- **Review everything.** Don't merge without review
-- **Use specialized reviews** for deep analysis (security, performance, etc.)
-- **Fix CRITICAL/HIGH issues immediately**
+### 4. REVIEW (Phase 3)
+- **Review everything.** Don't ship without review
+- **Codebases get six specialized reviewers:** silent failure hunter, type design analyzer, PR test analyzer, code reviewer, code simplifier, comment analyzer
+- **Fix CRITICAL/HIGH issues immediately**, ask about MEDIUM/LOW
 
-### 4. REFACTOR (Phase 3 + Architect)
-- **Understand trade-offs.** Every refactoring has pros and cons
-- **Optimize with intent.** Don't refactor blindly
-- **Keep it simple.** Prefer simplicity over cleverness
+### 5. SHIP
+- **Codebases:** Feature branch → PR or merge, with worktree cleanup
+- **Text repos:** Already on main, just push
 
 ---
 
-## Persona-Based Workflow
+## Plugin-Powered Architecture
 
-Instead of asking a single AI to "do everything," you assign tasks to specialized personas:
+Instead of asking a single AI to "do everything," each phase delegates to specialized plugins:
 
-| Phase | Persona | What They Do | Output |
-|-------|---------|--------------|--------|
-| 1 | Product Owner | Define WHAT and WHY | PRD |
-| 1 | Solutions Architect | Define HOW | Tech Spec, DB Schema, API Design |
-| 2 | Specialist Developer | IMPLEMENT | Source Code |
-| 3 | QA Engineer | VALIDATE | Code Review Reports |
-| 3 | Solutions Architect | ANALYZE TRADE-OFFS | Refactoring Consultation |
-| 4 | Technical Writer | EXPLAIN | README, User Guides |
+| Phase | Plugin/Skill | What It Does |
+|-------|-------------|--------------|
+| 0 | `superpowers:brainstorming` | Structured requirements exploration |
+| 1 | `superpowers:writing-plans` | Implementation plans with task breakdown |
+| 1.5 | `superpowers:using-git-worktrees` | Isolated feature branches |
+| 2 | `superpowers:test-driven-development` | Tests-first implementation |
+| 2 | `superpowers:subagent-driven-development` | Parallel task execution |
+| 3 | `pr-review-toolkit:review-pr` | 6 specialized code reviewers |
+| 3 | `superpowers:requesting-code-review` | Lightweight diff review |
+| 3 | `superpowers:verification-before-completion` | Verify all claims are accurate |
+| 4 | Technical Writer agent | Documentation generation |
+| Ship | `superpowers:finishing-a-development-branch` | PR/merge/cleanup decisions |
+| Ship | `/wrap` | Session learnings capture |
 
 ---
 
 ## Key Principles
 
-### 1. Constitution as Law
-- Every persona must follow CONSTITUTION.md
-- Non-negotiable standards prevent drift
+### 1. Standards as Law
+- Every phase references your project standards file
+- Non-negotiable conventions prevent drift
 - Consistency across all AI outputs
 
-### 2. Incremental Progress
-- Small tasks > Large tasks
-- One task at a time > All at once
-- Review early, review often
+### 2. Repo-Type Awareness
+- Codebases get branches, PRs, and test gates
+- Text repos commit to main — no unnecessary ceremony
+- Detection is automatic based on build tooling
 
-### 3. Explicit Over Implicit
-- Written specs > Verbal ideas
-- Documented trade-offs > Assumptions
-- Clear acceptance criteria > Vague goals
+### 3. Autonomous Between Checkpoints
+- Human approval at phase transitions, not micro-decisions
+- AI works autonomously within each phase
+- You make the strategic decisions, AI handles execution
 
-### 4. Human as Orchestrator
-- You review and approve each phase
-- You make the final decisions
-- AI provides expertise, you provide judgment
+### 4. Quality Gates
+- Review phase runs specialized checks (not just "looks good")
+- Verification proves claims before shipping
+- Session learnings improve future sessions via `/wrap`
 
 ---
 
-## When to Use Each Workflow Component
+## Standards Discovery
 
-### Start a New Feature?
-→ Use Product Owner (1.1-product-owner-prd.md)
+Orchestrate looks for project standards in this order:
 
-### Have a PRD, Need Architecture?
-→ Use Solutions Architect (1.2-architect-tech-spec.md)
+1. `CONSTITUTION.md` — dedicated project rules file
+2. `CLAUDE.md` — Claude Code project instructions
+3. `AGENTS.md` — agent-specific instructions
+4. Infer from existing code patterns and tooling
 
-### Complex Database Design?
-→ Use Database Schema prompt (1.3-architect-database-schema.md)
-
-### Ready to Code?
-→ Generate Task List (2.1-generate-task-list.md)
-→ Then Iterative Implementation (2.2-iterative-implementation.md)
-
-### Code Done, Need Review?
-→ Use QA Comprehensive Review (3.1-qa-comprehensive-review.md)
-→ Or specialized reviews (3.2-3.5)
-
-### Need to Refactor?
-→ Use Architect Refactor Consultation (3.6-architect-refactor-consultation.md)
-
-### Feature Complete?
-→ Use Technical Writer (4.1-readme-generator.md or 4.2-user-guide-generator.md)
+You don't need all of these. One is enough. If you're starting fresh, create a `CONSTITUTION.md` using the templates in [05-constitutions/](../05-constitutions/).
 
 ---
 
 ## Common Pitfalls to Avoid
 
-### ❌ Skipping the Plan
-- **Problem:** Jumping straight to code without PRD/Tech Spec
+### Skipping the Plan
+- **Problem:** Jumping straight to code without Phase 0-1
 - **Result:** Over-engineering, scope creep, rework
-- **Fix:** Always start with Phase 1
+- **Fix:** Always start with Explore + Plan
 
-### ❌ Implementing Multiple Tasks at Once
+### Implementing Multiple Tasks at Once
 - **Problem:** Asking AI to "build the entire feature"
 - **Result:** Complex, hard-to-review code
-- **Fix:** Use 2.2 prompt for ONE task at a time
+- **Fix:** Build phase implements one task at a time
 
-### ❌ Ignoring Review Feedback
+### Ignoring Review Feedback
 - **Problem:** Not fixing CRITICAL/HIGH issues
 - **Result:** Security vulnerabilities, bugs in production
-- **Fix:** Address all critical issues before merging
+- **Fix:** Address all critical issues before shipping
 
-### ❌ Refactoring Without Understanding Trade-offs
-- **Problem:** Optimizing for performance and sacrificing readability
-- **Result:** Fast but unmaintainable code
-- **Fix:** Use 3.6 to analyze trade-offs first
+### Using Feature Branches for Text Repos
+- **Problem:** Creating PRs for markdown changes
+- **Result:** Unnecessary ceremony, merge overhead
+- **Fix:** Orchestrate detects text repos and stays on main
 
 ---
 
@@ -158,4 +158,4 @@ Instead of asking a single AI to "do everything," you assign tasks to specialize
 
 - [Prompt Selection Guide](./prompt-selection-guide.md) - Decision tree for choosing prompts
 - [Phase Checklist](./phase-checklist.md) - Ensure you complete each phase fully
-- [Personas Overview](../personas/README.md) - Detailed persona definitions
+- [Personas Overview](../personas/README.md) - Detailed persona definitions (for manual prompt workflows)
