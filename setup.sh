@@ -55,7 +55,8 @@ mkdir -p "$TARGET/.claude/learnings"
 # Commands
 cp "$SCRIPT_DIR/.claude/commands/orchestrate.md" "$TARGET/.claude/commands/"
 cp "$SCRIPT_DIR/.claude/commands/reflect.md" "$TARGET/.claude/commands/"
-echo "✓  .claude/commands/ — /orchestrate and /reflect installed"
+cp "$SCRIPT_DIR/.claude/commands/wrap.md" "$TARGET/.claude/commands/"
+echo "✓  .claude/commands/ — /orchestrate, /reflect, and /wrap installed"
 
 # Learnings (only create if they don't exist)
 if [ ! -f "$TARGET/.claude/learnings/learnings.md" ]; then
