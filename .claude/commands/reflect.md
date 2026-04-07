@@ -1,120 +1,74 @@
 # Session Reflection
 
-Conduct a structured reflection on the current session to capture learnings and prevent repeated mistakes.
+Conduct a structured reflection on the current session to capture learnings. This is the standalone version of `/wrap` Step 1 — use it when you want to capture learnings without committing/pushing.
 
-## Your Task
-
-Analyze this session and extract actionable learnings. Categorize them as **global** (applies to all projects) or **project-specific** (only this repo).
-
-## Reflection Process
+## Process
 
 ### Step 1: Session Summary
 
-Review what was accomplished in this session:
+Review what was accomplished:
 - What was the main task/goal?
 - What approaches were tried?
 - What was the outcome?
 
 ### Step 2: Extract Learnings
 
-Identify learnings in these categories:
+Identify anything genuinely novel. The bar is high — routine work produces no learnings, and that's fine.
 
-**Patterns (things that worked well):**
-- Code patterns that solved problems elegantly
-- Workflows that were efficient
-- Debugging approaches that found issues quickly
+**Global** (`~/.claude/learnings/`) — applies across all projects:
+- `patterns.md` — approaches that worked well, reusable workflows
+- `mistakes.md` — errors made, root causes, how to prevent
 
-**Mistakes (things to avoid):**
-- Errors made and their root cause
-- Approaches that wasted time
-- Assumptions that were wrong
+**Project** (`.claude/learnings/learnings.md`) — specific to this repo:
+- Gotchas, architectural decisions, edge cases, discoveries
 
-**Preferences (user style discovered):**
-- Coding style preferences observed
-- Tool preferences
-- Communication preferences
+**User preferences** go in auto-memory, not learnings files.
 
-**Decisions (architectural choices):**
-- Technical decisions made and WHY
-- Trade-offs considered
-- Alternatives rejected and reasons
+### Step 3: Write Learnings
 
-### Step 3: Categorize Each Learning
+Before writing, check existing files to avoid duplicates. Update existing entries rather than adding new ones where possible.
 
-For each learning, determine:
-- **Global**: Applies across all projects (e.g., "Always check for null before accessing nested properties")
-- **Project-specific**: Only applies to this repo (e.g., "This project uses Zustand for state, not Redux")
-
-### Step 4: Write Learnings
-
-**For GLOBAL learnings**, append to the appropriate file:
-
-```bash
-# For patterns
-echo -e "\n## $(date '+%Y-%m-%d'): [Pattern Title]\n- [Description]\n- **Example:** [Code or workflow example]" >> ~/.claude/learnings/patterns.md
-
-# For mistakes
-echo -e "\n## $(date '+%Y-%m-%d'): [Mistake Title]\n- **What happened:** [Description]\n- **Root cause:** [Why]\n- **Prevention:** [How to avoid]" >> ~/.claude/learnings/mistakes.md
-
-# For preferences
-echo -e "\n## $(date '+%Y-%m-%d'): [Preference]\n- [Description]" >> ~/.claude/learnings/preferences.md
+**For Patterns:**
+```markdown
+## YYYY-MM-DD: [Pattern Name]
+- [What the pattern is]
+- **When to use:** [Conditions]
+- **Example:** [Brief code or workflow example]
 ```
 
-**For PROJECT-SPECIFIC learnings**, first ensure the directory exists:
-
-```bash
-mkdir -p .claude/learnings
+**For Mistakes:**
+```markdown
+## YYYY-MM-DD: [Mistake Name]
+- **What happened:** [Description]
+- **Root cause:** [Why it happened]
+- **Prevention:** [How to avoid in future]
 ```
 
-Then append to project files:
-
-```bash
-# For insights
-echo -e "\n## $(date '+%Y-%m-%d'): [Insight Title]\n- [Description]" >> .claude/learnings/insights.md
-
-# For decisions
-echo -e "\n## $(date '+%Y-%m-%d'): [Decision Title]\n- **Decision:** [What was decided]\n- **Rationale:** [Why]\n- **Alternatives considered:** [What else was evaluated]" >> .claude/learnings/decisions.md
-
-# For gotchas
-echo -e "\n## $(date '+%Y-%m-%d'): [Gotcha Title]\n- **Issue:** [What can go wrong]\n- **Solution:** [How to handle it]" >> .claude/learnings/gotchas.md
+**For Project Learnings:**
+```markdown
+## YYYY-MM-DD: [Title]
+- [Description — what was learned, decided, or discovered]
+- [Context, workaround, or rationale as needed]
 ```
 
-### Step 5: Present Summary
-
-After writing learnings, show the user:
+### Step 4: Present Summary
 
 ```
 ## Session Reflection Complete
 
-### Learnings Captured:
+**Learnings Captured:**
+- [Type]: "[title]" → [file path]
 
-**Global** (applies everywhere):
-- [Pattern/Mistake/Preference]: [Brief description]
-
-**Project-specific** (this repo only):
-- [Insight/Decision/Gotcha]: [Brief description]
-
-### Files Updated:
-- ~/.claude/learnings/[file].md
-- .claude/learnings/[file].md
-
-### Recommendation for next session:
+**Recommendation for next session:**
 [Any follow-up items or things to watch for]
 ```
 
 ## If No Learnings
 
-If the session was straightforward with nothing notable:
-- Say so honestly
-- Don't force learnings where there aren't any
-- Suggest this is a good sign the existing learnings are working
+Say so honestly. Don't force learnings where there aren't any.
 
 ## Arguments
 
 If invoked with arguments (e.g., `/reflect authentication flow`), focus reflection on that specific topic.
 
 $ARGUMENTS
-
----
-
-*This reflection helps Claude Code sessions learn from themselves. The more specific the learnings, the more useful they are.*

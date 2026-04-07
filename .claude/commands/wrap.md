@@ -32,6 +32,8 @@ Determine the repo type before proceeding. This affects formatting, push, and PR
 
 Also note the current branch — `main`/`master` vs feature branch. This determines push and PR behaviour later.
 
+Store the repo name (`basename` of the repo root) for the audit log.
+
 ## Step 1: Capture Learnings
 
 Review the session and determine if anything genuinely novel was discovered. The bar is high: routine work produces no learnings, and that's fine.
@@ -53,6 +55,7 @@ After capturing, classify each learning (new and existing) as one of:
 |------|-----------|--------|
 | **Informational** | Context, decisions, gotchas — no further work needed | Keep in learnings file |
 | **Actionable** | Implies outstanding work: something to fix, add, change, or enforce | Create a GH issue |
+| **Enforceable** | A rule that should be mechanically enforced on every edit | Suggest a hookify rule |
 
 **For actionable learnings:**
 1. Create a GitHub issue (`gh issue create --repo <org>/<repo>`) with:
@@ -61,6 +64,12 @@ After capturing, classify each learning (new and existing) as one of:
    - Label: `security`, `tech-debt`, `dx`, or `enhancement` as appropriate
 2. Update the learning entry to include `**Tracked:** <org>/<repo>#<number>`
 3. This prevents learnings from silently accumulating without follow-through
+
+**For enforceable learnings:**
+- Flag to the user: "This could be a hookify rule — want me to create one?"
+- If yes, create the hook. Then update the learning to note the hook exists.
+
+Track: count of learnings captured, count of GH issues created (for audit log).
 
 ## Step 2: Update Crucial Docs
 
@@ -71,6 +80,8 @@ Check whether key project documents need updating based on the session's work. L
 3. **Feature/fix docs** — If a feature was completed or a phase finished, update its status
 
 Only update docs that are genuinely stale.
+
+Track: count of docs updated (for audit log).
 
 ## Step 3: Auto-Format & Local Checks
 
@@ -110,6 +121,8 @@ If there are uncommitted changes:
 4. The commit message should reflect the session's work, not just "wrap up"
 
 If no changes exist, skip to Step 5.
+
+Track: count of commits created this session (for audit log). Include commits made during the session before wrap was called, not just the wrap commit itself. Use `git log --oneline --since="today"` or count commits since session start.
 
 ## Step 5: Push
 
@@ -151,6 +164,33 @@ Apply the name:
 /rename <generated-name>
 ```
 
+## Step 8: Audit Log
+
+Append a single line to `~/.claude/wrap-log.md`. Create the file with a header if it doesn't exist.
+
+**File format:**
+
+```markdown
+# Wrap Log
+
+| Date | Repo | Branch | Type | Learnings | Issues | Docs Updated | Commits | Pushed | PR | Session Name |
+|------|------|--------|------|-----------|--------|-------------|---------|--------|-----|-------------|
+| 2026-04-01 | dash | main | text | 0 | 0 | 0 | 1 | yes | — | orchestrate-rewrite |
+```
+
+**Fields:**
+- **Date** — today's date (YYYY-MM-DD)
+- **Repo** — basename of the repo root directory
+- **Branch** — current branch name
+- **Type** — `codebase` or `text`
+- **Learnings** — count of learnings captured (0 if none)
+- **Issues** — count of GH issues created from actionable learnings (0 if none)
+- **Docs Updated** — count of docs updated in Step 2 (0 if none)
+- **Commits** — count of commits in this session
+- **Pushed** — `yes`, `no`, or `main` (pushed directly to main)
+- **PR** — PR number if created/updated, `—` if skipped
+- **Session Name** — the name from Step 7, or `—` if skipped
+
 ## Wrap Summary
 
 After all steps, present a concise summary:
@@ -166,6 +206,7 @@ After all steps, present a concise summary:
 **Push:** [pushed to origin/branch / skipped]
 **PR:** [created #N / updated / skipped]
 **Session:** [renamed to `<name>` / skipped]
+**Logged:** [appended to wrap-log.md]
 ```
 
 ## Orchestrate Context

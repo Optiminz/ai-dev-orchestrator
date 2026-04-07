@@ -22,9 +22,11 @@ This project provides constitution templates for other projects:
 
 ## Slash Commands Available
 
-- `/orchestrate` — Full automated 4-phase development workflow (see `.claude/commands/orchestrate.md`)
-- `/reflect` — Session reflection and learnings capture
-- `/wrap` — End-of-session cleanup and handoff
+- `/orchestrate` — Full automated 5-phase development workflow (see `.claude/commands/orchestrate.md`)
+- `/code-review-cycle` — 4-phase code review: Audit → Triage → Fix → Verify
+- `/persona-to-agent` — Convert persona definitions into Claude subagent files
+- `/reflect` — Session reflection and learnings capture (standalone)
+- `/wrap` — End-of-session cleanup: learnings, commit, push, PR
 
 ## Key Files for Understanding This Repo
 
