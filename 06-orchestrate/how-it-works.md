@@ -51,11 +51,13 @@ Phase 3: REVIEW                    Phase 4: DOCUMENT              SHIP
 - **Don't jump to planning.** Clarify requirements and constraints first
 - **Propose trade-offs** — 2-3 approaches with pros/cons
 - **Get buy-in** before investing in a detailed plan
+- **If requirements are ambiguous or there are 3+ valid approaches:** Use `sequential-thinking` MCP to reason through trade-offs systematically before proposing
 
 ### 2. PLAN (Phase 1)
 - **Create a detailed plan** with exact file paths, code snippets, and test commands
 - **Reference project standards** (CONSTITUTION.md, CLAUDE.md, or AGENTS.md)
 - **Break into bite-sized tasks** — each should be independently completable
+- **If task dependencies are complex or ordering is non-obvious:** Use `sequential-thinking` MCP to work through dependency chains and sequencing
 
 ### 3. BUILD (Phase 2)
 - **One task at a time.** Implement iteratively, not all at once
@@ -66,6 +68,7 @@ Phase 3: REVIEW                    Phase 4: DOCUMENT              SHIP
 - **Review everything.** Don't ship without review
 - **Codebases get six specialized reviewers:** silent failure hunter, type design analyzer, PR test analyzer, code reviewer, code simplifier, comment analyzer
 - **Fix CRITICAL/HIGH issues immediately**, ask about MEDIUM/LOW
+- **If review findings conflict or severity is unclear:** Use `sequential-thinking` MCP to reason through triage decisions
 
 ### 5. SHIP
 - **Codebases:** Feature branch → PR or merge, with worktree cleanup
@@ -87,6 +90,8 @@ Instead of asking a single AI to "do everything," each phase delegates to specia
 | 3 | `pr-review-toolkit:review-pr` | 6 specialized code reviewers |
 | 3 | `superpowers:requesting-code-review` | Lightweight diff review |
 | 3 | `superpowers:verification-before-completion` | Verify all claims are accurate |
+| 0, 1, 3 | `sequential-thinking` MCP (optional) | Structured reasoning for ambiguous or complex decisions |
+| 2 | `context7` MCP (optional) | Current library/framework docs during implementation |
 | 4 | Technical Writer agent | Documentation generation |
 | Ship | `superpowers:finishing-a-development-branch` | PR/merge/cleanup decisions |
 | Ship | `/wrap` | Session learnings capture |

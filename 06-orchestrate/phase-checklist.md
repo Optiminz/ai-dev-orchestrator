@@ -10,6 +10,7 @@ Use these checklists to ensure you complete each phase before moving to the next
 - [ ] `superpowers:brainstorming` skill invoked
 - [ ] Requirements and constraints clarified
 - [ ] 2-3 approaches proposed with trade-offs
+- [ ] (Optional) `sequential-thinking` MCP used if requirements are ambiguous or 3+ valid approaches exist
 - [ ] You approved an approach
 
 **Ready to move on?** → Proceed to Plan
@@ -26,6 +27,7 @@ Use these checklists to ensure you complete each phase before moving to the next
   - [ ] Code snippets or pseudocode for each task
   - [ ] Test commands where applicable
   - [ ] Dependencies between tasks noted
+- [ ] (Optional) `sequential-thinking` MCP used if task dependencies are complex or ordering is non-obvious
 - [ ] You reviewed the plan
 - [ ] Tasks are small enough (each independently completable)
 - [ ] Plan follows project standards
@@ -85,6 +87,7 @@ Use these checklists to ensure you complete each phase before moving to the next
 - [ ] All CRITICAL issues fixed
 - [ ] All HIGH issues fixed
 - [ ] MEDIUM/LOW issues fixed or deferred (with your approval)
+- [ ] (Optional) `sequential-thinking` MCP used if review findings conflict or severity is unclear
 - [ ] `superpowers:verification-before-completion` run
 - [ ] All tests still passing after fixes
 

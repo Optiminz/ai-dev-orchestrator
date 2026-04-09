@@ -143,6 +143,47 @@ Install the plugin and your AI coding workflow gets disciplined guardrails witho
 
 ---
 
+## Optional MCP Servers
+
+MCP servers are separate from plugins — they provide tools via the Model Context Protocol. These are not required but can improve specific parts of the workflow.
+
+### context7
+
+Fetches **current documentation** for libraries, frameworks, and SDKs on demand. Claude's training data may not reflect recent API changes — Context7 pulls the latest docs so implementation code uses current syntax and patterns.
+
+**When it helps:**
+- Phase 2 (Build) when implementing code that uses external libraries
+- Any time you're integrating a third-party API, SDK, or framework
+- Version migrations — checking what changed between library versions
+
+**When it doesn't help:**
+- Planning, brainstorming, or review phases (no library docs needed)
+- Pure business logic with no external dependencies
+- Documentation writing
+
+Claude will use Context7 naturally during implementation when it's available — you don't need to tell it to. Just having it installed is enough.
+
+**Setup:** Add to your Claude Code MCP config. See [context7.com](https://context7.com) for installation.
+
+### sequential-thinking
+
+Provides a structured step-by-step reasoning tool for complex decisions. Instead of Claude reasoning internally and jumping to a conclusion, each step is explicit and revisable.
+
+**When it helps:**
+- Phase 0 (Explore) when requirements are ambiguous or there are 3+ valid approaches
+- Phase 1 (Plan) when task dependencies are complex or ordering is non-obvious
+- Phase 3 (Review) when review findings conflict or severity judgments are unclear
+- Any decision where the first intuitive answer might be wrong
+
+**When it doesn't help:**
+- Straightforward implementation tasks
+- Simple file edits or lookups
+- Tasks where the path is already clear
+
+**Setup:** Add to your Claude Code MCP config. Available as `@anthropic/sequential-thinking` or similar community packages.
+
+---
+
 ## Saving Tokens with MCP Launchpad
 
 Every plugin loaded in Claude Code adds its tool definitions to the system prompt — even when you don't use them. If you're running GitHub, Pinecone, or Google Workspace as plugins, that's 20,000+ tokens of overhead per message.

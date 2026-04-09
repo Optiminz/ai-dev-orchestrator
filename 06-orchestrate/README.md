@@ -64,6 +64,14 @@ You approve at each phase transition — the AI never ships without your sign-of
 | **Review** | Pushes branch, runs 6 specialized PR reviewers | Reviews diff since start |
 | **Ship** | Offers PR, merge, keep, or discard options | Commits and pushes to main |
 
+## Related: /solve-issues
+
+While `/orchestrate` builds **new features from ideas**, `/solve-issues` clears **existing issue backlogs**. It classifies open GitHub issues by complexity and solves them progressively — batching trivials, implementing standards directly, and running full plan cycles for complex ones.
+
+- [/solve-issues documentation](skills/solve-issues.md)
+
+---
+
 ## Learn More
 
 - [How the workflow works in detail](how-it-works.md)

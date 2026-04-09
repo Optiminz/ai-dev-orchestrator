@@ -21,7 +21,7 @@ A learning path from "what is Claude Code?" to fully automated AI-assisted devel
 | [03 — Your First Feature](03-your-first-feature/) | Build something real with AI assistance | 1-2 hours |
 | [04 — Prompts](04-prompts/) | 15 copy-paste prompts that work with any AI tool | Reference |
 | [05 — Constitutions](05-constitutions/) | Project rules that keep AI consistent and on track | 15 min |
-| [06 — Orchestrate](06-orchestrate/) | Automated 5-phase workflow with `/orchestrate` | Advanced |
+| [06 — Orchestrate](06-orchestrate/) | Automated 5-phase workflow with `/orchestrate` + `/solve-issues` | Advanced |
 
 ---
 
@@ -84,6 +84,7 @@ The [starter kit](02-starter-kit/), [plugins guide](01-learn-claude-code/essenti
 - **5 personas** — Specialized AI roles: Product Owner, Architect, Developer, QA, Writer ([personas/](personas/))
 - **3 constitution templates** — For internal tools, client apps, and AI agents ([05-constitutions/](05-constitutions/))
 - **Automated orchestration** — `/orchestrate` command for 5-phase development ([06-orchestrate/](06-orchestrate/))
+- **Issue solving** — `/solve-issues` command for autonomous issue backlog clearing ([06-orchestrate/skills/solve-issues.md](06-orchestrate/skills/solve-issues.md))
 
 ---
 

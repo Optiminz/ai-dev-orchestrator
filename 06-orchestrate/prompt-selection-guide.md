@@ -127,9 +127,14 @@ When using `/orchestrate`, plugins handle each phase automatically. When using m
 |-------|----------------------|----------------------|
 | Explore/Define | `superpowers:brainstorming` | Product Owner (1.1) |
 | Plan/Design | `superpowers:writing-plans` | Solutions Architect (1.2) |
-| Build | `superpowers:test-driven-development` | Specialist Developer (2.2) |
-| Review | `pr-review-toolkit:review-pr` | QA Engineer (3.1) |
-| Document | Technical Writer agent | Technical Writer (4.1) |
+| Branch (codebases) | `superpowers:using-git-worktrees` | — |
+| Build | `superpowers:test-driven-development` or `subagent-driven-development` | Specialist Developer (2.2) |
+| Review | `pr-review-toolkit:review-pr` (codebases) / `superpowers:requesting-code-review` (text repos) | QA Engineer (3.1) |
+| Verify | `superpowers:verification-before-completion` | — |
+| Document | Technical Writer agent + `/wrap` | Technical Writer (4.1) |
+| Ship | `superpowers:finishing-a-development-branch` (codebases) | — |
+| Reasoning (optional) | `sequential-thinking` MCP (Phases 0, 1, 3) | — |
+| Library docs (optional) | `context7` MCP (Phase 2 — Build) | — |
 
 ---
 
