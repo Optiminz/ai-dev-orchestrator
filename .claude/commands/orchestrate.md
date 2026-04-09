@@ -98,7 +98,7 @@ This ensures all implementation happens on a feature branch, not main.
 
 ## Phase 2: Build
 
-Invoke `superpowers:subagent-driven-development` (if tasks are independent) or `superpowers:test-driven-development` (if tasks are sequential).
+**Always use `superpowers:subagent-driven-development`.** Do not ask which execution mode to use — subagent-driven is the default. Only fall back to `superpowers:executing-plans` if subagents are unavailable on the platform.
 
 - Implement task-by-task following the plan
 - **Codebases:** Write tests before implementation (TDD), commit after each completed task
