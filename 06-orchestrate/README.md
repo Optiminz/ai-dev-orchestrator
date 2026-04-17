@@ -1,6 +1,6 @@
 # /orchestrate — Automated AI Development Workflow
 
-The `/orchestrate` command automates a 5-phase development workflow with human approval checkpoints at every stage. It's the most advanced feature of this framework.
+The `/orchestrate` command automates a 5-phase development workflow. Run it with approval checkpoints at every stage (manual mode) or fully autonomously across context resets (Ralph mode).
 
 ## Prerequisites
 
@@ -13,12 +13,20 @@ Before using `/orchestrate`, you need:
    - `commit-commands` (git workflow)
 3. A **git repository** initialized
 4. A **feature request** or idea to build
+5. **For Ralph mode:** `ralph-loop@claude-plugins-official` enabled in `~/.claude/settings.json`
 
 **Standards file** (recommended): `CONSTITUTION.md`, `CLAUDE.md`, or `AGENTS.md` in your project root. Orchestrate looks for these in order and uses the first one found. If none exist, it infers conventions from existing code.
 
 ## How It Works
 
-`/orchestrate` detects your repo type (codebase vs text repo) and adapts the workflow accordingly.
+On first run, `/orchestrate` asks you to choose an execution mode:
+
+> "Run autonomously (Ralph mode) or with approval checkpoints (manual)?"
+
+- **Manual:** All 5 approval checkpoints active. You review and approve at each phase transition.
+- **Ralph:** No checkpoints. Runs end-to-end autonomously, resuming from where it left off after context resets.
+
+It also detects your repo type (codebase vs text repo) and adapts the workflow accordingly.
 
 ### Repo Type Detection
 
@@ -45,7 +53,9 @@ Before using `/orchestrate`, you need:
 /orchestrate "Build user authentication with email and OAuth"
 ```
 
-## Human Checkpoints
+## Execution Modes
+
+### Manual Mode (default)
 
 You approve at each phase transition — the AI never ships without your sign-off:
 
@@ -54,6 +64,14 @@ You approve at each phase transition — the AI never ships without your sign-of
 3. After building: "Implementation complete. Ready for review?"
 4. After review: "Review complete. Approve documentation?"
 5. After docs: "Ready to ship?"
+
+### Ralph Mode (autonomous)
+
+No checkpoints. The AI runs through all phases autonomously. A state file (`.claude/orchestrate.local.md`) tracks progress across context resets — if the context window fills up or the session crashes, Ralph re-feeds `/orchestrate` and it resumes from where it left off.
+
+- Review phase: fixes all critical/high issues automatically, skips medium/low unless trivial
+- Ship phase: defaults to creating a PR (codebases) or pushing to main (text repos)
+- Outputs `<promise>ORCHESTRATE_COMPLETE</promise>` when done
 
 ## Codebase vs Text Repo Differences
 

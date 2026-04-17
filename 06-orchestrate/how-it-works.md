@@ -98,24 +98,68 @@ Instead of asking a single AI to "do everything," each phase delegates to specia
 
 ---
 
+## Execution Modes & Resumability
+
+### Mode Choice
+
+On every invocation, orchestrate asks:
+
+> "Run autonomously (Ralph mode) or with approval checkpoints (manual)?"
+
+Mode is a **per-invocation choice**, not auto-detected from plugin state. Even if Ralph Loop is installed, you can choose manual for a particular run.
+
+### State File
+
+Orchestrate writes a state file at `.claude/orchestrate.local.md` (gitignored, not committed) that tracks:
+
+- Current phase and status of each phase
+- Repo type, branch name, plan file path
+- Execution mode (ralph or manual)
+- Feature description
+
+This makes orchestrate **resumable** regardless of mode:
+
+- **Manual mode + context reset:** Run `/orchestrate` again. It finds the state file and offers to resume.
+- **Ralph mode + context reset:** Ralph automatically re-feeds `/orchestrate`. It reads the state file, skips completed phases, and continues from the first pending/in-progress phase.
+- **Crash recovery:** Same as manual — run `/orchestrate`, it finds the state file and picks up.
+
+### Ralph Loop Integration
+
+When Ralph mode is active:
+- The state file persists across context resets
+- Each new iteration reads the state file first
+- Completed phases are skipped
+- `<promise>ORCHESTRATE_COMPLETE</promise>` is output only when Ship is done
+- Failed phases are not retried infinitely — if a phase fails twice, stop and report
+- Context pressure checks during Build phase prevent working with degraded context
+
+**Requires:** `ralph-loop@claude-plugins-official` enabled in `~/.claude/settings.json`
+
+---
+
 ## Key Principles
 
-### 1. Standards as Law
+### 1. Mode is a Per-Invocation Choice
+- Ralph or manual, chosen at the start, never auto-detected
+- State file enables resumability in both modes
+- Same command, same phases — only the checkpoint behavior differs
+
+### 2. Standards as Law
 - Every phase references your project standards file
 - Non-negotiable conventions prevent drift
 - Consistency across all AI outputs
 
-### 2. Repo-Type Awareness
+### 3. Repo-Type Awareness
 - Codebases get branches, PRs, and test gates
 - Text repos commit to main — no unnecessary ceremony
 - Detection is automatic based on build tooling
 
-### 3. Autonomous Between Checkpoints
-- Human approval at phase transitions, not micro-decisions
+### 4. Autonomous Between Checkpoints
+- Human approval at phase transitions (manual mode), not micro-decisions
 - AI works autonomously within each phase
 - You make the strategic decisions, AI handles execution
 
-### 4. Quality Gates
+### 5. Quality Gates
 - Review phase runs specialized checks (not just "looks good")
 - Verification proves claims before shipping
 - Session learnings improve future sessions via `/wrap`
