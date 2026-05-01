@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.3.0] - 2026-05-02
+
+### Added
+- **Beginner mode** in `setup.sh` (`--beginner` flag) — creates a new project directory seeded with conversation-first templates for non-developers
+- `02-starter-kit/beginner/` — five templates: `START-HERE`, `README`, `CONSTITUTION`, `CLAUDE`, and `chat-assistant-project-instructions`. Bias toward simplest-thing-that-works, instruct Claude Code to interview before scaffolding, and provide a Technical Delivery Advisor prompt for scoping conversations in Claude.ai/ChatGPT/Gemini
+- `--advanced` flag and interactive mode picker in `setup.sh`
+- README: beginner Quick Start entry path; "Shared Claude Code config for teams" breadcrumb pointing to Optimi
+- `essential-plugins.md`: `code-review` and `context7` promoted to Highly Recommended; `playwright`, `supabase` + `postgres-best-practices`, and `frontend-design` added to Nice to Have; advanced-tier note for `mcp-server-dev`, `agent-sdk-dev`, `slack`, official `github`
+- `guides/session-learning-system.md`: end-of-session sweep pattern (`patterns.md` vs `mistakes.md`), grep-before-debugging recurring issues
+
+### Changed
+- Tooling guidance reframed around Claude Code as the recommended path. Cursor-specific recommendations and `guides/cursor-setup.md` removed; Replit references dropped from constitutions and starter docs
+- `01-learn-claude-code/what-is-claude-code.md` — "How It's Different from Cursor" section reframed as "How It's Different from Inline AI Autocomplete"
+- `01-learn-claude-code/installation.md` — Editor Setup section now VS Code only
+
+### Removed
+- `guides/cursor-setup.md`
+
+---
+
 ## [3.2.0] - 2026-03-27
 
 ### Added
