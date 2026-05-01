@@ -216,7 +216,7 @@ Write down:
 
 ### Step 2: Use the Prompt
 
-Paste the prompt template above to your AI assistant (Claude Code, ChatGPT, Gemini, etc.) and fill in your feature description and context.
+Paste the prompt template above to your AI assistant (Cursor, Claude Code, ChatGPT, etc.) and fill in your feature description and context.
 
 ### Step 3: Review the Recommendation
 

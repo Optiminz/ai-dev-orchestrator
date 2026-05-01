@@ -72,9 +72,11 @@ Claude should read the file and return a summary. If it does, you are ready to u
 
 ---
 
-## Editor Setup (VS Code)
+## Editor Setup (VS Code and Cursor)
 
-Claude Code is available as a VS Code extension, giving you the full experience inside your IDE.
+Claude Code is available as an editor extension, giving you the full experience inside your IDE.
+
+**Cursor** and **VS Code** use the same extension (Cursor is built on VS Code).
 
 1. Open the Extensions panel in your editor.
 2. Search for **Claude Code**.

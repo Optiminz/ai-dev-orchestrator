@@ -1,7 +1,7 @@
 # ADO Beginner Upgrade — Design
 
 **Date:** 2026-05-02
-**Status:** Implemented (v3.3.0)
+**Status:** Draft, awaiting user review
 **Author:** Malcolm + Claude
 
 ---

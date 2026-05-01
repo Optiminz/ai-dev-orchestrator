@@ -364,30 +364,6 @@ Now Claude:
 
 ---
 
-## End-of-Session Sweep — The Validated Pattern
-
-What's worked well in practice is splitting learnings into two files and treating the end-of-session sweep as a deliberate step, not an afterthought:
-
-- **`patterns.md`** — things that worked. Approaches you'd repeat, conventions that paid off, useful tactics.
-- **`mistakes.md`** — things that didn't work. Wrong assumptions, dead ends, decisions you reversed.
-
-Two reasons for the split:
-
-1. **Different review cadence.** You scan `patterns.md` when starting similar work. You scan `mistakes.md` when debugging or about to make a similar call.
-2. **Different tone.** Patterns are encouraging; mistakes are corrective. Mixing them dilutes both.
-
-### Before debugging a recurring-feeling issue, grep first
-
-If something feels familiar — *"haven't I hit this before?"* — `grep -i <keyword>` across `~/.claude/learnings/` and the project's `.claude/learnings/` before you start diagnosing. Half the time the answer is already there. The cost of a 2-second grep is much lower than the cost of re-debugging.
-
-### Keep it markdown-on-disk simple
-
-The whole system is just markdown files. No database, no service, no syncing. That's the point — it works on any machine, in any project, with any editor, and is trivial to back up (it's already in git).
-
-If you start wanting fancier infrastructure, the usual answer is: write a smaller, more focused learning instead. Most "I need a database for this" feelings come from learnings that are too vague to be useful.
-
----
-
 ## Best Practices
 
 ### DO ✅

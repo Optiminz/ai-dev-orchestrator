@@ -33,8 +33,10 @@ Ready? Let's start with your first feature...
 
 Before you begin, you need:
 1. **An AI coding assistant** - Choose one:
-   - [Claude Code](https://code.claude.com) (Recommended — CLI, runs in your terminal or inside VS Code)
-   - Any AI that can reference files (ChatGPT, Gemini, Copilot, etc.)
+   - [Cursor IDE](https://cursor.sh) (Recommended for beginners)
+   - [Claude Code](https://code.claude.com) (CLI-based)
+   - [Replit AI](https://replit.com) (Browser-based, instant deployment)
+   - Any AI that can reference files (ChatGPT with code interpreter, etc.)
 
 2. **Your project's Constitution** - This defines how the AI should build:
    - Copy `CONSTITUTION-TEMPLATE.md` from the root to your project

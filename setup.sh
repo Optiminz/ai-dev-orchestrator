@@ -2,146 +2,25 @@
 # =============================================================================
 # AI Dev Orchestrator — Project Setup Script
 # =============================================================================
-# Installs ai-dev-orchestrator into a project, in one of two modes:
-#
-#   advanced (default for existing projects):
-#     CONSTITUTION.md               Project rules template (customize this)
-#     .claude/commands/             /orchestrate, /reflect, and /wrap commands
-#     .claude/learnings/            Session learning files
-#     .claude/CLAUDE.md             Claude Code project config
-#
-#   beginner:
-#     A new project directory seeded with conversation-first templates:
-#     START-HERE.md, README.md, CONSTITUTION.md, CLAUDE.md,
-#     chat-assistant-project-instructions.md, notes/.
-#     For non-developers scoping a small project. Initialises a git repo.
+# Installs ai-dev-orchestrator into an existing or new project.
 #
 # Usage:
-#   ./setup.sh                          # Interactive: asks which mode
-#   ./setup.sh --advanced [dir]         # Install advanced framework into dir
-#   ./setup.sh --beginner               # Create a beginner project (prompts for path/name)
-#   ./setup.sh --beginner /path/to/dir  # Create a beginner project at a specific path
-#   ./setup.sh /path/to/dir             # Same as --advanced /path/to/dir
+#   ./setup.sh                    # Install into current directory
+#   ./setup.sh /path/to/project   # Install into specified directory
+#
+# What it installs:
+#   CONSTITUTION.md               Project rules template (customize this)
+#   .claude/commands/             /orchestrate, /reflect, and /wrap slash commands
+#   .claude/learnings/            Session learning files
+#   .claude/CLAUDE.md             Claude Code project config (with first-run setup)
 # =============================================================================
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TARGET="${1:-$(pwd)}"
 
-# ── Argument parsing ──────────────────────────────────────────────────────────
-
-MODE=""
-TARGET=""
-
-while [ $# -gt 0 ]; do
-  case "$1" in
-    --beginner)
-      MODE="beginner"
-      shift
-      ;;
-    --advanced)
-      MODE="advanced"
-      shift
-      ;;
-    -h|--help)
-      sed -n '2,25p' "$0" | sed 's/^# \{0,1\}//'
-      exit 0
-      ;;
-    *)
-      if [ -z "$TARGET" ]; then
-        TARGET="$1"
-      else
-        echo "Error: unexpected argument '$1'"
-        exit 1
-      fi
-      shift
-      ;;
-  esac
-done
-
-# ── Mode selection ────────────────────────────────────────────────────────────
-
-if [ -z "$MODE" ]; then
-  echo ""
-  echo "AI Dev Orchestrator setup"
-  echo ""
-  echo "  1) Beginner   — new project, conversation-first, for non-developers"
-  echo "  2) Advanced   — install framework into an existing project"
-  echo ""
-  printf "Choose [1/2]: "
-  read -r choice
-  case "$choice" in
-    1) MODE="beginner" ;;
-    2) MODE="advanced" ;;
-    *) echo "Invalid choice."; exit 1 ;;
-  esac
-  echo ""
-fi
-
-# ── Beginner mode ─────────────────────────────────────────────────────────────
-
-if [ "$MODE" = "beginner" ]; then
-  TEMPLATE_DIR="$SCRIPT_DIR/02-starter-kit/beginner"
-  if [ ! -d "$TEMPLATE_DIR" ]; then
-    echo "Error: beginner templates not found at $TEMPLATE_DIR"
-    exit 1
-  fi
-
-  if [ -z "$TARGET" ]; then
-    printf "Project name (short, lowercase, hyphens — e.g. photo-tagger): "
-    read -r project_name
-    if [ -z "$project_name" ]; then
-      echo "Error: project name is required."
-      exit 1
-    fi
-    DEFAULT_PARENT="$HOME/Projects"
-    printf "Where to create it? [%s/%s]: " "$DEFAULT_PARENT" "$project_name"
-    read -r project_path
-    if [ -z "$project_path" ]; then
-      project_path="$DEFAULT_PARENT/$project_name"
-    fi
-    TARGET="$project_path"
-  fi
-
-  PROJECT_NAME="$(basename "$TARGET")"
-
-  if [ -d "$TARGET" ] && [ -n "$(ls -A "$TARGET" 2>/dev/null)" ]; then
-    echo "Error: '$TARGET' already exists and is not empty."
-    echo "Pick a fresh path so we don't overwrite anything."
-    exit 1
-  fi
-
-  mkdir -p "$TARGET"
-  mkdir -p "$TARGET/notes"
-
-  for src in "$TEMPLATE_DIR"/*.template.md; do
-    [ -e "$src" ] || continue
-    fname="$(basename "$src" .template.md).md"
-    # Substitute {{PROJECT_NAME}} placeholder
-    sed "s/{{PROJECT_NAME}}/$PROJECT_NAME/g" "$src" > "$TARGET/$fname"
-  done
-
-  # Empty .keep so notes/ is committed
-  touch "$TARGET/notes/.keep"
-
-  # Initialise git, no commit (let the user own it)
-  if command -v git >/dev/null 2>&1; then
-    (cd "$TARGET" && git init -q)
-  fi
-
-  echo ""
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "  Beginner project created at: $TARGET"
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo ""
-  echo "  Next: open $TARGET/START-HERE.md"
-  echo ""
-  exit 0
-fi
-
-# ── Advanced mode (existing behaviour) ────────────────────────────────────────
-
-TARGET="${TARGET:-$(pwd)}"
+# ── Validation ────────────────────────────────────────────────────────────────
 
 if [ ! -d "$TARGET" ]; then
   echo "Error: Directory '$TARGET' does not exist."
@@ -156,7 +35,7 @@ if [ "$(cd "$TARGET" && pwd)" = "$SCRIPT_DIR" ]; then
 fi
 
 echo ""
-echo "Installing AI Dev Orchestrator (advanced) into: $TARGET"
+echo "Installing AI Dev Orchestrator into: $TARGET"
 echo ""
 
 # ── Constitution ──────────────────────────────────────────────────────────────

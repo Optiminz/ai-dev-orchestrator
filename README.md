@@ -33,9 +33,6 @@ Start at [01 — Learn Claude Code](01-learn-claude-code/what-is-claude-code.md)
 **Know Claude Code, want the framework?**
 Grab the [02 — Starter Kit](02-starter-kit/) and jump to [04 — Prompts](04-prompts/)
 
-**I have a specific small project in mind but I'm not a developer.**
-Easiest way — in Claude Code, just say: *"clone ai-dev-orchestrator and set me up as a beginner."* Claude clones the repo, runs `./setup.sh --beginner`, and seeds you a fresh project with a conversation-first walkthrough. Then open the new project's `START-HERE.md`.
-
 **Just want the config?**
 
 ```bash
@@ -72,7 +69,7 @@ git clone https://github.com/Optiminz/ai-dev-orchestrator.git ~/ai-dev-orchestra
 
 ## Works With Any AI Tool
 
-The [prompts](04-prompts/) work with any AI — Claude Code, ChatGPT, Gemini, Copilot. Copy-paste them and follow the workflow.
+The [prompts](04-prompts/) work with any AI — Claude Code, Cursor, ChatGPT, Gemini, Copilot. Copy-paste them and follow the workflow.
 
 The [starter kit](02-starter-kit/), [plugins guide](01-learn-claude-code/essential-plugins.md), and [/orchestrate](06-orchestrate/) are Claude Code specific.
 
@@ -97,7 +94,7 @@ The [starter kit](02-starter-kit/), [plugins guide](01-learn-claude-code/essenti
 - [Session learning system](guides/session-learning-system.md) — How Claude remembers across sessions
 - [Post-compaction context](guides/post-compaction-context.md) — Prevent Claude from losing context in long sessions
 - [Project onboarding](guides/project-onboarding.md) — Scaling from 1 to 20 developers
-- [Claude Code installation](01-learn-claude-code/installation.md) — Install and configure Claude Code
+- [Cursor setup](guides/cursor-setup.md) — Using the framework in Cursor IDE
 - [Research foundations](docs/research-origin.md) — Academic origins of this approach
 
 ---
@@ -106,19 +103,13 @@ The [starter kit](02-starter-kit/), [plugins guide](01-learn-claude-code/essenti
 
 - **Claude Code CLI** — [Install guide](01-learn-claude-code/installation.md)
 - **Node.js 18+**
-- **Optional:** VS Code with Claude Code extension
+- **Optional:** Cursor or VS Code with Claude Code extension
 
 ---
 
 ## Contributing
 
 This framework was built by a non-developer using AI. If you're using it, improving it, or have ideas — contributions and feedback are welcome.
-
----
-
-## Shared Claude Code config for teams
-
-Want everyone on your team using the same skills, plugins, hooks, and conventions — without each person setting it up by hand? That's what [Optimi](https://optimi.co.nz) runs internally. [Get in touch](mailto:malcolm@optimi.co.nz) if you'd like to learn more.
 
 ---
 
