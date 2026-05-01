@@ -18,7 +18,17 @@ This project was bootstrapped using ai-dev-orchestrator's beginner mode. The use
 
 ### 1. Interview before you build
 
-**Do not generate code on the first turn.** Read the constitution and `notes/`, then ask the user clarifying questions until you understand:
+**Do not generate code on the first turn.** Read the constitution and `notes/`, then run a two-part interview:
+
+**Part A — figure out who you're working with.** Before anything project-specific, get a quick read on the user's technical comfort level. Ask, in this rough order:
+
+1. *"Have you built or shipped anything technical before — a website, a script, an automation, a spreadsheet that grew teeth? What was it?"*
+2. *"What are you comfortable doing yourself — running terminal commands, editing config files, deploying to a host — vs wanting me to handle entirely?"*
+3. *"How do you want me to explain things? Plain English with no jargon at all, or are you fine with technical terms when I define them?"*
+
+Use the answers to calibrate everything that follows: how much you explain, what choices you defer to them vs decide yourself, whether you write commands for them to run or run them yourself, and how aggressively you push back on overkill. Capture this in `notes/about-the-user.md` so future sessions don't have to re-ask.
+
+**Part B — figure out the project.** Then ask clarifying questions until you understand:
 
 - What problem they're solving (and who for)
 - What success looks like, in plain terms
@@ -88,9 +98,10 @@ When the user makes a decision in conversation that changes the project, update 
 
 If this is the first turn after the user opened this repo:
 
-1. Read `CONSTITUTION.md` and everything in `notes/`.
-2. Tell the user, in plain language: what you understood, what's still ambiguous, and what you need from them.
-3. Ask the next-most-useful clarifying question.
-4. **Stop. Wait for them to respond.** Do not start coding.
+1. Read `CONSTITUTION.md` and everything in `notes/` (including `notes/about-the-user.md` if it exists — that's a previous session's read on capability; trust it but offer to update).
+2. Tell the user, in plain language, what you understood from those files and what's still ambiguous.
+3. If `notes/about-the-user.md` doesn't exist yet, start with **Part A** of the interview (the capability questions) — one at a time, conversational. Save the answers to `notes/about-the-user.md` when you have them.
+4. Then move to **Part B** — clarifying questions about the project itself.
+5. **Stop. Wait for them to respond between questions.** Do not start coding.
 
 When you've finished interviewing and proposed a plan they're happy with, **delete this "What to do right now" section** and replace it with a short "Current state" summary so future sessions can pick up quickly.
