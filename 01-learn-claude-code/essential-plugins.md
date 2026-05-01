@@ -77,6 +77,22 @@ Creates Claude Code hooks to prevent bad patterns project-wide. Examples: never 
 /install-plugin hookify
 ```
 
+### code-review
+
+Adds two slash commands: `/review` (general code review of pending changes) and `/security-review` (focused on auth, RLS, secrets, prompt injection, AI-generated code smells). Different surface from `pr-review-toolkit` — this is what you reach for *during* a session, not at PR time.
+
+```
+/install-plugin code-review
+```
+
+### context7
+
+Pulls **current documentation** for libraries, frameworks, and SDKs into context on demand. Claude's training data may not reflect recent API changes — context7 fetches the latest docs so implementation uses current syntax. Especially useful for non-developers who don't know which APIs are current.
+
+```
+/install-plugin context7
+```
+
 ---
 
 ## Nice to Have
@@ -88,6 +104,11 @@ Creates Claude Code hooks to prevent bad patterns project-wide. Examples: never 
 | `firecrawl` | Web scraping and research from within your session |
 | `playground` | Creates interactive HTML explorers for visual experimentation |
 | `skill-creator` | Guides you through writing your own custom skills |
+| `playwright` | Browser automation — verify UI changes actually work end-to-end |
+| `supabase` + `postgres-best-practices` | Use together when your project touches a Postgres / Supabase database |
+| `frontend-design` | Distinctive UI generation. Avoids the AI-slop look on user-facing work |
+
+> **Advanced:** `mcp-server-dev`, `agent-sdk-dev`, `slack`, and the official `github` plugin exist for specific needs (building MCP servers, writing custom agents, posting to Slack, interacting with the GitHub API). Install only when you have a concrete reason to.
 
 ---
 
@@ -147,23 +168,7 @@ Install the plugin and your AI coding workflow gets disciplined guardrails witho
 
 MCP servers are separate from plugins — they provide tools via the Model Context Protocol. These are not required but can improve specific parts of the workflow.
 
-### context7
-
-Fetches **current documentation** for libraries, frameworks, and SDKs on demand. Claude's training data may not reflect recent API changes — Context7 pulls the latest docs so implementation code uses current syntax and patterns.
-
-**When it helps:**
-- Phase 2 (Build) when implementing code that uses external libraries
-- Any time you're integrating a third-party API, SDK, or framework
-- Version migrations — checking what changed between library versions
-
-**When it doesn't help:**
-- Planning, brainstorming, or review phases (no library docs needed)
-- Pure business logic with no external dependencies
-- Documentation writing
-
-Claude will use Context7 naturally during implementation when it's available — you don't need to tell it to. Just having it installed is enough.
-
-**Setup:** Add to your Claude Code MCP config. See [context7.com](https://context7.com) for installation.
+> **Note:** context7 is now available as a plugin (see [Highly Recommended](#highly-recommended) above). The plugin is the easier install — prefer it over the standalone MCP server.
 
 ### sequential-thinking
 
