@@ -1,6 +1,6 @@
 # What Is Claude Code?
 
-Claude Code is Anthropic's command-line tool for AI-assisted coding. You run it in your terminal (or inside VS Code or Cursor) and it works directly inside your project — reading your files, writing code, running commands, and managing git.
+Claude Code is Anthropic's command-line tool for AI-assisted coding. You run it in your terminal (or inside VS Code) and it works directly inside your project — reading your files, writing code, running commands, and managing git.
 
 Think of it as an AI developer sitting next to you, with full access to your codebase.
 
@@ -21,18 +21,18 @@ No copy-pasting. Claude makes the changes; you review them.
 
 ---
 
-## How It's Different from Cursor
+## How It's Different from Inline AI Autocomplete
 
-Cursor is an IDE with AI built in — autocomplete on steroids, plus inline chat for editing specific lines or blocks.
+Editor autocomplete (GitHub Copilot, IDE-built-in AI) suggests code line by line as you type.
 
 Claude Code is a pair programmer. You describe an outcome, it plans and builds the whole thing.
 
-- **Cursor:** "complete this function for me"
+- **Autocomplete:** "complete this function for me"
 - **Claude Code:** "add user authentication with email/password — include the routes, database schema, and tests"
 
-Claude Code also has a VS Code and Cursor extension, so you can run it inside those editors if you prefer not to use the terminal directly.
+Claude Code has a VS Code extension, so you can run it inside your editor if you prefer not to use the terminal directly.
 
-The key difference: Cursor suggests code line by line. Claude Code can design and implement entire features.
+The key difference: autocomplete suggests code line by line. Claude Code can design and implement entire features.
 
 ---
 

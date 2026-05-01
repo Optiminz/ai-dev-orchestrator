@@ -69,7 +69,7 @@ git clone https://github.com/Optiminz/ai-dev-orchestrator.git ~/ai-dev-orchestra
 
 ## Works With Any AI Tool
 
-The [prompts](04-prompts/) work with any AI — Claude Code, Cursor, ChatGPT, Gemini, Copilot. Copy-paste them and follow the workflow.
+The [prompts](04-prompts/) work with any AI — Claude Code, ChatGPT, Gemini, Copilot. Copy-paste them and follow the workflow.
 
 The [starter kit](02-starter-kit/), [plugins guide](01-learn-claude-code/essential-plugins.md), and [/orchestrate](06-orchestrate/) are Claude Code specific.
 
@@ -94,7 +94,7 @@ The [starter kit](02-starter-kit/), [plugins guide](01-learn-claude-code/essenti
 - [Session learning system](guides/session-learning-system.md) — How Claude remembers across sessions
 - [Post-compaction context](guides/post-compaction-context.md) — Prevent Claude from losing context in long sessions
 - [Project onboarding](guides/project-onboarding.md) — Scaling from 1 to 20 developers
-- [Cursor setup](guides/cursor-setup.md) — Using the framework in Cursor IDE
+- [Claude Code installation](01-learn-claude-code/installation.md) — Install and configure Claude Code
 - [Research foundations](docs/research-origin.md) — Academic origins of this approach
 
 ---
@@ -103,7 +103,7 @@ The [starter kit](02-starter-kit/), [plugins guide](01-learn-claude-code/essenti
 
 - **Claude Code CLI** — [Install guide](01-learn-claude-code/installation.md)
 - **Node.js 18+**
-- **Optional:** Cursor or VS Code with Claude Code extension
+- **Optional:** VS Code with Claude Code extension
 
 ---
 

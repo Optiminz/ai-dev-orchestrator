@@ -117,7 +117,7 @@ Open `CONSTITUTION.md` and fill in the placeholders:
 - [ ] Tech stack (framework, database, styling)
 - [ ] User context (who will use this, how many)
 - [ ] Security requirements (authentication, data protection)
-- [ ] Deployment platform (Vercel, Replit, AWS, etc.)
+- [ ] Deployment platform (Vercel, Netlify, AWS, etc.)
 
 **Optional but recommended:**
 - [ ] Coding standards specific to your team
@@ -194,7 +194,7 @@ I want to build [feature]. Help me create a PRD.
 | **Testing** | Manual mostly | Automated required | Integration tests |
 | **Error Handling** | User-friendly | Graceful degradation | Retry logic, logging |
 | **Performance** | "Good enough" | Optimized | Async, queues |
-| **Deployment** | Simple (Replit, Vercel) | Production-ready | Always-on, monitored |
+| **Deployment** | Simple (Vercel, Netlify) | Production-ready | Always-on, monitored |
 | **Scalability** | 5-50 users | 1000s of users | API rate-based |
 
 ---

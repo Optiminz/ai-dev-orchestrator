@@ -10,7 +10,7 @@ Before starting, ensure you have:
   - **Technical Stack** (frameworks, languages, tools you want to use)
   - **User Context** (who will use this: you, team, clients, public)
   - **Security Requirements** (basic auth, production-ready, compliance needs)
-- [ ] Your AI assistant can reference files (@ notation in Cursor, file paths in Claude Code)
+- [ ] Your AI assistant can reference files (file paths in Claude Code, @ notation in editor-based assistants)
 
 If you haven't done this yet, stop and do it now. The quality of your AI's output depends entirely on how well you define these.
 

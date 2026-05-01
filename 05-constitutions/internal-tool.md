@@ -92,7 +92,6 @@ Type imports: import type { ... } for type-only imports
 - [ ] Supabase (PostgreSQL)
 - [ ] PostgreSQL (self-hosted)
 - [ ] SQLite (simple, file-based)
-- [ ] Replit Database
 - [ ] MongoDB
 - [ ] None (in-memory or localStorage only)
 
@@ -483,7 +482,7 @@ Automated: None initially, may add Jest tests if bugs become frequent
 
 **Choose your deployment platform:**
 ```
-Platform: [Vercel / Netlify / Replit / Heroku / AWS / Other]
+Platform: [Vercel / Netlify / Heroku / AWS / Other]
 URL: [your-app.vercel.app or custom domain]
 Environment: [Staging / Production only / Both]
 ```
