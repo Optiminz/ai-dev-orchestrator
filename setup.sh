@@ -22,6 +22,9 @@
 #   ./setup.sh --beginner               # Create a beginner project (prompts for path/name)
 #   ./setup.sh --beginner /path/to/dir  # Create a beginner project at a specific path
 #   ./setup.sh /path/to/dir             # Same as --advanced /path/to/dir
+#
+# Advanced mode also installs an optional .claude/statusline.sh
+# (branch/ctx/rate-limit/model) — wire it up in settings.json to enable.
 # =============================================================================
 
 set -e
@@ -178,6 +181,13 @@ cp "$SCRIPT_DIR/.claude/commands/orchestrate.md" "$TARGET/.claude/commands/"
 cp "$SCRIPT_DIR/.claude/commands/reflect.md" "$TARGET/.claude/commands/"
 cp "$SCRIPT_DIR/.claude/commands/wrap.md" "$TARGET/.claude/commands/"
 echo "✓  .claude/commands/ — /orchestrate, /reflect, and /wrap installed"
+
+# Statusline (optional — wire up in settings.json to enable)
+if [ -f "$SCRIPT_DIR/.claude/statusline.sh" ]; then
+  cp "$SCRIPT_DIR/.claude/statusline.sh" "$TARGET/.claude/statusline.sh"
+  chmod +x "$TARGET/.claude/statusline.sh"
+  echo "✓  .claude/statusline.sh — installed (wire up in settings.json to enable)"
+fi
 
 # Learnings (only create if they don't exist)
 if [ ! -f "$TARGET/.claude/learnings/learnings.md" ]; then

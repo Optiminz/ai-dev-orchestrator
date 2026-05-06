@@ -82,7 +82,7 @@ The [starter kit](02-starter-kit/), [plugins guide](01-learn-claude-code/essenti
 
 - **4 beginner guides** — Claude Code fundamentals from zero ([01-learn-claude-code/](01-learn-claude-code/))
 - **MCP Launchpad guide** — Save 20k+ tokens by loading MCP tools on-demand ([01-learn-claude-code/mcp-launchpad.md](01-learn-claude-code/mcp-launchpad.md))
-- **Starter kit** — Copyable `.claude/` config + plugin install guide ([02-starter-kit/](02-starter-kit/))
+- **Starter kit** — Copyable `.claude/` config + plugin install guide, including an optional statusline script ([02-starter-kit/](02-starter-kit/))
 - **15 prompts** — Copy-paste workflows for any AI tool ([04-prompts/](04-prompts/))
 - **5 personas** — Specialized AI roles: Product Owner, Architect, Developer, QA, Writer ([personas/](personas/))
 - **3 constitution templates** — For internal tools, client apps, and AI agents ([05-constitutions/](05-constitutions/))

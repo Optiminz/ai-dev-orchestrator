@@ -7,6 +7,15 @@ A ready-to-use Claude Code configuration you can copy into any project.
 - `.claude/CLAUDE.md` — Project config template with sensible defaults
 - `.claude/commands/reflect.md` — `/reflect` command for capturing session learnings
 - `.claude/compaction-context.md` — Template for preserving context during long sessions (used by PostCompact hook)
+- `.claude/statusline.sh` — Optional statusline script: shows branch (with dirty flag), context %, 5-hour and 7-day rate-limit usage with pro-rata colouring, and model name. Wire it up by adding to `.claude/settings.json` (or `~/.claude/settings.json` for global use):
+
+  ```json
+  {
+    "statusLine": {
+      "command": "./.claude/statusline.sh"
+    }
+  }
+  ```
 
 ## How to Use
 
