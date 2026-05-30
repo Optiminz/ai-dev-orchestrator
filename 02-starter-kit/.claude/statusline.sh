@@ -13,6 +13,8 @@ d = json.load(sys.stdin)
 branch = d.get('git', {}).get('branch', '')
 model = d.get('model', {}).get('display_name', '')
 cwd = d.get('cwd', '') or d.get('workspace', {}).get('current_dir', '')
+effort = (d.get('effort') or {}).get('level', '') or ''
+fast_mode = bool(d.get('fast_mode'))
 
 ctx = d.get('context_window', {}) or {}
 ctx_pct = ctx.get('used_percentage')
@@ -31,8 +33,8 @@ def fmt_reset_short(epoch):
     diff = epoch - time.time()
     if diff <= 0:
         return 'now'
-    h = int(diff // 3600)
-    m = int(math.ceil((diff % 3600) / 60))
+    total_m = int(math.ceil(diff / 60))
+    h, m = divmod(total_m, 60)
     if h > 0:
         return f'{h}h{m:02d}m'
     return f'{m}m'
@@ -80,6 +82,8 @@ print(f'target_5h={repr(str(target_5h))}')
 print(f'target_7d={repr(str(target_7d))}')
 print(f'reset_5h={repr(reset_5h)}')
 print(f'reset_7d={repr(reset_7d)}')
+print(f'effort={repr(effort)}')
+print(f'fast_mode={repr(\"1\" if fast_mode else \"\")}')
 " 2>/dev/null)" 2>/dev/null
 
 # Fallbacks if python fails
@@ -93,9 +97,13 @@ target_5h="${target_5h:-}"
 target_7d="${target_7d:-}"
 reset_5h="${reset_5h:-}"
 reset_7d="${reset_7d:-}"
+effort="${effort:-}"
+fast_mode="${fast_mode:-}"
 
-# Branch fallback + dirty flag
+# Branch fallback + dirty flag + worktree detection
+# Linked worktrees: git_dir lives under <main>/.git/worktrees/<name>; main checkout has git_dir == git_common_dir.
 dirty=""
+in_worktree=""
 if [ -n "$cwd" ] && git -C "$cwd" rev-parse --git-dir >/dev/null 2>&1; then
   if [ -z "$branch" ]; then
     branch="$(git -C "$cwd" rev-parse --abbrev-ref HEAD 2>/dev/null || echo '')"
@@ -103,14 +111,27 @@ if [ -n "$cwd" ] && git -C "$cwd" rev-parse --git-dir >/dev/null 2>&1; then
   if [ -n "$(git -C "$cwd" status --porcelain 2>/dev/null | head -1)" ]; then
     dirty="*"
   fi
+  gd=$(git -C "$cwd" rev-parse --git-dir 2>/dev/null)
+  gcd=$(git -C "$cwd" rev-parse --git-common-dir 2>/dev/null)
+  # Resolve to absolute paths so a relative ".git" vs absolute common-dir doesn't false-positive.
+  [ -n "$gd" ] && gd=$(cd "$cwd" && cd "$gd" 2>/dev/null && pwd)
+  [ -n "$gcd" ] && gcd=$(cd "$cwd" && cd "$gcd" 2>/dev/null && pwd)
+  if [ -n "$gd" ] && [ -n "$gcd" ] && [ "$gd" != "$gcd" ]; then
+    in_worktree="1"
+  fi
 fi
-
-branch_part="${branch}${dirty}"
 
 GREEN=$'\033[32m'
 AMBER=$'\033[33m'
 RED=$'\033[31m'
+CYAN=$'\033[36m'
 CLR=$'\033[0m'
+
+if [ -n "$in_worktree" ]; then
+  branch_part="[wt] ${CYAN}${branch}${dirty}${CLR}"
+else
+  branch_part="${branch}${dirty}"
+fi
 
 # ctx thresholds depend on window size (display_name contains "1M" on 1M variant).
 #   1M:   green <20, amber 20–49, red >=50
@@ -152,6 +173,19 @@ color_rate() {
 
 ctx_part=$(color_ctx "$ctx_pct" "ctx ${ctx_pct}%" "$model")
 
+# Effort segment: L/M/H/XH/MAX with colour (green ≤M, amber H/XH, red MAX).
+effort_part=""
+case "$effort" in
+  low)    effort_part="${GREEN}eff:L${CLR}" ;;
+  medium) effort_part="${GREEN}eff:M${CLR}" ;;
+  high)   effort_part="${AMBER}eff:H${CLR}" ;;
+  xhigh)  effort_part="${AMBER}eff:XH${CLR}" ;;
+  max)    effort_part="${RED}eff:MAX${CLR}" ;;
+esac
+
+fast_part=""
+[ -n "$fast_mode" ] && fast_part=" ⚡"
+
 five_seg="5h ${used_5h}%"
 [ -n "$reset_5h" ] && five_seg="${five_seg} (${reset_5h})"
 five_part=$(color_rate "$used_5h" "$target_5h" "$five_seg")
@@ -167,4 +201,7 @@ if [ "${CC_MCP_MODE:-}" = "fast" ]; then
   mcp_part=" | ${RED}🔌 MCP-OFF${CLR}"
 fi
 
-echo "${branch_part} | ${ctx_part} | ${five_part} | ${seven_part} | ${model}${mcp_part}"
+model_seg="${model}${fast_part}"
+[ -n "$effort_part" ] && model_seg="${model_seg} ${effort_part}"
+
+echo "${branch_part} | ${ctx_part} | ${five_part} | ${seven_part} | ${model_seg}${mcp_part}"
