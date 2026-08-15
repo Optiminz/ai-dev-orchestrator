@@ -12,14 +12,29 @@ Works for the **current repo only**. Chains existing skills — this command is 
 
 ---
 
+## Quality bar
+
+- Every step names an outcome, and every tool it names is verified available at run time. A
+  disabled or absent plugin triggers the stated fallback — never a silent skip. Say which route
+  you took.
+- Every change gets a fresh-context adversarial review, in a sub-agent, scoped to an explicit
+  diff range — before it is committed. The trivial batch gets one batch-level review.
+- The shared working tree is never disturbed: worktree, not `git checkout` in the primary tree.
+- Every issue's premise is re-verified against current `main` before it is solved.
+- The run ends at its own summary — never chains into `/wrap`.
+
+---
+
 ## Prerequisites
 
-- These plugins installed:
-  - superpowers (plans, execution, verification, code review)
-  - pr-review-toolkit (code review agents)
-  - commit-commands (git workflow)
 - `gh` CLI authenticated
 - Git repository with remote configured
+- `commit-commands` plugin (git workflow)
+
+**Tool availability — detect, never assume.** Every plugin skill below is *optional*. Installed
+≠ available: a plugin can sit on disk and still be `false` in `enabledPlugins`, and enablement
+differs per machine and per project. Check your own available-skills list — it is already in
+context, no tool call needed — and route to the fallback when something isn't listed.
 
 ---
 
@@ -27,9 +42,11 @@ Works for the **current repo only**. Chains existing skills — this command is 
 
 ### Phase 0: Setup & Discovery
 
-1. **Check for existing state** — looks for `.claude/solve-issues.local.md` in the repo root. If found, offers to resume.
-2. **Discover issues** — runs `gh-triage` to pull and prioritise open issues.
-3. **Write state file** — creates `.claude/solve-issues.local.md` tracking all issues (local only, not committed).
+1. **Check for existing state** — looks for `.claude/solve-issues.local.md` in the **primary** tree. A state file is a claim, not a fact: validate its rows against `gh issue list --state all` before resuming. Closed issues = stale, delete and start fresh. A file with no branches cut yet is live, not stale. Resume automatically in Ralph mode (nobody is there to answer a prompt); ask once in manual mode.
+2. **Register the work stream** — runs `/start-stream` unprompted, *gated on step 1*: skip it if a live state file exists, or an autonomous re-feed opens a new row per iteration.
+3. **Mode** — read `mode:` from the state file on resume, else `--ralph` if passed, else manual. Never ask.
+4. **Discover issues** — runs `gh-triage` to pull and prioritise open issues.
+5. **Write state file** — creates `.claude/solve-issues.local.md` **before the first branch is cut**, in the primary tree (a worktree gets torn down and would take the resumption state with it). Local only, not committed.
 
 ### Phase 1: Classification
 
@@ -57,11 +74,15 @@ Classify as `needs-human` if **any** apply:
 
 Issues are processed in order: **trivial batch → standard (by priority) → complex (by priority)**.
 
-| Class | Approach | Plugins Used |
-|-------|----------|-------------|
-| **Trivial** | Batch all on one branch, commit each | Direct implementation |
-| **Standard** | Own branch, implement + review | `superpowers:requesting-code-review` |
-| **Complex** | Own branch, full plan → execute → review cycle | `superpowers:writing-plans` + `superpowers:executing-plans` + `superpowers:requesting-code-review` |
+**Git isolation:** in a shared working tree (a `local/SESSIONS.md` exists, or another session may be running in the same checkout), do the whole solve in a worktree — never `git checkout` in the primary tree. One branch per issue is the default, not a rule: issues rewriting overlapping regions of the *same* file belong on one branch, one commit each.
+
+| Class | Approach | Preferred tool → fallback |
+|-------|----------|--------------------------|
+| **Trivial** | Batch all on one branch, commit each, **one batch-level review** | review sub-agent |
+| **Standard** | Own branch, implement + review | review sub-agent |
+| **Complex** | Own branch, plan → execute → review | `superpowers:writing-plans` → `Plan` agent or a numbered list in the state file; `superpowers:executing-plans` → work it directly |
+
+**Review is the outcome, not the tool.** Always a fresh-context sub-agent, always scoped to an explicit diff range (`main..<branch>` or a PR number — a review with no target reads the working tree, which in a shared checkout is other sessions' WIP). Inside the sub-agent use `superpowers:requesting-code-review` if enabled, else the `code-review` skill. Brief it adversarially and specifically; a generic "review this PR" finds generic things.
 
 After each issue or batch, a **checkpoint** shows progress and saves state.
 
@@ -69,23 +90,30 @@ If implementation fails (tests won't pass, unclear path), the issue is marked `f
 
 ### Phase 3: Cleanup
 
+**This command ends at PRs opened.** Merging is the user's call, not the run's.
+
 1. **Summary** — shows solved, skipped, and failed counts
-2. **Create PRs** — one PR per branch (trivials batched into one PR)
-3. **Wrap** — invokes `/wrap` for session learnings
+2. **Push and create PRs** — `git push -u origin <branch>` first (`gh pr create` on an unpushed branch prompts interactively, a silent hang in an autonomous run), then one PR per branch, trivials batched into one. One `Closes #N` keyword per issue — `Closes #1, #2` only closes the first.
+3. **Stop** — do **not** invoke `/wrap` and do not offer to; `/ship` was changed the same way for the same reason (double-wraps, inconsistent endings). The work stream row stays Open until the user runs `/wrap` — say so, so an open row reads as expected state rather than a leak.
+4. **State file** — delete it only when every issue is terminal (`done`/`skipped`/`failed`), the same condition the Ralph promise fires on. On any other ending, keep it and name which issues it still covers; staleness is handled by the Phase 0 validation gate, not by deleting early.
 
 ---
 
 ## Plugin Map
 
-| Phase | Plugin/Skill | Purpose |
-|-------|-------------|---------|
-| 0 | `gh-triage` | Discover and prioritise open issues |
-| 2 (standard) | `superpowers:requesting-code-review` | Review standard fixes |
-| 2 (complex) | `superpowers:writing-plans` | Create implementation plan |
-| 2 (complex) | `superpowers:executing-plans` | Execute plan task by task |
-| 2 (complex) | `superpowers:requesting-code-review` | Review complex implementations |
-| 3 | `commit-commands` | Git workflow for PRs |
-| 3 | `/wrap` | Session learnings capture |
+Nothing below is a hard dependency. Each row is a *preference*; if the tool isn't in your
+available-skills list, take the fallback and say so.
+
+| Phase | Preferred | Fallback | Purpose |
+|-------|-----------|----------|---------|
+| 0 | `gh-triage` | `gh issue list` directly | Discover and prioritise open issues |
+| 0 | `/start-stream` | skip, note why, carry on | Register the work stream |
+| 2 (complex) | `superpowers:writing-plans` | `Plan` agent, or a numbered list in the state file | Create implementation plan |
+| 2 (complex) | `superpowers:executing-plans` | work the plan directly | Execute plan task by task |
+| 2 (all) | `superpowers:requesting-code-review` | `code-review` skill | Review — always in a sub-agent, always diff-scoped |
+| 3 | `commit-commands` | `git` + `gh pr create` | Git workflow for PRs |
+
+`/wrap` is **not** in this map — the run ends at its summary and the user runs wrap themselves.
 
 ---
 
@@ -100,10 +128,11 @@ This enables **multi-session execution** — each new session reads the state fi
 ## Usage
 
 ```bash
-/solve-issues
+/solve-issues            # manual mode (default)
+/solve-issues --ralph    # autonomous, multi-session
 ```
 
-No arguments needed — discovers issues from the current repo automatically.
+Issues are discovered from the current repo automatically.
 
 ---
 
