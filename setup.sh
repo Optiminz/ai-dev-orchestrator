@@ -97,7 +97,14 @@ if [ "$MODE" = "beginner" ]; then
       echo "Error: project name is required."
       exit 1
     fi
-    DEFAULT_PARENT="$HOME/Projects"
+    # Default to the directory the installer was run from — the same convention
+    # advanced mode already uses below (TARGET="${TARGET:-$(pwd)}"). This was
+    # "$HOME/Projects", which is a directory almost nobody has: it is created by
+    # no OS and no toolchain, so the suggested path was wrong for essentially
+    # every public user, and it silently pointed at a deleted tree on the
+    # maintainer's own machine after a 2026-08 reorganisation. Anyone who does
+    # keep a fixed workspace root can set ADO_PROJECTS_DIR once.
+    DEFAULT_PARENT="${ADO_PROJECTS_DIR:-$(pwd)}"
     printf "Where to create it? [%s/%s]: " "$DEFAULT_PARENT" "$project_name"
     read -r project_path
     if [ -z "$project_path" ]; then
