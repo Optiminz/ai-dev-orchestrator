@@ -54,6 +54,8 @@ Run all applicable checks in parallel where possible. Each check produces one of
 **WARN** if: missing structure overview, stale date, estimated tokens >3000, or contradictory/redundant instructions found.
 **FAIL** if: estimated tokens >5000 — CLAUDE.md is actively degrading output quality. Recommend a prune pass.
 
+**Report the estimate even on PASS** — a number nobody is told is indistinguishable from a check that never ran. Note that this file is only part of a session's opening prefix (skills, MCP tool schemas and the system prompt make up the rest), and the whole prefix is billed at cache-*write* rate on each new session — roughly 20× what a cache hit costs. For the full picture, run `/doctor`.
+
 When bloat is flagged, suggest: *"Run: 'Update my CLAUDE.md to remove anything that's no longer needed, contradictory, duplicate, or unnecessary bloat impacting effectiveness.'"*
 
 ### Check 2: Index file exists (all repos)
@@ -314,3 +316,13 @@ Each run appends an entry (do not overwrite previous entries):
 - This skill runs against the **current working directory** only. To audit multiple repos, run it from each.
 - Don't fetch from remote or run install commands. Work with what's on disk.
 - The check list is defined here as the canonical source. If standards evolve, update this file.
+
+---
+
+## Quality bar
+
+- A check that already computes a quantity **reports it**; a check that doesn't must not invent one to look thorough. A bare PASS is acceptable only where the standard is genuinely boolean.
+- A PASS means the standard was measured and met. A check that couldn't run is **SKIP with a reason**, never PASS by omission.
+- Findings are proposals. Nothing outside the report is changed without approval — Step 4's quick-fix / confirm-first split is the boundary, and anything not on the quick-fix list needs an explicit go-ahead.
+- A new check needs a real incident behind it. A diagnostic that emits advice nobody acts on stops being read, and then it has stopped being a check.
+- The run is logged. An audit that leaves no trail can't produce a delta next time, which is most of its value.
