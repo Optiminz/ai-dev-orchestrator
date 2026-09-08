@@ -1287,11 +1287,11 @@ exit 0  # Suggest only, don't block
 
 ```bash
 # Clone the framework
-cd ~/Projects
+cd ~/optimi-projects
 git clone https://github.com/[your-org]/ai-dev-orchestrator.git
 
 # Or if already cloned, update
-cd ~/Projects/ai-dev-orchestrator
+cd ~/optimi-projects/ai-dev-orchestrator
 git pull
 ```
 
@@ -1303,7 +1303,7 @@ git pull
 cd /path/to/your-project
 
 # Copy constitution template
-cp ~/Projects/ai-dev-orchestrator/CONSTITUTION-TEMPLATE.md CONSTITUTION.md
+cp ~/optimi-projects/ai-dev-orchestrator/CONSTITUTION-TEMPLATE.md CONSTITUTION.md
 
 # Customize for your project
 # Edit tech stack, coding standards, etc.
@@ -1325,7 +1325,7 @@ cp ~/Projects/ai-dev-orchestrator/CONSTITUTION-TEMPLATE.md CONSTITUTION.md
 mkdir -p personas
 
 # Copy persona files
-cp ~/Projects/ai-dev-orchestrator/personas/*.md personas/
+cp ~/optimi-projects/ai-dev-orchestrator/personas/*.md personas/
 
 # Optional: Customize personas for your workflow
 ```
@@ -1425,10 +1425,10 @@ This adds:
 ```bash
 # Copy orchestrate skill
 mkdir -p .claude/commands
-cp ~/Projects/ai-dev-orchestrator/.claude/commands/orchestrate.md .claude/commands/
+cp ~/optimi-projects/ai-dev-orchestrator/.claude/commands/orchestrate.md .claude/commands/
 
 # Or install globally
-cp ~/Projects/ai-dev-orchestrator/.claude/commands/orchestrate.md ~/.claude/commands/
+cp ~/optimi-projects/ai-dev-orchestrator/.claude/commands/orchestrate.md ~/.claude/commands/
 ```
 
 ---
@@ -1777,7 +1777,7 @@ Claude:
 
 **Solution:**
 ```bash
-cp ~/Projects/ai-dev-orchestrator/CONSTITUTION-TEMPLATE.md CONSTITUTION.md
+cp ~/optimi-projects/ai-dev-orchestrator/CONSTITUTION-TEMPLATE.md CONSTITUTION.md
 # Then customize for your project
 ```
 
@@ -1790,7 +1790,7 @@ cp ~/Projects/ai-dev-orchestrator/CONSTITUTION-TEMPLATE.md CONSTITUTION.md
 **Solution:**
 ```bash
 mkdir -p personas
-cp ~/Projects/ai-dev-orchestrator/personas/*.md personas/
+cp ~/optimi-projects/ai-dev-orchestrator/personas/*.md personas/
 ```
 
 ---
