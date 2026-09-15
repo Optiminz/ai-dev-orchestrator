@@ -3,7 +3,7 @@
 ## Constitution
 
 This project follows the rules defined in:
-@./CONSTITUTION.md
+@../CONSTITUTION.md
 
 ## Project Context
 
@@ -19,10 +19,14 @@ This project follows the rules defined in:
 
 ## Project Learnings
 
-Reference accumulated project knowledge:
+Read these on demand — they are deliberately **not** `@`-imported:
 
-@.claude/learnings/learnings.md
-@.claude/learnings/decisions.md
+- `.claude/learnings/learnings.md` — patterns, gotchas and observations
+- `.claude/learnings/decisions.md` — architecture decisions and their rationale
+
+They grow without bound as `/reflect` appends to them, and auto-loading the whole
+corpus into every session is context pollution. Read or grep them when starting
+work in an unfamiliar part of the codebase.
 
 ## Working Agreements
 

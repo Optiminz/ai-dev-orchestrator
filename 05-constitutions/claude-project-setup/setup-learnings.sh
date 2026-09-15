@@ -10,17 +10,17 @@ echo "Setting up Claude Code learnings for: $PROJECT_NAME"
 mkdir -p .claude/learnings
 
 # Create learnings files if they don't exist
-if [ ! -f .claude/learnings/insights.md ]; then
-  cat > .claude/learnings/insights.md << 'EOF'
-# Project Insights
+if [ ! -f .claude/learnings/learnings.md ]; then
+  cat > .claude/learnings/learnings.md << 'EOF'
+# Project Learnings
 
-Key insights discovered while working on this project.
+Patterns, gotchas and observations discovered while working on this project.
 
 ---
 
-<!-- New insights will be appended below -->
+<!-- New learnings will be appended below -->
 EOF
-  echo "Created .claude/learnings/insights.md"
+  echo "Created .claude/learnings/learnings.md"
 fi
 
 if [ ! -f .claude/learnings/decisions.md ]; then
@@ -36,19 +36,6 @@ EOF
   echo "Created .claude/learnings/decisions.md"
 fi
 
-if [ ! -f .claude/learnings/gotchas.md ]; then
-  cat > .claude/learnings/gotchas.md << 'EOF'
-# Project Gotchas
-
-Things that can trip you up in this project.
-
----
-
-<!-- New gotchas will be appended below -->
-EOF
-  echo "Created .claude/learnings/gotchas.md"
-fi
-
 # Create CLAUDE.md if it doesn't exist
 if [ ! -f .claude/CLAUDE.md ]; then
   cat > .claude/CLAUDE.md << EOF
@@ -57,13 +44,18 @@ if [ ! -f .claude/CLAUDE.md ]; then
 ## Constitution
 
 This project follows the rules defined in:
-@./CONSTITUTION.md
+@../CONSTITUTION.md
 
 ## Project Learnings
 
-@.claude/learnings/insights.md
-@.claude/learnings/decisions.md
-@.claude/learnings/gotchas.md
+Read these on demand — they are deliberately **not** `@`-imported:
+
+- `.claude/learnings/learnings.md` — patterns, gotchas and observations
+- `.claude/learnings/decisions.md` — architecture decisions and their rationale
+
+They grow without bound as `/reflect` appends to them, and auto-loading the whole
+corpus into every session is context pollution. Read or grep them when starting
+work in an unfamiliar part of the codebase.
 
 ## Working Agreements
 
@@ -88,9 +80,8 @@ echo "Done! Structure created:"
 echo "  .claude/"
 echo "  ├── CLAUDE.md"
 echo "  └── learnings/"
-echo "      ├── insights.md"
-echo "      ├── decisions.md"
-echo "      └── gotchas.md"
+echo "      ├── learnings.md"
+echo "      └── decisions.md"
 echo ""
 echo "Next steps:"
 echo "  1. Customize .claude/CLAUDE.md with project details"

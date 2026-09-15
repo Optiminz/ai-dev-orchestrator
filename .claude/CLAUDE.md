@@ -37,8 +37,17 @@ This project provides constitution templates for other projects:
 
 ## Project Learnings
 
-@.claude/learnings/learnings.md
-@.claude/learnings/decisions.md
+Read these on demand — they are deliberately **not** `@`-imported:
+
+- `.claude/learnings/learnings.md` — patterns and observations for this repo
+- `.claude/learnings/decisions.md` — ADRs, including the four on the design of this
+  learnings system itself
+
+Not auto-loaded: an earlier `@`-import here silently never resolved (a CLAUDE.md
+`@`-import is relative to the importing file, so from `.claude/` it looked for
+`.claude/.claude/learnings/...`), and it was replaced with this pointer rather than
+repaired — bulk-loading a growing corpus into every session is context pollution.
+Grep them; `/reflect` appends to them.
 
 ## Working Agreements
 

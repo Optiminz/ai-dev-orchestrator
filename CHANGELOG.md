@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.3.1] - 2026-09-15
+
+### Fixed
+- **Every `@`-import in the `.claude/CLAUDE.md` that `setup.sh` generates was broken, so nothing it referenced had ever loaded for any adopter.** A CLAUDE.md `@`-import resolves relative to the file containing the line, not the repo root — so from inside `.claude/`, `@CONSTITUTION.md` looked for `.claude/CONSTITUTION.md` and `@.claude/learnings/learnings.md` looked for `.claude/.claude/learnings/learnings.md`. Claude Code fails this silently. The Constitution import is now `@../CONSTITUTION.md`, verified by control test. Affected `setup.sh`, `02-starter-kit/.claude/CLAUDE.md`, `05-constitutions/claude-project-setup/CLAUDE.md`, and `05-constitutions/claude-project-setup/setup-learnings.sh`. (#14, Optiminz/occb-mcs#195)
+- `setup.sh` no longer tells the user to paste the broken import lines in by hand when `.claude/CLAUDE.md` already exists.
+- `05-constitutions/claude-project-setup/setup-learnings.sh` created `insights.md` / `decisions.md` / `gotchas.md` — the three-file scheme superseded by the 2026-02-27 ADR "Two Learnings Files Instead of Three", and already contradicted by the two-file table in its own README. It now creates `learnings.md` + `decisions.md`.
+
+### Changed
+- Learnings are no longer `@`-imported anywhere; generated and shipped `CLAUDE.md` templates now carry a read-on-demand pointer instead. The corpus grows without bound as `/reflect` appends to it, and auto-loading all of it into every session is context pollution. The Constitution remains auto-loaded — it is small, stable, and the methodology depends on it.
+
+---
+
 ## [3.3.0] - 2026-05-02
 
 ### Added

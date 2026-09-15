@@ -231,15 +231,17 @@ echo "✓  .claude/learnings/ — session learning files created"
 
 if [ -f "$TARGET/.claude/CLAUDE.md" ]; then
   echo "⚠  .claude/CLAUDE.md already exists — skipping (keeping yours)"
-  echo "   Tip: Add these lines to load learnings:"
-  echo "   @.claude/learnings/learnings.md"
-  echo "   @.claude/learnings/decisions.md"
+  echo "   Tip: add this line so the Constitution loads every session:"
+  echo "   @../CONSTITUTION.md"
+  echo "   (\`@\` imports resolve relative to the file they are written in, so from"
+  echo "   inside .claude/ the path needs the \`../\`.)"
+  echo "   Learnings are read on demand, not imported — see .claude/learnings/."
 else
   cat > "$TARGET/.claude/CLAUDE.md" << 'EOF'
 # Project: [Project Name]
 
 ## Constitution
-@CONSTITUTION.md
+@../CONSTITUTION.md
 
 ## Development Workflow
 
@@ -252,8 +254,14 @@ This project uses ai-dev-orchestrator for structured AI-assisted development.
 
 ## Project Learnings
 
-@.claude/learnings/learnings.md
-@.claude/learnings/decisions.md
+Read these on demand — they are deliberately **not** `@`-imported:
+
+- `.claude/learnings/learnings.md` — patterns, gotchas and observations
+- `.claude/learnings/decisions.md` — architecture decisions and their rationale
+
+They grow without bound as `/reflect` appends to them, and auto-loading the whole
+corpus into every session is context pollution. Read or grep them when starting
+work in an unfamiliar part of the codebase.
 
 ---
 
