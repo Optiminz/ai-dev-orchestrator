@@ -18,9 +18,14 @@ Works for the **current repo only**. Chains existing skills — this command is 
   disabled or absent plugin triggers the stated fallback — never a silent skip. Say which route
   you took.
 - Every change gets a fresh-context adversarial review, in a sub-agent, scoped to an explicit
-  diff range — before it is committed. The trivial batch gets one batch-level review.
+  diff range — before it is committed. The trivial batch gets one batch-level review. Fixes that
+  are more than mechanical get a second round; an "already resolved" closure is reviewed as a claim.
+- A regression guard asserts a positive property against real code or data, never the absence of
+  one phrasing in prose.
 - The shared working tree is never disturbed: worktree, not `git checkout` in the primary tree.
-- Every issue's premise is re-verified against current `main` before it is solved.
+- Open PRs are surfaced before any issue work and again at the end; an issue an open PR already
+  closes is never solved twice.
+- Every issue's premise is re-verified against `origin/main` as of this run before it is solved.
 - The run ends at its own summary — never chains into `/wrap`.
 
 ---
@@ -42,11 +47,12 @@ context, no tool call needed — and route to the fallback when something isn't 
 
 ### Phase 0: Setup & Discovery
 
-1. **Check for existing state** — looks for `.claude/solve-issues.local.md` in the **primary** tree. A state file is a claim, not a fact: validate its rows against `gh issue list --state all` before resuming. Closed issues = stale, delete and start fresh. A file with no branches cut yet is live, not stale. Resume automatically in Ralph mode (nobody is there to answer a prompt); ask once in manual mode.
+1. **Check for existing state** — `git fetch origin` first (every run, every resume), then look for `.claude/solve-issues.local.md` in the **primary** tree. A state file is a claim, not a fact: validate its rows against `gh issue list --state all` before resuming. Closed issues = stale, delete and start fresh. The Branch column may also hold `PR #N` or `closed: …` — not branch names, don't check them against git. A file with no branches cut yet is live, not stale. Rows with no issue numbers (seeded from a review) are validated by a read-only sub-agent re-checking each premise against `origin/main` — all gone = stale. Resume automatically in Ralph mode (nobody is there to answer a prompt); ask once in manual mode.
 2. **Register the work stream** — runs `/start-stream` unprompted, *gated on step 1*: skip it if a live state file exists, or an autonomous re-feed opens a new row per iteration.
 3. **Mode** — read `mode:` from the state file on resume, else `--ralph` if passed, else manual. Never ask.
-4. **Discover issues** — runs `gh-triage` to pull and prioritise open issues.
-5. **Write state file** — creates `.claude/solve-issues.local.md` **before the first branch is cut**, in the primary tree (a worktree gets torn down and would take the resumption state with it). Local only, not committed.
+4. **Sync, then surface open PRs** — `git fetch origin` and report how far local `main` is behind; every branch, review range and premise check uses `origin/main`. Then `gh pr list --state open --limit 100` (with `updatedAt`, `mergeable`, `statusCheckRollup`, `closingIssuesReferences`), grouped as merge-ready (not a draft) / rebase-or-close / already fixing an issue (those issues are `skipped`, Branch = `PR #N`). Manual mode asks once whether to handle PRs first; if Malcolm stops there, write the state file before stopping so the next run doesn't open a second work-stream row.
+5. **Discover issues** — runs `gh-triage` to pull and prioritise open issues.
+6. **Write state file** — creates `.claude/solve-issues.local.md` **before the first branch is cut**, in the primary tree (a worktree gets torn down and would take the resumption state with it). Local only, not committed.
 
 ### Phase 1: Classification
 
@@ -82,7 +88,7 @@ Issues are processed in order: **trivial batch → standard (by priority) → co
 | **Standard** | Own branch, implement + review | review sub-agent |
 | **Complex** | Own branch, plan → execute → review | `superpowers:writing-plans` → `Plan` agent or a numbered list in the state file; `superpowers:executing-plans` → work it directly |
 
-**Review is the outcome, not the tool.** Always a fresh-context sub-agent, always scoped to an explicit diff range (`main..<branch>` or a PR number — a review with no target reads the working tree, which in a shared checkout is other sessions' WIP). Inside the sub-agent use `superpowers:requesting-code-review` if enabled, else the `code-review` skill. Brief it adversarially and specifically; a generic "review this PR" finds generic things.
+**Review is the outcome, not the tool.** Always a fresh-context sub-agent, always scoped to an explicit diff range (`origin/main..<branch>` or a PR number — a review with no target reads the working tree, which in a shared checkout is other sessions' WIP). Inside the sub-agent use `superpowers:requesting-code-review` if enabled, else the `code-review` skill. Brief it adversarially and specifically; a generic "review this PR" finds generic things. When the premise check concludes an issue is already resolved, review that *conclusion* (every acceptance criterion, independently), not the near-empty diff. When round-1 fixes are more than mechanical, run a second round scoped to the fixes: did any fix invert its bug?
 
 After each issue or batch, a **checkpoint** shows progress and saves state.
 
@@ -93,7 +99,7 @@ If implementation fails (tests won't pass, unclear path), the issue is marked `f
 **This command ends at PRs opened.** Merging is the user's call, not the run's.
 
 1. **Summary** — shows solved, skipped, and failed counts
-2. **Push and create PRs** — `git push -u origin <branch>` first (`gh pr create` on an unpushed branch prompts interactively, a silent hang in an autonomous run), then one PR per branch, trivials batched into one. One `Closes #N` keyword per issue — `Closes #1, #2` only closes the first.
+2. **Push and create PRs** — `git push -u origin <branch>` first (`gh pr create` on an unpushed branch prompts interactively, a silent hang in an autonomous run), then one PR per branch, trivials batched into one. One `Closes #N` keyword per issue — `Closes #1, #2` only closes the first. Then re-run the open-PR query and list every PR still open, including earlier runs'.
 3. **Stop** — do **not** invoke `/wrap` and do not offer to; `/ship` was changed the same way for the same reason (double-wraps, inconsistent endings). The work stream row stays Open until the user runs `/wrap` — say so, so an open row reads as expected state rather than a leak.
 4. **State file** — delete it only when every issue is terminal (`done`/`skipped`/`failed`), the same condition the Ralph promise fires on. On any other ending, keep it and name which issues it still covers; staleness is handled by the Phase 0 validation gate, not by deleting early.
 
