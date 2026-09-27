@@ -25,7 +25,7 @@ Works for the **current repo only**. Chains existing skills — this command is 
 - The shared working tree is never disturbed: worktree, not `git checkout` in the primary tree.
 - Open PRs are surfaced before any issue work and again at the end; an issue an open PR already
   closes is never solved twice.
-- Every issue's premise is re-verified against `origin/main` as of this run before it is solved.
+- Every issue's premise is re-verified against `origin/main` as of this run before it is solved. A false-premise or already-resolved issue is closed and recorded `skipped` (Branch = `closed: …`), never `done`.
 - The run ends at its own summary — never chains into `/wrap`.
 
 ---
@@ -47,12 +47,12 @@ context, no tool call needed — and route to the fallback when something isn't 
 
 ### Phase 0: Setup & Discovery
 
-1. **Check for existing state** — `git fetch origin` first (every run, every resume), then look for `.claude/solve-issues.local.md` in the **primary** tree. A state file is a claim, not a fact: validate its rows against `gh issue list --state all` before resuming. Closed issues = stale, delete and start fresh. The Branch column may also hold `PR #N` or `closed: …` — not branch names, don't check them against git. A file with no branches cut yet is live, not stale. Rows with no issue numbers (seeded from a review) are validated by a read-only sub-agent re-checking each premise against `origin/main` — all gone = stale. Resume automatically in Ralph mode (nobody is there to answer a prompt); ask once in manual mode.
+1. **Check for existing state** — `git fetch origin` first (every run, every resume), then look for `.claude/solve-issues.local.md` in the **primary** tree. A file with `triage: pending` is a paused run (stopped at the PRs-first question): skip the staleness check and registration, and resume at step 4. A state file is a claim, not a fact: validate its rows against `gh issue list --state all` before resuming. Closed issues = stale, delete and start fresh. The Branch column may also hold `PR #N` or `closed: …` — not branch names, don't check them against git. A file with no branches cut yet is live, not stale. Rows with no issue numbers (seeded from a review) are validated by a read-only sub-agent re-checking each premise against `origin/main` — all gone = stale. Resume automatically in Ralph mode (nobody is there to answer a prompt); ask once in manual mode.
 2. **Register the work stream** — runs `/start-stream` unprompted, *gated on step 1*: skip it if a live state file exists, or an autonomous re-feed opens a new row per iteration.
 3. **Mode** — read `mode:` from the state file on resume, else `--ralph` if passed, else manual. Never ask.
-4. **Sync, then surface open PRs** — `git fetch origin` and report how far local `main` is behind; every branch, review range and premise check uses `origin/main`. Then `gh pr list --state open --limit 100` (with `updatedAt`, `mergeable`, `statusCheckRollup`, `closingIssuesReferences`), grouped as merge-ready (not a draft) / rebase-or-close / already fixing an issue (those issues are `skipped`, Branch = `PR #N`). Manual mode asks once whether to handle PRs first; if Malcolm stops there, write the state file before stopping so the next run doesn't open a second work-stream row.
+4. **Sync, then surface open PRs** — `git fetch origin` and report how far local `main` is behind; every branch, review range and premise check uses `origin/main`. Then `gh pr list --state open --limit 100` (with `updatedAt`, `mergeable`, `statusCheckRollup`, `closingIssuesReferences`), grouped as merge-ready (not a draft) / rebase-or-close / already fixing an issue (those issues are `skipped`, Branch = `PR #N`). Manual mode asks once whether to handle PRs first; if Malcolm stops there, write a frontmatter-only state file (`triage: pending`, `work_stream:`) so the next run resumes that row rather than deleting an empty file and registering a second one.
 5. **Discover issues** — runs `gh-triage` to pull and prioritise open issues.
-6. **Write state file** — creates `.claude/solve-issues.local.md` **before the first branch is cut**, in the primary tree (a worktree gets torn down and would take the resumption state with it). Local only, not committed.
+6. **Write state file** — creates `.claude/solve-issues.local.md` **before the first branch is cut**, in the primary tree (a worktree gets torn down and would take the resumption state with it). Local only, not committed — exclude it via `.git/info/exclude`, never a `.gitignore` commit.
 
 ### Phase 1: Classification
 
@@ -80,7 +80,7 @@ Classify as `needs-human` if **any** apply:
 
 Issues are processed in order: **trivial batch → standard (by priority) → complex (by priority)**.
 
-**Git isolation:** in a shared working tree (a `local/SESSIONS.md` exists, or another session may be running in the same checkout), do the whole solve in a worktree — never `git checkout` in the primary tree. One branch per issue is the default, not a rule: issues rewriting overlapping regions of the *same* file belong on one branch, one commit each.
+**Git isolation:** cut every branch from `origin/main` with `--no-track`; if a worktree didn't start from `origin/main`, reset it only when it holds no commits and no changes, otherwise rebase. In a shared working tree (a `local/SESSIONS.md` exists, or another session may be running in the same checkout), do the whole solve in a worktree — never `git checkout` in the primary tree. One branch per issue is the default, not a rule: issues rewriting overlapping regions of the *same* file belong on one branch, one commit each.
 
 | Class | Approach | Preferred tool → fallback |
 |-------|----------|--------------------------|
